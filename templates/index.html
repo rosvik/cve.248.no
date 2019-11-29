@@ -1,0 +1,23 @@
+<!doctype html>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<section>
+	<h1>CVE lookup</h1>
+
+	<div class="input-container">
+		<input type="text" id="hash_entry" placeholder="Enter string...">
+	</div>
+
+  <div id="content">
+    {% if data %}
+      <ul>
+        {% for CVE in data %}
+          <li><a href="{{CVE.Name}}">{{ CVE.Name }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</section>
+
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>

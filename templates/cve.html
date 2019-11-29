@@ -1,13 +1,30 @@
 <!doctype html>
 <title>{% block title %}{% endblock %}</title>
-<nav>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<section>
 	<h1>{{ data['Name'] }}</h1>
-  <p>{{ data['Status'] }}</p>
+  <h5>Status: <i>{{ data['Status'] }}</i>, Phase: <i>{{ data['Phase'] }}</i></h5>
   <p>{{ data['Description'] }}</p>
-  <p>{{ data['References']}}</p>
+  {% if data['References'] %}
+    <h3>References</h3>
+    <ul>
+      {% for referece in data['References'] %}
+        <li>{{ referece | urlize(target='_blank') }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-  {% for referece in data['References'] %}
-    <p>{{ referece | urlize }}</p>
-  {% endfor %}
-</nav>
+  {% if data['Comments'] %}
+    <h3>Comments</h3>
+    <pre>{{ data['Comments'] | urlize(target='_blank') }}</pre>
+  {% endif %}
+  {% if data['Votes'] %}
+    <h3>Votes</h3>
+    <ul>
+      {% for referece in data['Votes'] %}
+        <li>{{ referece }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
 

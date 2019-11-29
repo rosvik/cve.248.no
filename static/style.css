@@ -1,0 +1,51 @@
+body {
+	background-color: rgb(15, 20, 25);
+	color: rgb(144, 201, 196);	
+	width: 90%;
+	max-width: 1200px;
+	margin: 100px auto 40px auto;
+	font-family: Menlo, Courier, monospace, sans-serif, serif;
+	font-size: 14px;
+}
+
+.input-container {
+	display: flex;
+}
+
+input {
+	flex-grow: 1;
+	height: 50px;
+	background-color: rgb(31, 41, 49);
+	color: rgb(144, 201, 196);
+	border-color: rgb(242, 151, 24);
+	margin-bottom: 30px;
+	text-indent: 20px;
+	font-size: 15px;
+}
+
+input:focus { 
+	outline: none; 
+}
+
+::placeholder {
+	opacity: .5;
+}
+
+th {
+	text-align: left;
+	opacity: 0.7;
+	min-width: 70px;
+}
+
+td {
+	word-break: break-all;
+}
+
+a {
+	color: rgb(242, 151, 24);
+}
+
+footer {
+	margin: 100px 0 100px 0;
+	text-align: center;
+}
