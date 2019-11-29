@@ -1,0 +1,13 @@
+<!doctype html>
+<title>{% block title %}{% endblock %}</title>
+<nav>
+	<h1>{{ data['Name'] }}</h1>
+  <p>{{ data['Status'] }}</p>
+  <p>{{ data['Description'] }}</p>
+  <p>{{ data['References']}}</p>
+
+  {% for referece in data['References'] %}
+    <p>{{ referece | urlize }}</p>
+  {% endfor %}
+</nav>
+

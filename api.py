@@ -1,6 +1,9 @@
 from flask import Flask, g, render_template, jsonify
 import sqlite3
 import os
+import re
+import urllib
+from markupsafe import Markup
 
 DATABASE = "./cve.db"
 
@@ -40,13 +43,28 @@ def index():
 	return jsonify(data)
 
 
-@app.route("/CVE-<int:year>-<int:number>")
-def cve(year, number):
+@app.route("/CVE-<int:year>-<int:number>.json")
+def cve_api(year, number):
 	db = get_db()
 	data = db.execute(f'SELECT * FROM t WHERE Name = "CVE-{year}-{number}"').fetchone()
 
 	return jsonify(data)
 
+@app.route("/CVE-<int:year>-<int:number>")
+@app.route("/CVE-<int:year>-<int:number>.html")
+def cve_frontend(year, number):
+	db = get_db()
+	data = db.execute(f'SELECT * FROM t WHERE Name = "CVE-{year}-{number}"').fetchone()
+
+	data['References'] = data['References'].split('   |   ')
+
+	for i, reference in enumerate(data['References']):
+		formula = 'https://'
+		p = re.compile(formula)
+		rep = p.sub(' https://', reference)
+		data['References'][i] = rep
+
+	return render_template(r"cve.html", title=f"CVE-{year}-{number}", data=data)
 
 if __name__ == "__main__":
 	"""
