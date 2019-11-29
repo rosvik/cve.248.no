@@ -1,7 +1,16 @@
 import requests
 import sqlite3
+import csv
+import pandas
 from sqlite3 import Error
+from time import perf_counter_ns as pc
+from sqlalchemy.types import NVARCHAR
 
+csvfile = "cve.csv"
+table_name = "t"
+sqlite3_location = r"cve.db"
+
+dt = pc()
 
 r = requests.get(
     "https://cve.mitre.org/data/downloads/allitems.csv", stream=True)
@@ -9,69 +18,26 @@ r = requests.get(
 if r.encoding is None:
     r.encoding = 'utf-8'
 
-con = db_setup(r"cve.db")
+f = open(csvfile, "w")
 
 for i, line in enumerate(r.iter_lines(decode_unicode=True)):
     if line.endswith(",,,,,"):
         continue
 
-    print(line)
+    # if i > 200: break
 
-    if i > 10:
-        break
-
-
-def db_setup(file_name):
-    db = db_handler()
-
-    # create a database connection
-    db.create_connection(file_name)
-
-    sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS projects (
-										id integer PRIMARY KEY,
-										Name,
-										Status,
-										Description,
-										References,
-										Phase,
-										Votes,
-										Comments
-									); """
-
-    # create tables
-    if conn is not None:
-        # create projects table
-        db.create_table(conn, sql_create_projects_table)
-    else:
-        print("Error! cannot create the database connection.")
-
-    return conn
+    if not i % 1000:
+        print(i)
 
 
-class db_handler():
+    f.write(line + "\n")
 
-    @staticmethod
-    def create_connection(db_file):
-        """ create a database connection to a SQLite database """
-        conn = None
-        try:
-            conn = sqlite3.connect(db_file)
-            print(sqlite3.version)
-        except Error as e:
-            print(e)
-        finally:
-            if conn:
-                conn.close()
+print(f" + CSV download: {(pc()-dt)/1e6:.3f} ms")
 
-    @staticmethod
-    def create_table(conn, create_table_sql):
-        """ create a table from the create_table_sql statement
-        :param conn: Connection object
-        :param create_table_sql: a CREATE TABLE statement
-        :return:
-        """
-        try:
-            c = conn.cursor()
-            c.execute(create_table_sql)
-        except Error as e:
-            print(e)
+dt = pc()
+
+conn = sqlite3.connect(sqlite3_location)
+df = pandas.read_csv(csvfile)
+df.to_sql(table_name, conn, if_exists='replace', index=False, dtype={col_name: "NVARCHAR" for col_name in df})
+
+print(f" + Sqlite import: {(pc()-dt)/1e6:.3f} ms")
