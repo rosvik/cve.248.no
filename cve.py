@@ -3,7 +3,7 @@ import sqlite3
 import csv
 import pandas
 from sqlite3 import Error
-from time import perf_counter_ns as pc
+from time import perf_counter as pc
 from sqlalchemy.types import NVARCHAR, Integer
 
 csvfile = "cve.csv"
