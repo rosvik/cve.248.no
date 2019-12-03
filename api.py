@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, jsonify, request, Response
+from flask import Flask, g, render_template, jsonify, request
 import sqlite3
 import os
 import re
@@ -65,12 +65,7 @@ def all_json():
 def cve_api(year, number):
 	db = get_db()
 	data = db.execute(f'SELECT * FROM t WHERE Name = "CVE-{year}-{number}"').fetchone()
-
-	ret = jsonify(data)
-	resp = Response(response=ret,
-					status=200,
-					mimetype="application/json")
-	return resp
+	return jsonify(data)
 
 @app.route('/CVE-<regex("[0-9]+"):year>-<regex("[0-9]+"):number>')
 @app.route('/CVE-<regex("[0-9]+"):year>-<regex("[0-9]+"):number>.html')
