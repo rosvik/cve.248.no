@@ -2,4 +2,4 @@ pandas
 sqlalchemy
 flask
 gunicorn
-
+requests
