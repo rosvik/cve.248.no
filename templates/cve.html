@@ -26,5 +26,11 @@
       {% endfor %}
     </ul>
   {% endif %}
+  
+  <h3>More</h3>
+  <ul>
+    <li><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{data['Name']}}">cve.mitre.org</a></li>
+    <li><a href="https://nvd.nist.gov/vuln/detail/{{data['Name']}}">nvd.nist.gov</a></li>
+  </ul>
 </section>
 
