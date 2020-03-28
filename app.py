@@ -9,4 +9,7 @@ from subprocess import Popen
 Popen([executable, "api.py"])
 Popen([executable, "cve.py"])
 
-input("Press ENTER to exit.")
+try:
+	input("Press ENTER to exit.")
+except Exception:
+	pass
