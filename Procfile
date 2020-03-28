@@ -1,1 +1,2 @@
-web: gunicorn api:main & gunicorn cve:main
+db: python cve.py
+web: gunicorn api:main
