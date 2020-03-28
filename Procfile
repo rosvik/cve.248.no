@@ -1,1 +1,1 @@
-web: gunicorn api & gunicorn cve
+web: gunicorn api:main & gunicorn cve:main
