@@ -85,8 +85,5 @@ def cve_frontend(year, number):
 
 	return render_template(r"cve.html", title=f"CVE-{year}-{number}", data=data)
 
-def main():
-	app.run()
-
 if __name__ == "__main__":
 	app.run()
