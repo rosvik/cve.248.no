@@ -3,11 +3,10 @@ from cve import generate
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from sys import executable
+from subprocess import Popen
 
-generate()
+Popen([executable, "api.py"])
+Popen([executable, "cve.py"])
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=generate, trigger="interval", seconds=3600)
-scheduler.start()
-
-app.run()
+input("Press ENTER to exit.")

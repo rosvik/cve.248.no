@@ -2,9 +2,17 @@ import requests
 import sqlite3
 import csv
 import pandas
+from apscheduler.schedulers.background import BackgroundScheduler
 from sqlite3 import Error
 from time import perf_counter as pc
+from time import sleep
 from sqlalchemy.types import NVARCHAR, Integer
+
+def main():
+	while True:
+		generate()
+		sleep(3600)
+	print("started")
 
 def generate():
 	csvfile = "cve.csv"
@@ -89,5 +97,5 @@ def generate():
 	print(f" + Sqlite import: {(pc()-dt)/1e6:.3f} ms")
 
 if __name__ == '__main__':
-	generate()
+	main()
 
