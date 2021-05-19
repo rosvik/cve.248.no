@@ -9,75 +9,49 @@ from time import sleep
 from sqlalchemy.types import NVARCHAR, Integer
 
 def main():
-	while True:
-		generate()
-		sleep(3600)
-	print("started")
+	generate()
+	# while True:
+	# 	generate()
+	# 	sleep(3600)
+	# print("started")
 
 def generate():
 	csvfile = "cve.csv"
 	table_name = "t"
 	sqlite3_location = r"cve.db"
-	source_csv = "https://cve.mitre.org/data/downloads/allitems.csv"
 
-	r = requests.get(source_csv, stream=True)
-
-	if r.encoding is None:
-		r.encoding = 'utf-8'
+	source_csv = open("allitems.csv", "r", encoding="latin-1")
 
 	f = open(csvfile, "w")
 
-
-	dt = pc()
-
-	# Init timers array
-	dd = [0 for _ in range(6)]
 	writestring = ""
 	title = True
 
-	for i, line in enumerate(r.iter_lines(decode_unicode=True)):
-		d = pc()
+	for i, line in enumerate(source_csv):
+		# Skip empty lines
 		if "** RESERVED **" in line[:50]:
 			continue
 		if "** REJECT **" in line[:50]:
 			continue
-		dd[0] = dd[0] + (pc() - d)
 
-		d = pc()
+		# Handle headers
 		if i <= 10:
-			if line.endswith(",,,,,"):
+			if line.strip().endswith(",,,,,"):
 				continue
-		dd[1] = dd[1] + (pc() - d)
-		
-		d = pc()
-		if title: 
-			title = False
-			f.write('"id",' + line)
-			continue
-		dd[2] = dd[2] + (pc() - d)
+			if title: 
+				title = False
+				f.write('"id",' + line)
+				continue
 
-		d = pc()
-		if not i % 10000:
-			print(i)
-			# break
-		dd[3] = dd[3] + (pc() - d)
+		# Print progress to console
+		if i % 10000 == 0: print(i)
 
-		d = pc()
-		writestring += '\n' + str(i) + ',' + line
-		dd[4] = dd[4] + (pc() - d)
+		writestring += f"{str(i)}, {line}"
 
-		d = pc()
-		if not i % 100:
+		# Write string to file every 100 lines
+		if i % 100 == 0:
 			f.write(writestring)
 			writestring = ''
-		dd[5] = dd[5] + (pc() - d)
-
-	for i, val in enumerate(dd):
-		print(f'{i}: {(val/sum(dd))*100:.1f}% \t{val/1e6:.3f} ms')
-
-	print(f" + CSV download: {(pc()-dt)/1e6:.3f} ms")
-
-	dt = pc()
 
 	dtypes = {
 		"id": "Integer",
@@ -93,8 +67,6 @@ def generate():
 	conn = sqlite3.connect(sqlite3_location)
 	df = pandas.read_csv(csvfile)
 	df.to_sql(table_name, conn, if_exists='replace', index=False, dtype=dtypes)
-
-	print(f" + Sqlite import: {(pc()-dt)/1e6:.3f} ms")
 
 if __name__ == '__main__':
 	main()
