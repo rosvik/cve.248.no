@@ -1,14 +1,19 @@
 from sqlite3 import connect
 from pandas import read_csv
 
+csv_source = "allitems.csv"
+csv_out = "cve.csv"
+table_name = "t"
+sqlite3_location = r"cve.db"
+
+
 def main():
-	csvfile = "cve.csv"
 	table_name = "t"
 	sqlite3_location = r"cve.db"
 
 	source_csv = open("allitems.csv", "r", encoding="latin-1")
 
-	f = open(csvfile, "w")
+	f = open(csv_out, "w")
 
 	writestring = ""
 	title = True
@@ -49,7 +54,7 @@ def main():
 	}
 
 	conn = connect(sqlite3_location)
-	df = read_csv(csvfile)
+	df = read_csv(csv_out)
 	df.to_sql(table_name, conn, if_exists='replace', index=False, dtype=dtypes)
 
 if __name__ == '__main__':
