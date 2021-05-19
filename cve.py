@@ -1,21 +1,7 @@
-import requests
-import sqlite3
-import csv
-import pandas
-from apscheduler.schedulers.background import BackgroundScheduler
-from sqlite3 import Error
-from time import perf_counter as pc
-from time import sleep
-from sqlalchemy.types import NVARCHAR, Integer
+from sqlite3 import connect
+from pandas import read_csv
 
 def main():
-	generate()
-	# while True:
-	# 	generate()
-	# 	sleep(3600)
-	# print("started")
-
-def generate():
 	csvfile = "cve.csv"
 	table_name = "t"
 	sqlite3_location = r"cve.db"
@@ -29,10 +15,8 @@ def generate():
 
 	for i, line in enumerate(source_csv):
 		# Skip empty lines
-		if "** RESERVED **" in line[:50]:
-			continue
-		if "** REJECT **" in line[:50]:
-			continue
+		if "** RESERVED **" in line[:50]: continue
+		if "** REJECT **" in line[:50]: continue
 
 		# Handle headers
 		if i <= 10:
@@ -64,8 +48,8 @@ def generate():
 		"Comments": "NVARCHAR",
 	}
 
-	conn = sqlite3.connect(sqlite3_location)
-	df = pandas.read_csv(csvfile)
+	conn = connect(sqlite3_location)
+	df = read_csv(csvfile)
 	df.to_sql(table_name, conn, if_exists='replace', index=False, dtype=dtypes)
 
 if __name__ == '__main__':
