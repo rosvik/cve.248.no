@@ -4,13 +4,9 @@ from pandas import read_csv
 csv_source = "allitems.csv"
 csv_out = "cve.csv"
 table_name = "t"
-sqlite3_location = r"cve.db"
-
+sqlite3_location = r"../prisma/cve.db"
 
 def main():
-	table_name = "t"
-	sqlite3_location = r"cve.db"
-
 	source_csv = open("allitems.csv", "r", encoding="latin-1")
 
 	f = open(csv_out, "w")
@@ -27,7 +23,7 @@ def main():
 		if i <= 10:
 			if line.strip().endswith(",,,,,"):
 				continue
-			if title: 
+			if title:
 				title = False
 				f.write('"id",' + line)
 				continue

@@ -6,7 +6,7 @@ import urllib
 from markupsafe import Markup
 from werkzeug.routing import BaseConverter
 
-DATABASE = "./cve.db"
+DATABASE = "../prisma/cve.db"
 
 # Create app
 app = Flask(__name__)
@@ -54,7 +54,7 @@ def all_json():
 	formula = "(C|^)(V|^)(E|^)(-|^)([0-9]{1,4}|^)(-|^)[0-9]{4,}$"
 	if not re.search(formula, query):
 		content = {'please move along': 'nothing to see here'}
-		
+
 		return jsonify({'statuscode': 404, 'message': 'No results found'}), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 	db = get_db()
@@ -64,14 +64,14 @@ def all_json():
 @app.route('/CVE-<regex("[0-9]+"):year>-<regex("[0-9]+"):number>.json')
 def cve_api(year, number):
 	db = get_db()
-	data = db.execute(f'SELECT * FROM t WHERE Name = "CVE-{year}-{number}"').fetchone()
+	data = db.execute(f'SELECT * FROM t WHERE Name = " CVE-{year}-{number}"').fetchone()
 	return jsonify(data)
 
 @app.route('/CVE-<regex("[0-9]+"):year>-<regex("[0-9]+"):number>')
 @app.route('/CVE-<regex("[0-9]+"):year>-<regex("[0-9]+"):number>.html')
 def cve_frontend(year, number):
 	db = get_db()
-	data = db.execute(f'SELECT * FROM t WHERE Name = "CVE-{year}-{number}"').fetchone()
+	data = db.execute(f'SELECT * FROM t WHERE Name = " CVE-{year}-{number}"').fetchone()
 
 	if data['References']: data['References'] = data['References'].split('   |   ')
 	if data['Comments']: data['Comments'] = data['Comments'].replace(' | ', ' \n ')
