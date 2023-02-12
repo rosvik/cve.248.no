@@ -1,6 +1,8 @@
 *.csv
 *.db
 __pycache__/
+/cvelist
+/cve-schema
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
