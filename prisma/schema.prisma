@@ -6,23 +6,12 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+    provider          = "postgresql"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model t {
-    id          Int    @id
-    Name        String
-    Status      String
-    Description String
-    References  String?
-    Phase       String?
-    Votes       String?
-    Comments    String?
+model CVE {
+    id   String @id
+    json Json
 }
