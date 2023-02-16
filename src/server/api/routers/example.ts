@@ -10,15 +10,14 @@ export const exampleRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
-  getCVE: publicProcedure.query(({ ctx }) => {
-    const CVE = ctx.prisma.t.findFirst({
-      where: {
-        Name: " CVE-2005-3006",
-      },
-    });
-    return CVE;
-  }),
+  getCVE: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ input, ctx }) => {
+      const cve = ctx.prisma.cVE.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+      return cve;
+    }),
 });
