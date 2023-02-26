@@ -14,7 +14,7 @@ import type { Published, Rejected } from "../types/v5-cve";
 import type { CVE_JSON_40Reject } from "../types/v4-cve-reject";
 import type { CVE_JSON_40Reserved } from "../types/v4-cve-reserved";
 import type { CVE_JSON_40Public } from "../types/v4-cve-public";
-import type { CVE_Option, CVE5 } from "../types/cve";
+import type { CVE_Option, CVE5 } from "../types/generic-cve";
 
 export function validator(
   version: "v5" | "v4-reserved" | "v4-public" | "v4-reject"
