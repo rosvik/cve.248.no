@@ -13,20 +13,13 @@ export type CVE5 = CVEJSONRecordFormat;
 
 export type CVE4 = CVE_JSON_40Public | CVE_JSON_40Reject | CVE_JSON_40Reserved;
 
-export enum CVE4_State {
-  Reserved = "RESERVED",
-  Public = "PUBLIC",
-  Reject = "REJECT",
-}
+export type CVE4_State = "RESERVED" | "PUBLIC" | "REJECT";
 
-export enum CVE5_State {
-  Published = "PUBLISHED",
-  Rejected = "REJECTED",
-}
+export type CVE5_State = "PUBLISHED" | "REJECTED";
 
 export type CVE_Option =
-  | { version: 5; state: CVE5_State.Published; data: Published }
-  | { version: 5; state: CVE5_State.Rejected; data: Rejected }
-  | { version: 4; state: CVE4_State.Reserved; data: CVE_JSON_40Reserved }
-  | { version: 4; state: CVE4_State.Public; data: CVE_JSON_40Public }
-  | { version: 4; state: CVE4_State.Reject; data: CVE_JSON_40Reject };
+  | { version: 5; state: "PUBLISHED"; data: Published }
+  | { version: 5; state: "REJECTED"; data: Rejected }
+  | { version: 4; state: "RESERVED"; data: CVE_JSON_40Reserved }
+  | { version: 4; state: "PUBLIC"; data: CVE_JSON_40Public }
+  | { version: 4; state: "REJECT"; data: CVE_JSON_40Reject };

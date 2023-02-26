@@ -14,7 +14,6 @@ import type { Published, Rejected } from "../types/v5-cve";
 import type { CVE_JSON_40Reject } from "../types/v4-cve-reject";
 import type { CVE_JSON_40Reserved } from "../types/v4-cve-reserved";
 import type { CVE_JSON_40Public } from "../types/v4-cve-public";
-import { CVE5_State, CVE4_State } from "../types/cve";
 import type { CVE_Option, CVE5 } from "../types/cve";
 
 export function validator(
@@ -48,12 +47,12 @@ export function validateUnknown(data: any): CVE_Option | undefined {
     if (cve.cveMetadata.state === "PUBLISHED") {
       return {
         version: 5,
-        state: CVE5_State.Published,
+        state: "PUBLISHED",
         data: data as Published,
       };
     }
     if (cve.cveMetadata.state === "REJECTED") {
-      return { version: 5, state: CVE5_State.Rejected, data: data as Rejected };
+      return { version: 5, state: "REJECTED", data: data as Rejected };
     }
   }
 
@@ -66,7 +65,7 @@ export function validateUnknown(data: any): CVE_Option | undefined {
       if (!validate(data)) return;
       return {
         version: 4,
-        state: CVE4_State.Reject,
+        state: "REJECT",
         data: data as CVE_JSON_40Reject,
       };
     }
@@ -76,7 +75,7 @@ export function validateUnknown(data: any): CVE_Option | undefined {
       if (!validate(data)) return;
       return {
         version: 4,
-        state: CVE4_State.Reserved,
+        state: "RESERVED",
         data: data as CVE_JSON_40Reserved,
       };
     }
@@ -86,7 +85,7 @@ export function validateUnknown(data: any): CVE_Option | undefined {
       if (!validate(data)) return;
       return {
         version: 4,
-        state: CVE4_State.Public,
+        state: "PUBLIC",
         data: data as CVE_JSON_40Public,
       };
     }
