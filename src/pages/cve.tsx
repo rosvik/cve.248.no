@@ -6,6 +6,8 @@ import { api } from "../utils/api";
 import { validateUnknown } from "../utils/validator";
 import Link from "next/link";
 
+import Highlight from "react-highlight";
+
 const Home: NextPage = () => {
   const { query } = useRouter();
   const { id } = query;
@@ -111,6 +113,10 @@ const Home: NextPage = () => {
                   </>
                 ))}
               </ul>
+              <h2>JSON</h2>
+              <Highlight language="json">
+                {JSON.stringify(cve.data, null, 2)}
+              </Highlight>
             </>
           ) : (
             <p>{isLoading ? "Loading..." : "No valid CVE found"}</p>
