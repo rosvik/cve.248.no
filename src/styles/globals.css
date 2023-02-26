@@ -18,9 +18,16 @@ a:hover {
 }
 
 code {
-  color: dimgrey;
+  opacity: 0.7;
 }
 
 * {
   box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: #1F2430;
+    color: white;
+  }
 }
