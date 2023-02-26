@@ -36,7 +36,6 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           <Link href="/">← Back</Link>
-          <p>{isLoading ? "Loading..." : ""}</p>
           {isPublished ? (
             <>
               <h1>{cve.data.CVE_data_meta.ID}</h1>
@@ -114,7 +113,7 @@ const Home: NextPage = () => {
               </ul>
             </>
           ) : (
-            <p>No valid CVE found</p>
+            <p>{isLoading ? "Loading..." : "No valid CVE found"}</p>
           )}
         </div>
       </main>
