@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 
             <p>ASSIGNER: {cve.data.CVE_data_meta.ASSIGNER}</p>
 
-            <p>Vendor data:</p>
+            {/* <p>Vendor data:</p>
             <ul>
               {cve.data.affects.vendor.vendor_data.map((vendor) => (
                 <>
@@ -67,7 +67,7 @@ const Home: NextPage = () => {
                   </ul>
                 </>
               ))}
-            </ul>
+            </ul> */}
             <h2>Description</h2>
             <p>
               {
