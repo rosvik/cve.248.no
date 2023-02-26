@@ -1,7 +1,7 @@
-import { CVE_JSON_40Public } from "./v4-cve-public";
-import { CVE_JSON_40Reject } from "./v4-cve-reject";
-import { CVE_JSON_40Reserved } from "./v4-cve-reserved";
-import { CVEJSONRecordFormat, Published, Rejected } from "./v5-cve";
+import type { CVE_JSON_40Public } from "./v4-cve-public";
+import type { CVE_JSON_40Reject } from "./v4-cve-reject";
+import type { CVE_JSON_40Reserved } from "./v4-cve-reserved";
+import type { CVEJSONRecordFormat, Published, Rejected } from "./v5-cve";
 
 export type CVE =
   | CVEJSONRecordFormat
