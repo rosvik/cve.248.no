@@ -1,8 +1,10 @@
 import { type NextPage } from "next";
+import styles from "./cve.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { api } from "../utils/api";
 import { validateUnknown } from "../utils/validator";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
@@ -28,86 +30,88 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>CVE</title>
+        <title>{cve ? result?.data?.id : "CVE"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={styles.main}>
         <p>{isLoading ? "Loading..." : ""}</p>
-        {isPublished ? (
-          <div>
-            <p>
-              {`${cve.data.CVE_data_meta.ID}: ${cve.state} ${cve.data.data_type},
+        <div className={styles.container}>
+          <Link href="/">← Back</Link>
+          {isPublished ? (
+            <>
+              <h1>{cve.data.CVE_data_meta.ID}</h1>
+              <p>
+                {`${cve.state} ${cve.data.data_type},
               ${cve.data.data_format} version ${cve.data.data_version}`}
-            </p>
-
-            <p>ASSIGNER: {cve.data.CVE_data_meta.ASSIGNER}</p>
-
-            <p>Vendor data:</p>
-            <ul>
-              {cve.data.affects.vendor.vendor_data.map((vendor) => (
-                <>
-                  <li>{vendor.vendor_name}</li>
-                  <ul>
-                    {vendor.product.product_data.map((product, i) => (
-                      <>
-                        <li key={i}>{product.product_name}</li>
-                        <ul>
-                          {product.version.version_data.map((v, i) => (
-                            <li key={i}>
-                              {`${
-                                typeof v.version_affected === "string"
-                                  ? v.version_affected
-                                  : ""
-                              } ${v.version_value}`}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    ))}
-                  </ul>
-                </>
-              ))}
-            </ul>
-            <h2>Description</h2>
-            <p>
-              {
-                cve.data.description.description_data.find(
-                  (s) => s.lang === "eng"
-                )?.value
-              }
-            </p>
-            <p>
-              {"(languages: " +
-                cve.data.description.description_data
-                  .map((s) => s.lang)
-                  .join(", ") +
-                ")"}
-            </p>
-            <h2>Problem type</h2>
-            <p>
-              {cve.data.problemtype.problemtype_data.map((p, i) => (
-                <>
-                  <p key={i}>
-                    {p.description.find((s) => s.lang === "eng")?.value}
-                  </p>
-                  <p>
-                    {"(languages: " +
-                      p.description.map((s) => s.lang).join(", ") +
-                      ")"}
-                  </p>
-                </>
-              ))}
-            </p>
-            <h2>References</h2>
-            <ul>
-              {cve.data.references.reference_data.map((r, i) => (
-                <li key={i}>
-                  <a href={r.url}>{r.url}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : undefined}
+              </p>
+              <h2>Description</h2>
+              <p>
+                {
+                  cve.data.description.description_data.find(
+                    (s) => s.lang === "eng"
+                  )?.value
+                }
+              </p>
+              <p>
+                {"(languages: " +
+                  cve.data.description.description_data
+                    .map((s) => s.lang)
+                    .join(", ") +
+                  ")"}
+              </p>
+              <h2>Problem type</h2>
+              <p>
+                {cve.data.problemtype.problemtype_data.map((p, i) => (
+                  <>
+                    <p key={i}>
+                      {p.description.find((s) => s.lang === "eng")?.value}
+                    </p>
+                    <p>
+                      {"(languages: " +
+                        p.description.map((s) => s.lang).join(", ") +
+                        ")"}
+                    </p>
+                  </>
+                ))}
+              </p>
+              <h2>References</h2>
+              <ul>
+                {cve.data.references.reference_data.map((r, i) => (
+                  <li key={i}>
+                    <a href={r.url}>{r.url}</a>
+                  </li>
+                ))}
+              </ul>
+              <h2>ASSIGNER</h2>
+              <p>{cve.data.CVE_data_meta.ASSIGNER}</p>
+              <ul>
+                {cve.data.affects.vendor.vendor_data.map((vendor) => (
+                  <>
+                    <li>{vendor.vendor_name}</li>
+                    <ul>
+                      {vendor.product.product_data.map((product, i) => (
+                        <>
+                          <li key={i}>{product.product_name}</li>
+                          <ul>
+                            {product.version.version_data.map((v, i) => (
+                              <li key={i}>
+                                {`${
+                                  typeof v.version_affected === "string"
+                                    ? v.version_affected
+                                    : ""
+                                } ${v.version_value}`}
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      ))}
+                    </ul>
+                  </>
+                ))}
+              </ul>
+            </>
+          ) : undefined}
+        </div>
       </main>
     </>
   );
