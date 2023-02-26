@@ -93,15 +93,18 @@ const Home: NextPage = () => {
                         <>
                           <li key={i}>{product.product_name}</li>
                           <ul>
-                            {product.version.version_data.map((v, i) => (
-                              <li key={i}>
-                                {`${
-                                  typeof v.version_affected === "string"
-                                    ? v.version_affected
-                                    : ""
-                                } ${v.version_value}`}
-                              </li>
-                            ))}
+                            {product.version.version_data.map((v, i) => {
+                              if (!v.version_value) return;
+                              return (
+                                <li key={i}>
+                                  {`${
+                                    typeof v.version_affected === "string"
+                                      ? v.version_affected
+                                      : ""
+                                  } ${v.version_value}`}
+                                </li>
+                              );
+                            })}
                           </ul>
                         </>
                       ))}
