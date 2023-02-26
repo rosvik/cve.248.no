@@ -17,6 +17,10 @@ a:hover {
   text-decoration: underline;
 }
 
+code {
+  color: dimgrey;
+}
+
 * {
   box-sizing: border-box;
 }

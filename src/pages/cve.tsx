@@ -34,9 +34,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <p>{isLoading ? "Loading..." : ""}</p>
         <div className={styles.container}>
           <Link href="/">← Back</Link>
+          <p>{isLoading ? "Loading..." : ""}</p>
           {isPublished ? (
             <>
               <h1>{cve.data.CVE_data_meta.ID}</h1>
@@ -110,7 +110,9 @@ const Home: NextPage = () => {
                 ))}
               </ul>
             </>
-          ) : undefined}
+          ) : (
+            <p>No valid CVE found</p>
+          )}
         </div>
       </main>
     </>
