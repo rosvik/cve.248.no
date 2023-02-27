@@ -33,7 +33,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>{cve ? result?.data?.id : "CVE"}</title>
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
