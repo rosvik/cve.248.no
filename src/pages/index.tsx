@@ -22,13 +22,13 @@ const Home: NextPage = () => {
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2021-40444">
-                CVE-2021-40444
+              <Link className={styles.link} href="/cve?id=CVE-2022-41099">
+                CVE-2022-41099
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2022-41099">
-                CVE-2022-41099
+              <Link className={styles.link} href="/cve?id=CVE-2023-24482">
+                CVE-2023-24482
               </Link>
             </p>
           </div>
