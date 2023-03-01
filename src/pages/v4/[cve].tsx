@@ -1,16 +1,16 @@
 import { type NextPage } from "next";
-import styles from "./cve.module.css";
+import styles from "../cve.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { api } from "../utils/api";
-import { validateUnknown } from "../utils/validator";
+import { api } from "../../utils/api";
+import { validateUnknown } from "../../utils/validator";
 import Link from "next/link";
 
 import Highlight from "react-highlight";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
-  const { id } = query;
+  const { cve: id } = query;
   if (typeof id !== "string") {
     return (
       <p>

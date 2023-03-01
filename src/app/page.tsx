@@ -15,23 +15,42 @@ const Home: NextPage = () => {
         <div className={styles.container}>
           <h1>cve.248.no</h1>
           <div>
-            <h3>Examples</h3>
+            <h3>v4</h3>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2021-30900">
+              <Link className={styles.link} href="v4/CVE-2021-30900">
                 CVE-2021-30900
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2022-41099">
+              <Link className={styles.link} href="v4/CVE-2022-41099">
                 CVE-2022-41099
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2023-24482">
+              <Link className={styles.link} href="v4/CVE-2023-24482">
                 CVE-2023-24482
               </Link>
             </p>
           </div>
+          <div>
+            <h3>v5</h3>
+            <p>
+              <Link className={styles.link} href="v5/CVE-2021-30900">
+                CVE-2021-30900
+              </Link>
+            </p>
+            <p>
+              <Link className={styles.link} href="v5/CVE-2022-41099">
+                CVE-2022-41099
+              </Link>
+            </p>
+            <p>
+              <Link className={styles.link} href="v5/CVE-2023-24482">
+                CVE-2023-24482
+              </Link>
+            </p>
+          </div>
+
           <p>
             (or any other CVE id at <code>/cve?id=CVE-[year]-[code]</code>)
           </p>
