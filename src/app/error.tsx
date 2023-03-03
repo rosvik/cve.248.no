@@ -20,7 +20,9 @@ export default function Error({
     <div>
       <div className={styles.container}>
         <h1>Something went wrong!</h1>
-        <p>{error.message}</p>
+        <p>
+          <pre>{error.message}</pre>
+        </p>
         <div>
           <Link href="/">← Back</Link>
         </div>

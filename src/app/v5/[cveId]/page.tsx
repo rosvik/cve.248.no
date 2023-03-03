@@ -5,14 +5,16 @@ import { validateUnknown } from "../../../utils/validator";
 import styles from "../cve.module.css";
 
 async function getData(id: string) {
-  const res = await fetch(`https://cveawg.mitre.org/api/cve/${id}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+  const url = `https://cveawg.mitre.org/api/cve/${id}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch data");
 
   const cve = validateUnknown(await res.json());
-  if (!cve) throw new Error("Invalid JSON format");
-  if (cve.version !== 5) throw new Error("Not version 5");
+  if (!cve) throw new Error("Unknown error parsing data.");
+  if (Array.isArray(cve)) {
+    throw new Error("Invalid JSON format\n" + JSON.stringify(cve, null, 2));
+  }
+  if (cve.version !== 5) throw new Error("Unsupported data version");
 
   return cve.data as CVE5;
 }
