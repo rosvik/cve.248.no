@@ -24,6 +24,9 @@ export function validator(
   // @TODO: Potentially add `Ajv.addMetaSchema(v5Metaschema);`
   Ajv.addMetaSchema(v4Metaschema);
 
+  // @TODO: Add `date-time` format
+  // https://stackoverflow.com/a/58962975/5976426
+
   switch (version) {
     case "v5":
       return Ajv.compile(v5Schema);
@@ -36,13 +39,15 @@ export function validator(
   }
 }
 
-export function validateUnknown(data: any): CVE_Option | undefined {
+export function validateUnknown(
+  data: any
+): CVE_Option | ajv.ErrorObject[] | false {
   const version = data?.dataVersion ?? data?.data_version;
-  if (!(typeof version === "string")) return;
+  if (!(typeof version === "string")) return false;
 
   if (version === "5.0") {
     const validate = validator("v5");
-    if (!validate(data)) return;
+    if (!validate(data)) return validate.errors || [];
     const cve = data as CVE5;
     if (cve.cveMetadata.state === "PUBLISHED") {
       return {
@@ -58,11 +63,11 @@ export function validateUnknown(data: any): CVE_Option | undefined {
 
   if (version === "4.0") {
     const state = data?.CVE_data_meta?.STATE;
-    if (!(typeof state === "string")) return;
+    if (!(typeof state === "string")) return false;
 
     if (state === "REJECT") {
       const validate = validator("v4-reject");
-      if (!validate(data)) return;
+      if (!validate(data)) return validate.errors || [];
       return {
         version: 4,
         state: "REJECT",
@@ -72,7 +77,8 @@ export function validateUnknown(data: any): CVE_Option | undefined {
 
     if (state === "RESERVED") {
       const validate = validator("v4-reserved");
-      if (!validate(data)) return;
+
+      if (!validate(data)) return validate.errors || [];
       return {
         version: 4,
         state: "RESERVED",
@@ -82,7 +88,8 @@ export function validateUnknown(data: any): CVE_Option | undefined {
 
     if (state === "PUBLIC") {
       const validate = validator("v4-public");
-      if (!validate(data)) return;
+      if (!validate(data)) return validate.errors || [];
+
       return {
         version: 4,
         state: "PUBLIC",
@@ -90,4 +97,5 @@ export function validateUnknown(data: any): CVE_Option | undefined {
       };
     }
   }
+  return false;
 }
