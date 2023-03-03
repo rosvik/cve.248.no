@@ -127,7 +127,7 @@ export default async function Page({ params }: { params: { cveId: string } }) {
               ))}
             </ul> */}
           <h2>JSON</h2>
-          <pre>{JSON.stringify(cve, null, 2)}</pre>
+          <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
         </>
       </div>
     </main>
