@@ -56,9 +56,7 @@ export default async function Page({ params }: { params: { cveId: string } }) {
           <h2>Description</h2>
           <p>
             {
-              JSON.stringify(
-                cna.descriptions.find((s) => s.lang === "en")?.value
-              )
+              cna.descriptions.find((s) => s.lang === "en")?.value
               // .description_data.find(
               //   (s) => s.lang === "eng"
               // )?.value

@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import styles from "../cve.module.css";
+import styles from "./cve.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
@@ -26,6 +26,8 @@ const Home: NextPage = () => {
   const cve = result?.data?.json
     ? validateUnknown(result?.data?.json)
     : undefined;
+
+  if (!cve || Array.isArray(cve)) return <p>Error</p>;
 
   const isPublished = cve?.version === 4 && cve.state === "PUBLIC";
 
