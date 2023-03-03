@@ -111,7 +111,6 @@ export const v5Schema = {
     },
     timestamp: {
       type: "string",
-      format: "date-time",
       description:
         "Date/time format based on RFC3339 and ISO ISO8601, with an optional timezone in the format 'yyyy-MM-ddTHH:mm:ssZZZZ'. If timezone offset is not given, GMT (0000) is assumed.",
       pattern:
