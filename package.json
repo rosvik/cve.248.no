@@ -8,7 +8,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "prod": "next build && next start"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
