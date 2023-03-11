@@ -1,12 +1,10 @@
 import { type NextPage } from "next";
-import styles from "./cve.module.css";
+import styles from "../../styles/cve.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { api } from "../utils/api";
-import { validateUnknown } from "../utils/validator";
+import { api } from "../../utils/api";
+import { validateUnknown } from "../../utils/validator";
 import Link from "next/link";
-
-import Highlight from "react-highlight";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
@@ -26,6 +24,8 @@ const Home: NextPage = () => {
   const cve = result?.data?.json
     ? validateUnknown(result?.data?.json)
     : undefined;
+
+  if (!cve || Array.isArray(cve)) return <p>Error</p>;
 
   const isPublished = cve?.version === 4 && cve.state === "PUBLIC";
 
@@ -77,11 +77,15 @@ const Home: NextPage = () => {
               </p>
               <h2>References</h2>
               <ul>
-                {cve.data.references.reference_data.map((r, i) => (
-                  <li key={i}>
-                    <a href={r.url}>{r.url}</a>
-                  </li>
-                ))}
+                {cve.data.references.reference_data.map((r, i) => {
+                  // Parse URL before using in anchor tag, to prevent XSS
+                  const url = new URL(r.url);
+                  return (
+                    <li key={i}>
+                      <a href={url.href}>{r.url}</a>
+                    </li>
+                  );
+                })}
               </ul>
               <h2>ASSIGNER</h2>
               <p>{cve.data.CVE_data_meta.ASSIGNER}</p>
@@ -114,9 +118,7 @@ const Home: NextPage = () => {
                 ))}
               </ul>
               <h2>JSON</h2>
-              <Highlight language="json">
-                {JSON.stringify(cve.data, null, 2)}
-              </Highlight>
+              <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
             </>
           ) : (
             <p>{isLoading ? "Loading..." : "No valid CVE found"}</p>

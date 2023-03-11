@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "../styles/index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -17,23 +17,23 @@ const Home: NextPage = () => {
           <div>
             <h3>Examples</h3>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2021-30900">
+              <Link className={styles.link} href="/CVE-2021-30900">
                 CVE-2021-30900
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2022-41099">
+              <Link className={styles.link} href="/CVE-2022-41099">
                 CVE-2022-41099
               </Link>
             </p>
             <p>
-              <Link className={styles.link} href="/cve?id=CVE-2023-24482">
+              <Link className={styles.link} href="/CVE-2023-24482">
                 CVE-2023-24482
               </Link>
             </p>
           </div>
           <p>
-            (or any other CVE id at <code>/cve?id=CVE-[year]-[code]</code>)
+            (or any other CVE id at <code>/CVE-[year]-[code]</code>)
           </p>
         </div>
       </main>
