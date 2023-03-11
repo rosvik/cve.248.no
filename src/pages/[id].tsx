@@ -1,7 +1,8 @@
+import ajv from "ajv";
 import Head from "next/head";
 import Link from "next/link";
 import { validateUnknown } from "../utils/validator";
-import styles from "./cve.module.css";
+import styles from "../styles/cve.module.css";
 
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CVE_Option } from "../types/generic-cve";
@@ -12,6 +13,7 @@ type Props = {
     id: string;
     cve: CVE_Option;
   };
+  errorObject?: ajv.ErrorObject[];
   errorMessage?: string | null;
 };
 
@@ -28,6 +30,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const cve = result ? validateUnknown(await result.json()) : undefined;
   if (!cve) return err("Could not validate CVE");
+  if (Array.isArray(cve)) return { props: { errorObject: cve } };
 
   return {
     props: {
@@ -43,7 +46,20 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 function Page({
   data,
   errorMessage,
+  errorObject,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (errorObject) {
+    return (
+      <>
+        <Head>
+          <title>CVE</title>
+        </Head>
+
+        <p>Error parsing CVE</p>
+        <pre>{JSON.stringify(errorObject, null, 2)}</pre>
+      </>
+    );
+  }
   if (errorMessage || !data) {
     return (
       <>

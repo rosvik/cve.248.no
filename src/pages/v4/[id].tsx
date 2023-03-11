@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import styles from "./cve.module.css";
+import styles from "../../styles/cve.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
@@ -10,7 +10,7 @@ import Highlight from "react-highlight";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
-  const { cve: id } = query;
+  const { id } = query;
   if (typeof id !== "string") {
     return (
       <p>
