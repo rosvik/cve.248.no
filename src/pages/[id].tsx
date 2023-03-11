@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "../styles/cve.module.css";
 
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { CveV5Pubished } from "../components/v5published";
+import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { CveResponse, getCve } from "../utils/getCve";
 import { useRouter } from "next/router";
