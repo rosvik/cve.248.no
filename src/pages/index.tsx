@@ -33,7 +33,7 @@ const Home: NextPage = () => {
             </p>
           </div>
           <p>
-            (or any other CVE id at <code>/cve?id=CVE-[year]-[code]</code>)
+            (or any other CVE id at <code>/CVE-[year]-[code]</code>)
           </p>
         </div>
       </main>
