@@ -7,6 +7,7 @@ import styles from "../styles/cve.module.css";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CVE_Option } from "../types/generic-cve";
 import { CveV5Pubished } from "../components/v5published";
+import DataError from "../components/DataError";
 
 type Props = {
   data?: {
@@ -14,7 +15,7 @@ type Props = {
     cve: CVE_Option;
   };
   errorObject?: ajv.ErrorObject[];
-  errorMessage?: string | null;
+  errorMessage?: string;
 };
 
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -48,49 +49,18 @@ function Page({
   errorMessage,
   errorObject,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (errorObject) {
-    return (
-      <>
-        <Head>
-          <title>CVE</title>
-        </Head>
+  if (errorObject || errorObject || !data)
+    return <DataError errorMessage={errorMessage} errorObject={errorObject} />;
 
-        <p>Error parsing CVE</p>
-        <pre>{JSON.stringify(errorObject, null, 2)}</pre>
-      </>
-    );
-  }
-  if (errorMessage || !data) {
-    return (
-      <>
-        <Head>
-          <title>CVE</title>
-        </Head>
-
-        <p>{errorMessage || ""}</p>
-        {!data ? <p>No data returned</p> : undefined}
-      </>
-    );
-  }
-
-  const { cve, id } = data;
+  const { cve } = data;
   const isPublished = cve.version === 5 && cve.state === "PUBLISHED";
-  if (!isPublished) {
-    return (
-      <>
-        <Head>
-          <title>CVE</title>
-        </Head>
-
-        <p>No valid CVE found</p>
-      </>
-    );
-  }
+  if (!isPublished)
+    return <DataError errorMessage="CVE is not published, or is not v5" />;
 
   return (
     <>
       <Head>
-        <title>{id}</title>
+        <title>{cve.data.cveMetadata.cveId}</title>
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main className={styles.main}>
