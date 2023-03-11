@@ -4,13 +4,16 @@ import Link from "next/link";
 import styles from "../styles/index.module.css";
 
 type Props = {
+  id?: string;
   errorMessage?: string;
   errorObject?: object;
-  apiPath?: string;
 };
 
-function DataError({ errorMessage, errorObject, apiPath }: Props) {
+function DataError({ id, errorMessage, errorObject }: Props) {
   const j = errorObject ? JSON.stringify(errorObject, null, 2) : undefined;
+  const url = id
+    ? new URL(`https://cveawg.mitre.org/api/cve/${id}`)
+    : undefined;
 
   return (
     <>
@@ -27,9 +30,10 @@ function DataError({ errorMessage, errorObject, apiPath }: Props) {
               <pre>{j}</pre>
             </p>
           )}
-          {apiPath && (
+          {url && (
             <p>
-              <a href={apiPath}>{apiPath}</a>
+              You can try to look for the JSON record at{" "}
+              <a href={url.href}>{url.href}</a>
             </p>
           )}
           <div>
