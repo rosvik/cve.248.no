@@ -77,11 +77,15 @@ const Home: NextPage = () => {
               </p>
               <h2>References</h2>
               <ul>
-                {cve.data.references.reference_data.map((r, i) => (
-                  <li key={i}>
-                    <a href={r.url}>{r.url}</a>
-                  </li>
-                ))}
+                {cve.data.references.reference_data.map((r, i) => {
+                  // Parse URL before using in anchor tag, to prevent XSS
+                  const url = new URL(r.url);
+                  return (
+                    <li key={i}>
+                      <a href={url.href}>{r.url}</a>
+                    </li>
+                  );
+                })}
               </ul>
               <h2>ASSIGNER</h2>
               <p>{cve.data.CVE_data_meta.ASSIGNER}</p>
