@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Published } from "../types/v5-cve";
+import styles from "../styles/cve.module.css";
 
 export function CveV5Pubished({ cve }: { cve: Published }) {
   const cna = cve.containers.cna;
@@ -22,7 +22,7 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
         {cve.cveMetadata.assignerShortName} {cve.cveMetadata.assignerOrgId}
       </p>
       <h2>JSON</h2>
-      <pre>{JSON.stringify(cve, null, 2)}</pre>
+      <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
     </>
   );
 }
