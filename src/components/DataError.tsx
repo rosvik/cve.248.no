@@ -6,9 +6,10 @@ import styles from "../styles/index.module.css";
 type Props = {
   errorMessage?: string;
   errorObject?: object;
+  apiPath?: string;
 };
 
-function DataError({ errorMessage, errorObject }: Props) {
+function DataError({ errorMessage, errorObject, apiPath }: Props) {
   const j = errorObject ? JSON.stringify(errorObject, null, 2) : undefined;
 
   return (
@@ -24,6 +25,11 @@ function DataError({ errorMessage, errorObject }: Props) {
           {j && (
             <p>
               <pre>{j}</pre>
+            </p>
+          )}
+          {apiPath && (
+            <p>
+              <a href={apiPath}>{apiPath}</a>
             </p>
           )}
           <div>

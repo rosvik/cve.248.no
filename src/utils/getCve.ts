@@ -1,23 +1,45 @@
+import { ErrorObject } from "ajv";
+import { Published } from "../types/v5-cve";
 import { validateUnknown } from "./validator";
 
-export async function getCve(id: string) {
-  const url = `/api/${id}`;
+export type CveResponse = {
+  cve?: Published;
+  errorObject?: ErrorObject[];
+  errorMessage?: string;
+  apiPath?: string;
+};
+
+export async function getCve(id: string): Promise<CveResponse> {
+  const url = `https://cveawg.mitre.org/api/cve/${id}`;
   const res = await fetch(url);
   const data = await res.json();
   const cve = validateUnknown(data);
 
   if (!cve) {
-    throw new Error("Unknown error parsing data.");
+    return {
+      errorMessage: "Unknown error parsing data.",
+      apiPath: url,
+    };
   }
   if (Array.isArray(cve)) {
-    throw new Error("Invalid JSON format\n" + JSON.stringify(cve, null, 2));
+    return {
+      errorMessage: "Invalid JSON format.",
+      errorObject: cve,
+      apiPath: url,
+    };
   }
   if (cve.version !== 5) {
-    throw new Error("Unsupported data version");
+    return {
+      errorMessage: "Unsupported data version",
+      apiPath: url,
+    };
   }
   if (cve.state !== "PUBLISHED") {
-    throw new Error("Only published CVEs supported");
+    return {
+      errorMessage: "Only published CVEs supported (for now)",
+      apiPath: url,
+    };
   }
 
-  return cve.data;
+  return { cve: cve.data, apiPath: url };
 }
