@@ -1,4 +1,5 @@
 import { ErrorObject } from "ajv";
+import { prisma } from "../server/db";
 import { Published } from "../types/v5-cve";
 import { validateUnknown } from "./validator";
 
@@ -6,40 +7,39 @@ export type CveResponse = {
   cve?: Published;
   errorObject?: ErrorObject[];
   errorMessage?: string;
-  apiPath?: string;
 };
 
 export async function getCve(id: string): Promise<CveResponse> {
-  const url = `https://cveawg.mitre.org/api/cve/${id}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  const cve = validateUnknown(data);
+  const data = await prisma.cVE.findFirst({
+    where: {
+      id,
+    },
+  });
 
-  if (!cve) {
+  if (!data)
+    return {
+      errorMessage: "Unknown error fetching data.",
+    };
+
+  const cve = validateUnknown(data.json);
+
+  if (!cve)
     return {
       errorMessage: "Unknown error parsing data.",
-      apiPath: url,
     };
-  }
-  if (Array.isArray(cve)) {
+  if (Array.isArray(cve))
     return {
       errorMessage: "Invalid JSON format.",
       errorObject: cve,
-      apiPath: url,
     };
-  }
-  if (cve.version !== 5) {
+  if (cve.version !== 5)
     return {
       errorMessage: "Unsupported data version",
-      apiPath: url,
     };
-  }
-  if (cve.state !== "PUBLISHED") {
+  if (cve.state !== "PUBLISHED")
     return {
       errorMessage: "Only published CVEs supported (for now)",
-      apiPath: url,
     };
-  }
 
-  return { cve: cve.data, apiPath: url };
+  return { cve: cve.data };
 }

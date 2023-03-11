@@ -6,6 +6,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CveV5Pubished } from "../components/v5published";
 import DataError from "../components/DataError";
 import { CveResponse, getCve } from "../utils/getCve";
+import { useRouter } from "next/router";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -27,14 +28,17 @@ function Page({
   cve,
   errorMessage,
   errorObject,
-  apiPath,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const {
+    query: { id },
+  } = useRouter();
+
   if (errorObject || errorObject || !cve)
     return (
       <DataError
+        id={typeof id === "string" ? id : undefined}
         errorMessage={errorMessage}
         errorObject={errorObject}
-        apiPath={apiPath}
       />
     );
 
