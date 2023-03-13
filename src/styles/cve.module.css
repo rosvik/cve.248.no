@@ -15,19 +15,6 @@
   max-width: 1000px;
 }
 
-.link {
-  font-size: 3rem;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin: 0;
-}
-.title {
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 700;
-  margin: 0;
-}
 .code {
   max-width: 100%;
   overflow: scroll;

@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import Link from "next/link";
-import styles from "../styles/index.module.css";
+import styles from "../styles/cve.module.css";
 
 type Props = {
   id?: string;
@@ -21,26 +21,28 @@ function DataError({ id, errorMessage, errorObject }: Props) {
         <title>CVE - Error</title>
       </Head>
 
-      <div>
-        <div className={styles.container}>
-          <h1>Something went wrong!</h1>
-          <p>{errorMessage}</p>
-          {j && (
-            <p>
-              <pre>{j}</pre>
-            </p>
-          )}
-          {url && (
-            <p>
-              You can try to look for the JSON record at{" "}
-              <a href={url.href}>{url.href}</a>
-            </p>
-          )}
-          <div>
-            <Link href="/">← Back</Link>
+      <main className={styles.main}>
+        <div>
+          <div className={styles.container}>
+            <div>
+              <Link href="/">← Back</Link>
+            </div>
+            <h1>Something went wrong!</h1>
+            <p>{errorMessage}</p>
+            {j && (
+              <p>
+                <pre>{j}</pre>
+              </p>
+            )}
+            {url && (
+              <p>
+                You can try to look for the JSON record at{" "}
+                <a href={url.href}>{url.href}</a>
+              </p>
+            )}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

@@ -25,18 +25,19 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>cve.248.no</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
           <h1>cve.248.no</h1>
           <form onSubmit={onSubmit} action="/form">
-            <label htmlFor="cveId">CVE id: </label>
+            <label htmlFor="cveId">Lookup</label>
             <input
               name="cveId"
               placeholder="CVE-0000-00000"
               value={value}
               onChange={onType}
-              type="search"
+              type="text"
             />
           </form>
           <div>
@@ -57,9 +58,6 @@ const Home: NextPage = () => {
               </Link>
             </p>
           </div>
-          <p>
-            (or any other CVE id at <code>/CVE-[year]-[code]</code>)
-          </p>
         </div>
       </main>
     </>
