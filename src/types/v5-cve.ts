@@ -65,11 +65,11 @@ export type Encoding = boolean;
  *
  * @minItems 1
  */
-export type Affected = [Product, ...Product1[]];
+export type Affected = [Product, ...Product[]];
 /**
  * Provides information about the set of products and services affected by this vulnerability.
  */
-export type Product = Product1 & {
+export type Product = {
   /**
    * Name of the organization, project, community, individual, or user that created or maintains this product or hosted service. Can be 'N/A' if none of those apply. When collectionURL and packageName are used, this field may optionally represent the user or account within the package collection associated with the package.
    */
@@ -106,7 +106,6 @@ export type Product = Product1 & {
      * Name of the affected source code file, function, method, subroutine, or procedure.
      */
     name: string;
-    [k: string]: unknown;
   }[];
   platforms?: Platforms;
   /**
@@ -123,51 +122,16 @@ export type Product = Product1 & {
    * @minItems 1
    */
   versions?: [
-    (
-      | {
-          [k: string]: unknown;
-        }
-      | (
-          | {
-              [k: string]: unknown;
-            }
-          | {
-              [k: string]: unknown;
-            }
-        )
-    ),
-    ...(
-      | {
-          [k: string]: unknown;
-        }
-      | (
-          | {
-              [k: string]: unknown;
-            }
-          | {
-              [k: string]: unknown;
-            }
-        )
-    )[]
+    {
+      version: string;
+      status: string;
+      versionType?: string;
+      lessThan?: string;
+      lessThanOrEqual?: string;
+    }
   ];
   [k: string]: unknown;
 };
-export type Product1 = (
-  | {
-      [k: string]: unknown;
-    }
-  | {
-      [k: string]: unknown;
-    }
-) &
-  (
-    | {
-        [k: string]: unknown;
-      }
-    | {
-        [k: string]: unknown;
-      }
-  );
 /**
  * Common Platform Enumeration (CPE) Name in either 2.2 or 2.3 format
  */
@@ -552,7 +516,10 @@ export type CnaTags = [
  *
  * disputed: When one party disagrees with another party's assertion that a particular issue in software is a vulnerability, a CVE Record assigned to that issue may be tagged as being 'disputed'.
  */
-export type HttpsCveMitreOrgCveV5_00TagsCna = "unsupported-when-assigned" | "exclusively-hosted-service" | "disputed";
+export type HttpsCveMitreOrgCveV5_00TagsCna =
+  | "unsupported-when-assigned"
+  | "exclusively-hosted-service"
+  | "disputed";
 /**
  * List of taxonomy items related to the vulnerability.
  *
