@@ -19,3 +19,14 @@
   max-width: 100%;
   overflow: scroll;
 }
+
+.description {
+  margin-top: var(--spacings-xLarge);
+  font-size: var(--font-size-medium);
+}
+
+.chipContainer {
+  display: flex;
+  gap: .4rem;
+  justify-content: center;
+}
