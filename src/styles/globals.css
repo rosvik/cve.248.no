@@ -1,3 +1,18 @@
+html {
+  --color-red:  rgba(205, 93, 93, 0.288);
+  --color-blue: rgba(93, 117, 205, 0.288);
+  --spacings-xSmall: .5rem;
+  --spacings-small: 1rem;
+  --spacings-medium: 1.5rem;
+  --spacings-large: 2rem;
+  --spacings-xLarge: 2.5rem;
+  --font-size-small: .8rem;
+  --font-size-regular: 1rem;
+  --font-size-medium: 1.3rem;
+  --font-size-large: 1.5rem;
+  --font-size-jumbo: 3rem;
+}
+
 html,
 body {
   padding: 0;
