@@ -1,0 +1,10 @@
+.chip {
+	float: left;
+	background-color: var(--color-blue);
+	padding: var(--spacings-xSmall);
+	border-radius: var(--spacings-xSmall);
+	font-size: var(--font-size-small);
+	width: fit-content;
+	font-weight: 500;
+	text-transform: uppercase;
+}
