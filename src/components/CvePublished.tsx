@@ -1,6 +1,5 @@
 import { Affected, Descriptions, Published } from "../types/v5-cve";
 import styles from "../styles/cve.module.css";
-import { AffectedVersions } from "./AffectedVersions";
 import { Chip } from "./Chip";
 
 export function CveV5Pubished({ cve }: { cve: Published }) {
