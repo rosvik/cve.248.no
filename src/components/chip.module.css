@@ -1,7 +1,7 @@
 .chip {
-	float: left;
 	background-color: var(--color-blue);
 	padding: var(--spacings-xSmall);
+	margin: 0 calc(var(--spacings-xSmall) / 2);
 	border-radius: var(--spacings-xSmall);
 	font-size: var(--font-size-small);
 	width: fit-content;
