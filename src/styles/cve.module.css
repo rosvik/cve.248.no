@@ -28,6 +28,7 @@
 .chipContainer {
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
 .referencesList {
@@ -45,4 +46,20 @@
   content: "⎋";
   opacity: .5;
   padding-right: .5rem;
+}
+
+.assigner {
+  text-align: center;
+  text-transform: uppercase;
+  opacity: .5;
+}
+
+.title {
+  margin-bottom: 0rem;
+}
+
+.id {
+  opacity: .5;
+  font-weight: 200;
+  margin-bottom: .5rem;
 }

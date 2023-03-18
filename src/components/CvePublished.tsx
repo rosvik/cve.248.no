@@ -15,7 +15,9 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
         <Chip>{cve.cveMetadata.state}</Chip>
         <Chip>{`${cve.dataVersion}`}</Chip>
       </div>
-      {cna.title ? <h2>{cna.title}</h2> : null}
+      {cna.title ? <h2 className={styles.title}>{cna.title}</h2> : null}
+      <p className={styles.assigner}>{cve.cveMetadata.assignerShortName}</p>
+
       <p className={styles.description}>{getDescription(cna.descriptions)}</p>
       <h3>References</h3>
       <ul className={styles.referencesList}>
@@ -28,8 +30,6 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
           </li>
         ))}
       </ul>
-      <h3>Assigner</h3>
-      <p>{cve.cveMetadata.assignerShortName}</p>
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
     </>
