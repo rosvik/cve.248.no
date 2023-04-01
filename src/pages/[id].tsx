@@ -7,6 +7,8 @@ import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { CveResponse, getCve } from "../utils/getCve";
 import { useRouter } from "next/router";
+import { useFavoriteStorage } from "../utils/use-favorite-storage";
+import { useEffect, useState } from "react";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -33,7 +35,22 @@ function Page({
     query: { id },
   } = useRouter();
 
-  if (errorObject || errorObject || !cve)
+  const { favorites, toggleId } = useFavoriteStorage("favorites");
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    if (typeof id !== "string" || !favorites) return;
+    setIsSaved(favorites.includes(id));
+  }, [favorites, id]);
+
+  const handleAddClick = () => {
+    if (typeof id !== "string") return;
+    console.log(favorites);
+    toggleId(id);
+  };
+
+  const validId = typeof id === "string";
+  if (errorObject || errorObject || !cve || !validId)
     return (
       <DataError
         id={typeof id === "string" ? id : undefined}
@@ -46,11 +63,13 @@ function Page({
     <>
       <Head>
         <title>{cve.cveMetadata.cveId}</title>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
           <Link href="/">← Back</Link>
+          <button onClick={handleAddClick}>
+            {isSaved ? "remove favorite" : "add favorite"}
+          </button>
           <CveV5Pubished cve={cve}></CveV5Pubished>
         </div>
       </main>
