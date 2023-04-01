@@ -20,4 +20,13 @@ export const exampleRouter = createTRPCRouter({
       });
       return cve;
     }),
+  getRecentCVE: publicProcedure.query(({ input, ctx }) => {
+    const cve = ctx.prisma.cVE.findMany({
+      orderBy: {
+        id: "desc",
+      },
+      take: 10,
+    });
+    return cve;
+  }),
 });

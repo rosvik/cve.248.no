@@ -4,10 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import styles from "../styles/index.module.css";
+import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const [value, setValue] = useState("");
   const router = useRouter();
+
+  const recents = api.example.getRecentCVE.useQuery();
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const v = formatValue(e.target.value);
@@ -58,6 +61,14 @@ const Home: NextPage = () => {
               </Link>
             </p>
           </div>
+          <h3>Recent</h3>
+          {recents.data?.map((x) => (
+            <p key={x.id}>
+              <Link className={styles.link} href={`/${x.id}`}>
+                {x.id}
+              </Link>
+            </p>
+          ))}
         </div>
       </main>
     </>
