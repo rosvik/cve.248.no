@@ -83,7 +83,7 @@ input[type='text']:focus {
 }
 
 :focus {
-  outline: 2px solid white;
+  outline: 2px solid rgba(255,255,255,.5);
   outline-offset: 2px;
   border-radius: .3rem;
 }
