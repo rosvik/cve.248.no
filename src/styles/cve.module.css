@@ -63,3 +63,28 @@
   font-weight: 200;
   margin-bottom: .5rem;
 }
+
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.saveButton {
+  padding: var(--spacings-xSmall);
+  height: 3rem;
+  aspect-ratio: 1;
+	background-color: var(--color-blue);
+	border-radius: var(--spacings-xSmall);
+  font-size: var(--font-size-large);
+	font-weight: 500;
+	text-transform: uppercase;
+  color: white;
+  border: none;
+  border-radius: 50%;
+}
+.saveButton:hover {
+  background-color: rgba(93, 117, 205, 0.4);
+  cursor: pointer;
+}
