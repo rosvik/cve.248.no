@@ -66,10 +66,12 @@ function Page({
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
-          <Link href="/">← Back</Link>
-          <button onClick={handleAddClick}>
-            {isSaved ? "remove favorite" : "add favorite"}
-          </button>
+          <div className={styles.navContainer}>
+            <Link href="/">← Back</Link>
+            <button className={styles.saveButton} onClick={handleAddClick}>
+              {isSaved ? "★" : "☆"}
+            </button>
+          </div>
           <CveV5Pubished cve={cve}></CveV5Pubished>
         </div>
       </main>
