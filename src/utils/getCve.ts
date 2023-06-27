@@ -1,3 +1,4 @@
+import { CVE } from "@prisma/client";
 import { ErrorObject } from "ajv";
 import { prisma } from "../server/db";
 import { Published } from "../types/v5-cve";
@@ -21,7 +22,11 @@ export async function getCve(id: string): Promise<CveResponse> {
       errorMessage: "Unknown error fetching data.",
     };
 
-  const cve = validateUnknown(data.json);
+  return toCve(data);
+}
+
+export function toCve(input: CVE) {
+  const cve = validateUnknown(input.json);
 
   if (!cve)
     return {

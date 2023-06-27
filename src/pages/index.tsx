@@ -1,16 +1,20 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { CveLink } from "../components/CveLink";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
 
-const Home: NextPage = () => {
+interface HomeProps {
+  count: number;
+}
+
+const Home: NextPage<HomeProps> = ({ count }) => {
   const [value, setValue] = useState("");
   const router = useRouter();
 
-  const recents = api.example.getRecentCVE.useQuery();
+  const recents = api.example.getRecentCVE.useQuery({ count });
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const v = formatValue(e.target.value);
@@ -43,36 +47,32 @@ const Home: NextPage = () => {
               type="text"
             />
           </form>
-          <div>
-            <h3>Examples</h3>
-            <p>
-              <Link className={styles.link} href="/CVE-2021-30900">
-                CVE-2021-30900
-              </Link>
-            </p>
-            <p>
-              <Link className={styles.link} href="/CVE-2022-41099">
-                CVE-2022-41099
-              </Link>
-            </p>
-            <p>
-              <Link className={styles.link} href="/CVE-2023-24482">
-                CVE-2023-24482
-              </Link>
-            </p>
-          </div>
           <h3>Recent</h3>
-          {recents.data?.map((x) => (
-            <p key={x.id}>
-              <Link className={styles.link} href={`/${x.id}`}>
-                {x.id}
-              </Link>
-            </p>
-          ))}
+          {recents.data?.map(
+            (recent) =>
+              recent.cve && (
+                <CveLink key={recent.cve.cveMetadata.cveId} cve={recent.cve} />
+              )
+          )}
         </div>
       </main>
     </>
   );
+};
+
+Home.getInitialProps = async ({ query }) => {
+  const { count } = query;
+  const fallback = { count: 10 };
+
+  if (typeof count === "string" && parseInt(count)) {
+    const input = parseInt(count);
+    if (input > 200) return fallback;
+    if (input < 1) return fallback;
+    return {
+      count: parseInt(count),
+    };
+  }
+  return fallback;
 };
 
 function formatValue(value: string) {

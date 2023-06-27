@@ -27,3 +27,9 @@
   font-weight: 700;
   margin: 0;
 }
+
+.label {
+  font-size: .8rem;
+  opacity: .8;
+  line-height: 1rem;
+}
