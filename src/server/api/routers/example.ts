@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getCve, toCve } from "../../../utils/getCve";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -20,13 +21,19 @@ export const exampleRouter = createTRPCRouter({
       });
       return cve;
     }),
-  getRecentCVE: publicProcedure.query(({ input, ctx }) => {
-    const cve = ctx.prisma.cVE.findMany({
-      orderBy: {
-        id: "desc",
-      },
-      take: 10,
-    });
-    return cve;
-  }),
+  getRecentCVE: publicProcedure
+    .input(z.object({ count: z.number() }))
+    .query(({ input, ctx }) => {
+      console.log(input);
+      const cve = ctx.prisma.cVE
+        .findMany({
+          orderBy: {
+            id: "desc",
+          },
+          take: input.count,
+        })
+        .then((cves) => cves.map((c) => toCve(c)));
+
+      return cve;
+    }),
 });
