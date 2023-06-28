@@ -1,10 +1,18 @@
-import { Affected, Descriptions, Published } from "../types/v5-cve";
+import Link from "next/link";
 import styles from "../styles/cve.module.css";
+import {
+  Affected,
+  Descriptions,
+  ProblemTypes,
+  Published,
+} from "../types/v5-cve";
 import { Chip } from "./Chip";
+import { References } from "./References";
 
 export function CveV5Pubished({ cve }: { cve: Published }) {
   const cna = cve.containers.cna;
   const affectedSystemTypes = getAffectedSystemTypes(cna.affected);
+  const problemTypes = getProblemTypes(cna.problemTypes);
   return (
     <>
       <h1>{cve.cveMetadata.cveId}</h1>
@@ -13,23 +21,47 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
           <Chip>{affectedSystemTypes.join(" / ")}</Chip>
         )}
         <Chip>{cve.cveMetadata.state}</Chip>
-        <Chip>{`${cve.dataVersion}`}</Chip>
+        <Chip>{cve.dataVersion}</Chip>
+        {problemTypes
+          ?.filter((p) => p.cweId)
+          .map((p, i) => (
+            <Chip key={i}>{`${p.cweId}`}</Chip>
+          ))}
       </div>
       {cna.title ? <h2 className={styles.title}>{cna.title}</h2> : null}
       <p className={styles.assigner}>{cve.cveMetadata.assignerShortName}</p>
 
       <p className={styles.description}>{getDescription(cna.descriptions)}</p>
-      <h3>References</h3>
-      <ul className={styles.referencesList}>
-        {cna.references.map((r, i) => (
-          <li key={i}>
-            <a href={r.url}>{r.name ? r.name : r.url}</a>{" "}
-            {r.tags?.map((tag) => (
-              <Chip key={tag}>{`#${tag}`}</Chip>
+
+      {problemTypes?.length ? (
+        <>
+          <h3>Problem type</h3>
+          <ul>
+            {problemTypes.map((problem, i) => (
+              <li key={i}>
+                {problem.cweId ? (
+                  <Link
+                    href={`https://cwe.mitre.org/data/definitions/${
+                      problem.cweId.split("-")[1]
+                    }.html`}
+                  >
+                    {problem.description}
+                  </Link>
+                ) : (
+                  problem.description
+                )}
+                {problem.references && (
+                  <References references={problem.references} />
+                )}
+              </li>
             ))}
-          </li>
-        ))}
-      </ul>
+          </ul>
+        </>
+      ) : null}
+
+      <h3>References</h3>
+      <References references={cna.references}></References>
+
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
     </>
@@ -41,6 +73,17 @@ const getDescription = (descriptions: Descriptions) => {
     ["en", "eng", "en-US"].includes(s.lang)
   )?.value;
   return description || descriptions[0].value;
+};
+
+export const getProblemTypes = (problems: ProblemTypes | undefined) => {
+  return problems
+    ?.map(
+      (problem) =>
+        problem.descriptions.find((d) =>
+          ["en", "eng", "en-US"].includes(d.lang)
+        ) || problem.descriptions[0]
+    )
+    .filter((problems) => problems.description !== "n/a");
 };
 
 /**
