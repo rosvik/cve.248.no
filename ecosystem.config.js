@@ -4,8 +4,9 @@ module.exports = {
   apps: [
     {
       name: "CVE frontend",
-      script: "yarn build && yarn start --port 3016",
+      script: "yarn && yarn build && yarn start --port 3016",
       max_memory_restart: "500M",
+      watch: true,
     },
   ],
 };
