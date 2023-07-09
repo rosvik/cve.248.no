@@ -22,11 +22,11 @@ export async function getCve(id: string): Promise<CveResponse> {
       errorMessage: "Unknown error fetching data.",
     };
 
-  return toCve(data);
+  return toCve(data.json);
 }
 
-export function toCve(input: CVE) {
-  const cve = validateUnknown(input.json);
+export function toCve(input: any) {
+  const cve = validateUnknown(input);
 
   if (!cve)
     return {

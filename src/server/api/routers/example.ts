@@ -32,7 +32,7 @@ export const exampleRouter = createTRPCRouter({
           },
           take: input.count,
         })
-        .then((cves) => cves.map((c) => toCve(c)));
+        .then((cves) => cves.map((c) => toCve(c.json)));
 
       return cve;
     }),
