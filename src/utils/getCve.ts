@@ -1,8 +1,9 @@
-import { CVE } from "@prisma/client";
 import { ErrorObject } from "ajv";
-import { prisma } from "../server/db";
+import { env } from "../env.mjs";
 import { Published } from "../types/v5-cve";
 import { validateUnknown } from "./validator";
+
+const API_BASE_URL = env.API_BASE_URL;
 
 export type CveResponse = {
   cve?: Published;
@@ -11,18 +12,12 @@ export type CveResponse = {
 };
 
 export async function getCve(id: string): Promise<CveResponse> {
-  const data = await prisma.cVE.findFirst({
-    where: {
-      id,
-    },
-  });
-
-  if (!data)
+  const data = await fetch(`${API_BASE_URL}cve?id=${id}`);
+  if (!data.ok)
     return {
       errorMessage: "Unknown error fetching data.",
     };
-
-  return toCve(data.json);
+  return toCve(await data.json());
 }
 
 export function toCve(input: any) {
