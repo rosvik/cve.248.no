@@ -16,8 +16,8 @@ __pycache__/
 /coverage
 
 # database
-/prisma/db.sqlite
-/prisma/db.sqlite-journal
+*.sqlite
+*.sqlite-journal
 
 # next.js
 /.next/
