@@ -96,3 +96,9 @@ export function validateUnknown(
   }
   return false;
 }
+
+export function isPublished(
+  input: Published | Rejected | undefined
+): input is Published {
+  return !!input && input.cveMetadata.state === "PUBLISHED";
+}

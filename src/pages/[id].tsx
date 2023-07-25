@@ -9,6 +9,7 @@ import { CveResponse, getCve } from "../utils/getCve";
 import { useRouter } from "next/router";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { useEffect, useState } from "react";
+import { isPublished } from "../utils/validator";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -18,9 +19,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const { id } = context.query;
   if (!(typeof id === "string")) return err("Error parsing ID");
-
   const response = await getCve(id);
-
+  if (!isPublished(response.cve)) return err("CVE is rejected");
   return {
     props: response,
   };
@@ -72,7 +72,7 @@ function Page({
               {isSaved ? "★" : "☆"}
             </button>
           </div>
-          <CveV5Pubished cve={cve}></CveV5Pubished>
+          {isPublished(cve) && <CveV5Pubished cve={cve} />}
         </div>
       </main>
     </>
