@@ -1,12 +1,12 @@
 import { ErrorObject } from "ajv";
 import { env } from "../env.mjs";
-import { Published } from "../types/v5-cve";
+import { Published, Rejected } from "../types/v5-cve";
 import { validateUnknown } from "./validator";
 
 const API_BASE_URL = env.API_BASE_URL;
 
 export type CveResponse = {
-  cve?: Published;
+  cve?: Published | Rejected;
   errorObject?: ErrorObject[];
   errorMessage?: string;
 };
@@ -20,7 +20,7 @@ export async function getCve(id: string): Promise<CveResponse> {
   return toCve(await data.json());
 }
 
-export function toCve(input: any) {
+export function toCve(input: any): CveResponse {
   const cve = validateUnknown(input);
 
   if (!cve)
@@ -35,10 +35,6 @@ export function toCve(input: any) {
   if (cve.version !== 5)
     return {
       errorMessage: "Unsupported data version",
-    };
-  if (cve.state !== "PUBLISHED")
-    return {
-      errorMessage: "Only published CVEs supported (for now)",
     };
 
   return { cve: cve.data };

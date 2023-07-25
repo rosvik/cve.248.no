@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { CveLink } from "../components/CveLink";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
+import { isPublished } from "../utils/validator";
 
 interface HomeProps {
   count: number;
@@ -50,7 +51,7 @@ const Home: NextPage<HomeProps> = ({ count }) => {
           <h3>Recent</h3>
           {recents.data?.map(
             (recent) =>
-              recent.cve && (
+              isPublished(recent.cve) && (
                 <CveLink key={recent.cve.cveMetadata.cveId} cve={recent.cve} />
               )
           )}
