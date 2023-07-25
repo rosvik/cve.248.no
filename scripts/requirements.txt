@@ -1,6 +1,0 @@
-pandas
-sqlalchemy
-flask
-gunicorn
-requests
-apscheduler
