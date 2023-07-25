@@ -1,0 +1,57 @@
+/* html {
+  --color-red:  rgba(205, 93, 93, 0.288);
+  --color-blue: rgba(93, 117, 205, 0.288);
+  --spacings-xSmall: .5rem;
+  --spacings-small: 1rem;
+  --spacings-medium: 1.5rem;
+  --spacings-large: 2rem;
+  --spacings-xLarge: 2.5rem;
+  --font-size-small: .8rem;
+  --font-size-regular: 1rem;
+  --font-size-medium: 1.3rem;
+  --font-size-large: 1.5rem;
+  --font-size-jumbo: 3rem;
+} */
+
+.referencesList {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 2rem;
+}
+
+.referencesList li {
+  text-indent: -1.5rem;
+  line-height: var(--spacings-xLarge);
+}
+
+.referencesList li:before {
+  content: "⎋";
+  opacity: .5;
+  padding-right: .5rem;
+}
+
+.open_graph_data {
+  opacity: 1;
+	display: block;
+	background-color: var(--color-red);
+	border-radius: var(--spacings-small);
+	margin: var(--spacings-medium) 0;
+	padding: var(--spacings-medium);
+	width: 100%;
+	height: fit-content;
+	overflow: hidden;
+}
+.open_graph_data:hover {
+	text-decoration: none;
+}
+.open_graph_data .url {
+	font-size: var(--font-size-small);
+	opacity: .7;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.open_graph_data:hover .url {
+  text-decoration: underline;
+}

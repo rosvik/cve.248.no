@@ -31,23 +31,6 @@
   margin-bottom: 2rem;
 }
 
-.referencesList {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 2rem;
-}
-
-.referencesList li {
-  text-indent: -1.5rem;
-  line-height: var(--spacings-xLarge);
-}
-
-.referencesList li:before {
-  content: "⎋";
-  opacity: .5;
-  padding-right: .5rem;
-}
-
 .assigner {
   text-align: center;
   text-transform: uppercase;

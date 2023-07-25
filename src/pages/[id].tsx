@@ -9,6 +9,7 @@ import { CveResponse, getCve } from "../utils/getCve";
 import { useRouter } from "next/router";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { useEffect, useState } from "react";
+import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -20,6 +21,20 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (!(typeof id === "string")) return err("Error parsing ID");
 
   const response = await getCve(id);
+
+  const openGraphData = response.cve
+    ? await Promise.all(
+        response.cve.containers.cna.references.map(async (d) => {
+          const ogd = await fetchOpenGraphData(d.url);
+          if (ogd) {
+            d.openGraphData = ogd;
+          }
+          return ogd;
+        })
+      )
+    : [];
+
+  console.log(openGraphData);
 
   return {
     props: response,
@@ -72,7 +87,7 @@ function Page({
               {isSaved ? "★" : "☆"}
             </button>
           </div>
-          <CveV5Pubished cve={cve}></CveV5Pubished>
+          <CveV5Pubished cve={cve} />
         </div>
       </main>
     </>

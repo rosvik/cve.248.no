@@ -5,6 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+import { OpenGraphData } from "../utils/fetch-opengraph-data";
+
 /**
  * cve-schema specifies the CVE JSON record format. This is the blueprint for a rich set of JSON data that can be submitted by CVE Numbering Authorities (CNAs) and Authorized Data Publishers (ADPs) to describe a CVE Record. Some examples of CVE Record data include CVE ID number, affected product(s), affected version(s), and public references. While those specific items are required when assigning a CVE, there are many other optional data in the schema that can be used to enrich CVE Records for community benefit. Learn more about the CVE program at [the official website](https://cve.mitre.org). This CVE JSON record format is defined using JSON Schema. Learn more about JSON Schema [here](https://json-schema.org/).
  */
@@ -788,6 +790,10 @@ export interface Reference {
     TagExtension | HttpsCveMitreOrgCveV5_00TagsReference,
     ...(TagExtension | HttpsCveMitreOrgCveV5_00TagsReference)[]
   ];
+  /**
+   * Custom: Optional extension with [Open Graph metadata](https://ogp.me/) for the reference.
+   */
+  openGraphData?: OpenGraphData;
   [k: string]: unknown;
 }
 /**

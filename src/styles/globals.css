@@ -97,6 +97,20 @@ label:focus {
   color: red;
 }
 
+aside {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  display: block;
+  float: right;
+  max-width: 40%;
+}
+aside img {
+  border-radius: .5rem;
+  aspect-ratio: 2/1;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
 
 @media (prefers-color-scheme: dark) {
   html, body {
