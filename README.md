@@ -1,5 +1,3 @@
-<img src="docs/248-logo.svg" width="150" alt="248">
-
 # cve.248.no
 
 This is the project files for [cve.248.no](https://cve.248.no), a simple CVE browser and database.
@@ -33,3 +31,4 @@ python3 api.py
 
 Go to [localhost:5000](http://localhost:5000)
 
+<div align="right"><img src="https://248.no/favicon.svg" width="32" alt="248"></div>
