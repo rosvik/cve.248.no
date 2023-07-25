@@ -31,4 +31,4 @@ python3 api.py
 
 Go to [localhost:5000](http://localhost:5000)
 
-<div align="right"><img src="https://248.no/favicon.svg" width="32" alt="248"></div>
+<div align="right"><img src="public/favicon.svg" width="32" alt="248"></div>
