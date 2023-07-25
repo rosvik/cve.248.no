@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/cve.module.css";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { PageHead } from "../components/PageHead";
 
 type Props = {
   message: string;
@@ -38,9 +39,7 @@ function Page({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <Head>
-        <title>cve.248.no</title>
-      </Head>
+      <PageHead />
       <main className={styles.main}>
         <div className={styles.container}>
           <Link href="/">← Back</Link>

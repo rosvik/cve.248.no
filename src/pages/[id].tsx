@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { useEffect, useState } from "react";
 import { isPublished } from "../utils/validator";
+import { PageHead } from "../components/PageHead";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -61,9 +62,7 @@ function Page({
 
   return (
     <>
-      <Head>
-        <title>{cve.cveMetadata.cveId}</title>
-      </Head>
+      <PageHead title={cve.cveMetadata.cveId} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>

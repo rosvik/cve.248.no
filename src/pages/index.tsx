@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CveLink } from "../components/CveLink";
+import { PageHead } from "../components/PageHead";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
 import { isPublished } from "../utils/validator";
@@ -31,10 +32,7 @@ const Home: NextPage<HomeProps> = ({ count }) => {
 
   return (
     <>
-      <Head>
-        <title>cve.248.no</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <PageHead />
       <main className={styles.main}>
         <div className={styles.container}>
           <h1>cve.248.no</h1>
