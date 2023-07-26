@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const response = await getCve(id);
 
-  const openGraphData = response.cve
+  response.cve
     ? await Promise.all(
         response.cve.containers.cna.references.map(async (d) => {
           const ogd = await fetchOpenGraphData(d.url);
@@ -33,8 +33,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         })
       )
     : [];
-
-  console.log(openGraphData);
 
   return {
     props: response,
@@ -60,7 +58,6 @@ function Page({
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
-    console.log(favorites);
     toggleId(id);
   };
 

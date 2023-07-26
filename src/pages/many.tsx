@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
 import { CveLink } from "../components/CveLink";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
@@ -10,11 +9,7 @@ interface ManyProps {
 }
 
 const Many: NextPage<ManyProps> = ({ ids }) => {
-  const router = useRouter();
-
   const recents = api.example.getManyCVEs.useQuery({ ids });
-
-  console.log(recents.data);
 
   return recents.isLoading ? (
     <div>Loading...</div>

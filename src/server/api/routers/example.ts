@@ -17,37 +17,29 @@ export const exampleRouter = createTRPCRouter({
     }),
   getCVE: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(({ input }) => {
-      const cve = fetch(`${API_BASE_URL}cve?id=` + input.id).then((res) =>
-        res.json()
-      );
-      console.log(cve);
-      return cve;
-    }),
+    .query(({ input }) =>
+      fetch(`${API_BASE_URL}cve?id=` + input.id).then((res) => res.json())
+    ),
   getRecentCVE: publicProcedure
     .input(z.object({ count: z.number() }))
-    .query(({ input }) => {
-      const cves = fetch(`${API_BASE_URL}recent?count=` + input.count).then(
-        (res) =>
-          res.json().then((data) => {
-            if (!Array.isArray(data)) return undefined;
-            return data.map((item) => toCve(item));
-          })
-      );
-      return cves;
-    }),
+    .query(({ input }) =>
+      fetch(`${API_BASE_URL}recent?count=` + input.count).then((res) =>
+        res.json().then((data) => {
+          if (!Array.isArray(data)) return undefined;
+          return data.map((item) => toCve(item));
+        })
+      )
+    ),
   getManyCVEs: publicProcedure
     .input(z.object({ ids: z.array(z.string()) }))
-    .query(({ input }) => {
-      const cves = fetch(`${API_BASE_URL}cves?ids=` + input.ids.join(",")).then(
-        (res) =>
-          res.json().then((data) => {
-            if (!Array.isArray(data)) return undefined;
-            return data
-              .map((item) => toCve(item).cve)
-              .filter((cve): cve is Published => !!cve);
-          })
-      );
-      return cves;
-    }),
+    .query(({ input }) =>
+      fetch(`${API_BASE_URL}cves?ids=` + input.ids.join(",")).then((res) =>
+        res.json().then((data) => {
+          if (!Array.isArray(data)) return undefined;
+          return data
+            .map((item) => toCve(item).cve)
+            .filter((cve): cve is Published => !!cve);
+        })
+      )
+    ),
 });
