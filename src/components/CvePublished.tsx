@@ -60,7 +60,7 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
       ) : null}
 
       <h3>References</h3>
-      <References references={cna.references}></References>
+      <References references={cna.references} />
 
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>

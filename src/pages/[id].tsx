@@ -9,6 +9,7 @@ import { CveResponse, getCve } from "../utils/getCve";
 import { useRouter } from "next/router";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { useEffect, useState } from "react";
+import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
 import { isPublished } from "../utils/validator";
 import { PageHead } from "../components/PageHead";
 
@@ -22,6 +23,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (!(typeof id === "string")) return err("Error parsing ID");
   const response = await getCve(id);
   if (!isPublished(response.cve)) return err("CVE is rejected");
+
+  response.cve
+    ? await Promise.all(
+        response.cve.containers.cna.references.map(async (d) => {
+          const ogd = await fetchOpenGraphData(d.url);
+          if (ogd) {
+            d.openGraphData = ogd;
+          }
+          return ogd;
+        })
+      )
+    : [];
+
   return {
     props: response,
   };
@@ -46,7 +60,6 @@ function Page({
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
-    console.log(favorites);
     toggleId(id);
   };
 

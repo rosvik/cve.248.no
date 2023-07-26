@@ -26,7 +26,6 @@ export const useFavoriteStorage = (key: string) => {
   const { value, setValue } = useLocalStorage(key);
 
   const addId = (id: string) => {
-    console.log(id);
     setValue((prevIds) => (prevIds ? [...prevIds, id] : [id]));
   };
 
