@@ -6,7 +6,6 @@ import {
   ProblemTypes,
   Published,
 } from "../types/v5-cve";
-import { OpenGraphData } from "../utils/fetch-opengraph-data";
 import { Chip } from "./Chip";
 import { References } from "./References";
 

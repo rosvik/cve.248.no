@@ -1,6 +1,7 @@
 import styles from "./references.module.css";
 import { References } from "../types/v5-cve";
 import { Chip } from "./Chip";
+import Image from "next/image";
 
 export function References({ references }: { references: References }) {
   return (
@@ -11,10 +12,11 @@ export function References({ references }: { references: References }) {
             <p className={styles.url}>{r.url}</p>
             {r.openGraphData.image && (
               <aside>
-                <img
+                <Image
                   src={r.openGraphData.image}
-                  alt="opengraph image"
                   width={300}
+                  height={200}
+                  alt="opengraph image"
                 />
               </aside>
             )}

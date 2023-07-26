@@ -105,11 +105,12 @@ aside {
   max-width: 40%;
 }
 aside img {
+  height: auto;
+  width: 100%;
   border-radius: .5rem;
   aspect-ratio: 2/1;
   object-fit: cover;
   object-position: center;
-  width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {

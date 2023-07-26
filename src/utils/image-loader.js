@@ -1,5 +1,4 @@
-// Docs: https://developers.cloudflare.com/images/url-format
-export default function cloudflareLoader({ src, width, quality }) {
-  const params = [`width=${width}`, `quality=${quality || 75}`, "format=auto"];
-  return `https://example.com/cdn-cgi/image/${params.join(",")}/${src}`;
+// https://nextjs.org/docs/pages/api-reference/next-config-js/images
+export default function imageLoader({ src, width }) {
+  return `https://img.248.no/image.jpg?&w=${width}&url=${src}`;
 }

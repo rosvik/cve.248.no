@@ -13,10 +13,12 @@ export async function fetchOpenGraphData(
     const res = await fetch(url);
     if (res.ok) {
       const $ = load(await res.text());
-      const title = $('meta[property="og:title"]').attr("content") || null;
+      const title =
+        $('meta[property="og:title"]').attr("content")?.trim() || null;
       const description =
-        $('meta[property="og:description"]').attr("content") || null;
-      const image = $('meta[property="og:image"]').attr("content") || null;
+        $('meta[property="og:description"]').attr("content")?.trim() || null;
+      const image =
+        $('meta[property="og:image"]').attr("content")?.trim() || null;
 
       if (!title && !description && !image) return;
 
