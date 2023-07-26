@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { CveLink } from "../components/CveLink";
+import { PageHead } from "../components/PageHead";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
 
@@ -15,10 +16,7 @@ const Many: NextPage<ManyProps> = ({ ids }) => {
     <div>Loading...</div>
   ) : (
     <>
-      <Head>
-        <title>cve.248.no</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <PageHead />
       <main className={styles.main}>
         <div className={styles.container}>
           {recents.data?.map(

@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { useEffect, useState } from "react";
 import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
+import { isPublished } from "../utils/validator";
+import { PageHead } from "../components/PageHead";
 
 type Props = CveResponse;
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -19,7 +21,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const { id } = context.query;
   if (!(typeof id === "string")) return err("Error parsing ID");
-
   const response = await getCve(id);
 
   response.cve
@@ -34,6 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       )
     : [];
 
+  if (!isPublished(response.cve)) return err("CVE is rejected");
   return {
     props: response,
   };
@@ -73,9 +75,7 @@ function Page({
 
   return (
     <>
-      <Head>
-        <title>{cve.cveMetadata.cveId}</title>
-      </Head>
+      <PageHead title={cve.cveMetadata.cveId} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>
