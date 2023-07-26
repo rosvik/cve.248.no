@@ -18,7 +18,7 @@
 .open_graph_data {
   opacity: 1;
 	display: block;
-	background-color: var(--color-red);
+	background-color: var(--color-blue);
 	border-radius: var(--spacings-small);
 	margin: var(--spacings-medium) 0;
 	padding: var(--spacings-medium);
