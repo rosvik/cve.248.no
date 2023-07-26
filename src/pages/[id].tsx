@@ -22,6 +22,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const { id } = context.query;
   if (!(typeof id === "string")) return err("Error parsing ID");
   const response = await getCve(id);
+  if (!isPublished(response.cve)) return err("CVE is rejected");
 
   response.cve
     ? await Promise.all(
@@ -35,7 +36,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       )
     : [];
 
-  if (!isPublished(response.cve)) return err("CVE is rejected");
   return {
     props: response,
   };
@@ -84,7 +84,7 @@ function Page({
               {isSaved ? "★" : "☆"}
             </button>
           </div>
-          <CveV5Pubished cve={cve} />
+          {isPublished(cve) && <CveV5Pubished cve={cve} />}
         </div>
       </main>
     </>
