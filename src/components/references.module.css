@@ -1,36 +1,43 @@
 .referencesList {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 2rem;
-}
-
-.referencesList li {
-  text-indent: -1.5rem;
-  line-height: var(--spacings-xLarge);
-}
-
-.referencesList li:before {
-  content: "⎋";
-  opacity: .5;
-  padding-right: .5rem;
+  display: grid;
+  gap: var(--spacings-medium);
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-rows: masonry;
+	margin: 0 calc(var(--spacings-medium) * -1);
 }
 
 .open_graph_data {
   opacity: 1;
 	display: block;
+	min-width: 200px;
 	background-color: var(--color-blue);
 	border-radius: var(--spacings-small);
-	margin: var(--spacings-medium) 0;
-	padding: var(--spacings-medium);
-	width: 100%;
-	height: fit-content;
 	overflow: hidden;
 }
+
+.open_graph_data .ogd_content {
+	padding: var(--spacings-medium);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacings-small);
+}
+
+.open_graph_data .ogd_content > * {
+	margin: 0;
+}
+
 .open_graph_data:hover {
 	text-decoration: none;
 }
+.open_graph_data img {
+  display: block;
+	width: 100%;
+  height: auto;
+  aspect-ratio: 2/1;
+  object-fit: cover;
+  object-position: center;
+}
 .open_graph_data .url {
-	font-size: var(--font-size-small);
 	opacity: .7;
 
 	overflow: hidden;

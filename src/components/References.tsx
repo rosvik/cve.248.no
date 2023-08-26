@@ -4,45 +4,34 @@ import { Chip } from "./Chip";
 import Image from "next/image";
 
 export function References({ references }: { references: References }) {
-  const openGraphReferences = references.map(
-    (o, i) =>
-      o.openGraphData && (
-        <a key={i} href={o.url} className={styles.open_graph_data}>
-          <p className={styles.url}>{o.url}</p>
-          {o.openGraphData.image && (
-            <aside>
-              <Image
-                src={o.openGraphData.image}
-                width={300}
-                height={200}
-                alt="opengraph image"
-              />
-            </aside>
-          )}
-          <h4>{o.openGraphData.title}</h4>
-          <p>{o.openGraphData.description}</p>
-          {o.tags?.map((tag) => (
-            <Chip key={tag}>{`#${tag}`}</Chip>
-          ))}
-        </a>
-      )
-  );
-
-  const otherReferences = references.map((r, i) =>
-    !r.openGraphData ? (
-      <li key={i}>
-        <a href={r.url}>{r.name ? r.name : r.url}</a>{" "}
-        {r.tags?.map((tag) => (
-          <Chip key={tag}>{`#${tag}`}</Chip>
-        ))}
-      </li>
-    ) : undefined
-  );
-
   return (
-    <>
-      {otherReferences.filter(Boolean).length > 0 && <ul>{otherReferences}</ul>}
-      {openGraphReferences}
-    </>
+    <div className={styles.referencesList}>
+      {references.map((o, i) => (
+        <a key={i} href={o.url} className={styles.open_graph_data}>
+          {o.openGraphData?.image && (
+            <Image
+              src={o.openGraphData.image}
+              width={600}
+              height={400}
+              alt="Reference url image"
+            />
+          )}
+          <div className={styles.ogd_content}>
+            {o.openGraphData?.title ? (
+              <h4>{o.openGraphData.title}</h4>
+            ) : (
+              o.name && <h4>{o.name}</h4>
+            )}
+            {o.openGraphData?.description && (
+              <p>{o.openGraphData.description}</p>
+            )}
+            <p className={styles.url}>{o.url}</p>
+            {o.tags?.map((tag) => (
+              <Chip key={tag}>{`#${tag}`}</Chip>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
   );
 }
