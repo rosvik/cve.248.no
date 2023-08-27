@@ -11,9 +11,9 @@ export function References({ references }: { references: References }) {
           {o.openGraphData?.image && (
             <Image
               src={o.openGraphData.image}
-              width={600}
-              height={400}
-              alt="Reference url image"
+              width={300}
+              height={200}
+              alt=""
             />
           )}
           <div className={styles.ogd_content}>
