@@ -1,9 +1,9 @@
 .referencesList {
   display: grid;
-  gap: var(--spacings-medium);
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: var(--spacings-small);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-template-rows: masonry;
-	margin: 0 calc(var(--spacings-medium) * -1);
+	margin: 0 calc(var(--spacings-small) * -1);
 }
 
 .open_graph_data {
@@ -11,12 +11,13 @@
 	display: block;
 	min-width: 200px;
 	background-color: var(--color-blue);
-	border-radius: var(--spacings-small);
+	border-radius: var(--spacings-xSmall);
 	overflow: hidden;
+	font-size: var(--font-size-small);
 }
 
 .open_graph_data .ogd_content {
-	padding: var(--spacings-medium);
+	padding: var(--spacings-small);
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacings-small);
@@ -37,6 +38,10 @@
   object-fit: cover;
   object-position: center;
 }
+.open_graph_data h4 {
+	font-size: var(--font-size-regular);
+}
+
 .open_graph_data .url {
 	opacity: .7;
 
