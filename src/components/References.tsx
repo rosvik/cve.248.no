@@ -1,5 +1,5 @@
 import styles from "./references.module.css";
-import { References } from "../types/v5-cve";
+import { Reference, References } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import Image from "next/image";
 
@@ -17,11 +17,7 @@ export function References({ references }: { references: References }) {
             />
           )}
           <div className={styles.ogd_content}>
-            {o.openGraphData?.title ? (
-              <h4>{o.openGraphData.title}</h4>
-            ) : (
-              o.name && <h4>{o.name}</h4>
-            )}
+            <h4>{getTitle(o)}</h4>
             {o.openGraphData?.description && (
               <p>{o.openGraphData.description}</p>
             )}
@@ -34,4 +30,19 @@ export function References({ references }: { references: References }) {
       ))}
     </div>
   );
+}
+
+function getTitle(reference: Reference) {
+  if (reference.openGraphData?.title) {
+    return reference.openGraphData.title;
+  } else if (reference.name) {
+    return reference.name;
+  } else {
+    return getDomainName(reference.url);
+  }
+}
+
+function getDomainName(url: string) {
+  const domain = new URL(url).hostname;
+  return domain.startsWith("www.") ? domain.slice(4) : domain;
 }
