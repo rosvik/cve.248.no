@@ -1,11 +1,12 @@
 import Link from "next/link";
 import styles from "../styles/cve.module.css";
 import {
-  Affected,
+  Affected as AffectedType,
   Descriptions,
   ProblemTypes,
   Published,
 } from "../types/v5-cve";
+import { Affected } from "./Affected";
 import { Chip } from "./Chip";
 import { References } from "./References";
 
@@ -59,6 +60,9 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
         </>
       ) : null}
 
+      <h3>Affected products</h3>
+      <Affected affected={cna.affected} />
+
       <h3>References</h3>
       <References references={cna.references} />
 
@@ -90,7 +94,7 @@ export const getProblemTypes = (problems: ProblemTypes | undefined) => {
  * Get type of affected products based on CPE. For details, see
  * https://www.acunetix.com/blog/articles/common-platform-enumeration-cpe-explained/
  */
-const getAffectedSystemTypes = (affected: Affected): string[] => {
+const getAffectedSystemTypes = (affected: AffectedType): string[] => {
   const cpes = affected.flatMap((a) => a.cpes);
   const segments = cpes.map((s) => s?.split(":"));
   const duplicates = segments.map((s) =>
