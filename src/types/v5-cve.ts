@@ -112,20 +112,23 @@ export type Product = {
    */
   defaultStatus?: "affected" | "unaffected" | "unknown";
   /**
-   * Set of product versions or version ranges related to the vulnerability. The versions satisfy the CNA Rules [8.1.2 requirement](https://cve.mitre.org/cve/cna/rules.html#section_8-1_cve_entry_information_requirements). Versions or defaultStatus may be omitted, but not both.
+   * Set of product versions or version ranges related to the vulnerability.
+   * Versions or defaultStatus may be omitted, but not both.
    *
    * @minItems 1
    */
-  versions?: [
-    {
-      version: string;
-      status: string;
-      versionType?: string;
-      lessThan?: string;
-      lessThanOrEqual?: string;
-    }
-  ];
+  versions?: [Version, ...Version[]];
   [k: string]: unknown;
+};
+/**
+ * Product versions or version ranges. Satisfies the CNA Rules [8.1.2 requirement](https://cve.mitre.org/cve/cna/rules.html#section_8-1_cve_entry_information_requirements).
+ */
+export type Version = {
+  version: string;
+  status: string;
+  versionType?: string;
+  lessThan?: string;
+  lessThanOrEqual?: string;
 };
 /**
  * Common Platform Enumeration (CPE) Name in either 2.2 or 2.3 format
