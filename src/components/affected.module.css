@@ -1,0 +1,20 @@
+.affected h4 {
+	margin-top: 0;
+}
+
+.products {
+	display: grid;
+  gap: var(--spacings-small);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	margin: 0 calc(var(--spacings-small) * -1);
+}
+
+.product {
+	background-color: var(--color-blue);
+	border-radius: var(--spacings-xSmall);
+	padding: var(--spacings-small);
+}
+
+.product p {
+	margin-bottom: 0;
+}
