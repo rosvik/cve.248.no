@@ -12,8 +12,12 @@ import { useEffect, useState } from "react";
 import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
 import { isPublished } from "../utils/validator";
 import { PageHead } from "../components/PageHead";
+import { searchHackerNews } from "../utils/searchHackerNews";
+import { HNSearchHit } from "../types/HNSearch";
 
-type Props = CveResponse;
+type Props = CveResponse & {
+  hackerNewsHits?: HNSearchHit[];
+};
 const err = (m: string) => ({ props: { errorMessage: m } });
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -36,8 +40,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       )
     : [];
 
+  const hackerNewsResults = await searchHackerNews(id);
+  const hackerNewsHits = hackerNewsResults?.hits;
+
   return {
-    props: response,
+    props: {
+      ...response,
+      hackerNewsHits,
+    },
   };
 };
 
@@ -45,6 +55,7 @@ function Page({
   cve,
   errorMessage,
   errorObject,
+  hackerNewsHits,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     query: { id },
@@ -84,7 +95,9 @@ function Page({
               {isSaved ? "★" : "☆"}
             </button>
           </div>
-          {isPublished(cve) && <CveV5Pubished cve={cve} />}
+          {isPublished(cve) && (
+            <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
+          )}
         </div>
       </main>
     </>

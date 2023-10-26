@@ -9,8 +9,16 @@ import {
 import { Affected } from "./Affected";
 import { Chip } from "./Chip";
 import { References } from "./References";
+import { HNSearchHit } from "../types/HNSearch";
+import { HackerNewsItem } from "./HackerNewsItem";
 
-export function CveV5Pubished({ cve }: { cve: Published }) {
+export function CveV5Pubished({
+  cve,
+  hackerNewsHits,
+}: {
+  cve: Published;
+  hackerNewsHits?: HNSearchHit[];
+}) {
   const cna = cve.containers.cna;
   const affectedSystemTypes = getAffectedSystemTypes(cna.affected);
   const problemTypes = getProblemTypes(cna.problemTypes);
@@ -65,6 +73,11 @@ export function CveV5Pubished({ cve }: { cve: Published }) {
 
       <h3>References</h3>
       <References references={cna.references} />
+
+      {hackerNewsHits && hackerNewsHits.length > 0 && <h3>From Hacker News</h3>}
+      {hackerNewsHits?.map((hit) => (
+        <HackerNewsItem item={hit} key={hit.objectID} />
+      ))}
 
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
