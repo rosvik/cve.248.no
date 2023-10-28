@@ -3,21 +3,44 @@ import { HNSearchHit } from "../types/HNSearch";
 import styles from "./HackerNewsItem.module.css";
 
 export function HackerNewsItem({ item }: { item: HNSearchHit }) {
-  return (
-    <div className={styles.container}>
-      <h4 className={styles.header}>
-        <Link href={`https://news.ycombinator.com/item?id=${item.objectID}`}>
-          {item.title}
-        </Link>
-      </h4>
-      <Link className={styles.url} href={item.url}>
-        {item.url}
-      </Link>
-      <div className={styles.metadata}>
-        <span>
-          {`${item.points} points | ${item.author} | ${item.created_at} | ${item.num_comments} comments`}
-        </span>
+  if (item._tags.includes("story"))
+    return (
+      <div className={styles.container}>
+        <h4 className={styles.header}>
+          <Link href={`https://news.ycombinator.com/item?id=${item.objectID}`}>
+            {item.title}
+          </Link>
+        </h4>
+        {item.url && (
+          <Link className={styles.url} href={item.url}>
+            {item.url}
+          </Link>
+        )}
+        <div className={styles.metadata}>
+          <span>
+            {`${item.points} points | ${item.author} | ${item.created_at} | ${item.num_comments} comments`}
+          </span>
+        </div>
       </div>
-    </div>
-  );
+    );
+
+  if (item._tags.includes("comment"))
+    return (
+      <div className={styles.comment}>
+        <div className={styles.metadata}>
+          <a
+            href={`https://news.ycombinator.com/item?id=${item.objectID}`}
+          >{`${item.author} | ${item.created_at}`}</a>
+        </div>
+        {item.comment_text && (
+          <div
+            className={styles.comment_text}
+            // NOTE: This is sanitized server side. See src/utils/searchHackerNews.ts
+            dangerouslySetInnerHTML={{ __html: item.comment_text }}
+          />
+        )}
+      </div>
+    );
+
+  return null;
 }

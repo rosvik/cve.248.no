@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-bottom: var(--spacings-xSmall);
+  padding-bottom: var(--spacings-small);
 }
 
 .header {
@@ -14,4 +14,22 @@
 
 .metadata {
   color: rgba(255,255,255,.5);
+}
+
+.comment {
+  display: flex;
+  background-color: var(--color-blue);
+  flex-direction: column;
+  margin-bottom: var(--spacings-small);
+  padding: var(--spacings-small);
+  border-radius: var(--spacings-small);
+  opacity: 1;
+}
+.comment:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.comment_text {
+  font-size: var(--font-size-small);
+  margin-top: var(--spacings-small);
 }

@@ -5,14 +5,14 @@ const HNSearchHit = z.object({
   comment_text: z.string().optional(),
   created_at: z.string(),
   created_at_i: z.number(),
-  num_comments: z.number(),
+  num_comments: z.number().optional(),
   objectID: z.string(),
-  points: z.number(),
+  points: z.union([z.number(), z.null()]),
   story_id: z.number(),
   story_text: z.string().optional(),
-  title: z.string(),
+  title: z.string().optional(),
   updated_at: z.string().optional(),
-  url: z.string(),
+  url: z.string().optional(),
   _tags: z.array(z.string()),
 });
 
