@@ -29,6 +29,6 @@ export async function fetchOpenGraphData(
       };
     }
   } catch (error) {
-    console.error("Error fetching Open Graph data:", error);
+    console.error(`Error fetching Open Graph data from ${url}\n`, error);
   }
 }
