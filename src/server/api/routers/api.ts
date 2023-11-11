@@ -7,7 +7,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const API_BASE_URL = env.API_BASE_URL;
 
-export const exampleRouter = createTRPCRouter({
+export const apiRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {

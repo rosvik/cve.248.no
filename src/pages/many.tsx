@@ -10,7 +10,7 @@ interface ManyProps {
 }
 
 const Many: NextPage<ManyProps> = ({ ids }) => {
-  const recents = api.example.getManyCVEs.useQuery({ ids });
+  const recents = api.api.getManyCVEs.useQuery({ ids });
 
   return recents.isLoading ? (
     <div>Loading...</div>

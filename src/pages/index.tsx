@@ -16,7 +16,7 @@ const Home: NextPage<HomeProps> = ({ count }) => {
   const [value, setValue] = useState("");
   const router = useRouter();
 
-  const recents = api.example.getRecentCVE.useQuery({ count });
+  const recents = api.api.getRecentCVE.useQuery({ count });
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const v = formatValue(e.target.value);
