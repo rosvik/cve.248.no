@@ -1,19 +1,18 @@
-import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/cve.module.css";
 
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
-import { CveResponse, getCve } from "../utils/getCve";
-import { useRouter } from "next/router";
-import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { useEffect, useState } from "react";
-import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
-import { isPublished } from "../utils/validator";
 import { PageHead } from "../components/PageHead";
-import { searchHackerNews } from "../utils/searchHackerNews";
+import { prisma } from "../server/db";
 import { HNSearchHit } from "../types/HNSearch";
+import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
+import { CveResponse, toCve } from "../utils/getCve";
+import { searchHackerNews } from "../utils/searchHackerNews";
+import { useFavoriteStorage } from "../utils/use-favorite-storage";
+import { isPublished } from "../utils/validator";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
@@ -25,27 +24,34 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const { id } = context.query;
   if (!(typeof id === "string")) return err("Error parsing ID");
-  const response = await getCve(id);
-  if (!isPublished(response.cve)) return err("CVE is rejected");
 
-  response.cve
-    ? await Promise.all(
-        response.cve.containers.cna.references.map(async (d) => {
-          const ogd = await fetchOpenGraphData(d.url);
-          if (ogd) {
-            d.openGraphData = ogd;
-          }
-          return ogd;
-        })
-      )
-    : [];
+  // Fetch CVE from DB
+  const response = await prisma.cVE.findUnique({ where: { id } });
 
-  const hackerNewsResults = await searchHackerNews(id);
-  const hackerNewsHits = hackerNewsResults?.hits;
+  // Parse and validate CVE
+  if (!response) return err("Error fetching CVE");
+  const cve = toCve(response.json).cve;
+  if (!cve) return err("Error parsing CVE");
+  if (!isPublished(cve)) return err("CVE is not published");
+  console.log("Is published");
+
+  // Fetch OpenGraph data for each reference
+  await Promise.all(
+    cve.containers.cna.references.map(async (d) => {
+      const ogd = await fetchOpenGraphData(d.url);
+      if (ogd) {
+        d.openGraphData = ogd;
+      }
+      return ogd;
+    })
+  );
+
+  // Fetch Hacker News results
+  const hackerNewsHits = (await searchHackerNews(id))?.hits;
 
   return {
     props: {
-      ...response,
+      cve,
       hackerNewsHits,
     },
   };
