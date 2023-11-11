@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "./trpc";
 import { apiRouter } from "./routers/api";
+import { prismaRouter } from "./routers/prisma";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { apiRouter } from "./routers/api";
  */
 export const appRouter = createTRPCRouter({
   api: apiRouter,
+  prismaRouter: prismaRouter,
 });
 
 // export type definition of API
