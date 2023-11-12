@@ -34,7 +34,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const cve = toCve(response.json).cve;
   if (!cve) return err("Error parsing CVE");
   if (!isPublished(cve)) return err("CVE is not published");
-  console.log("Is published");
 
   // Fetch OpenGraph data for each reference
   await Promise.all(
