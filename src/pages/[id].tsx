@@ -22,8 +22,9 @@ const err = (m: string) => ({ props: { errorMessage: m } });
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const { id } = context.query;
-  if (!(typeof id === "string")) return err("Error parsing ID");
+  const query = context.query;
+  if (!(typeof query.id === "string")) return err("Error parsing ID");
+  const id = query.id.toUpperCase();
 
   // Fetch CVE from DB
   const response = await prisma.cVE.findUnique({ where: { id } });
