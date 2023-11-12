@@ -1,22 +1,60 @@
-import { type NextPage } from "next";
-import Head from "next/head";
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  type NextPage,
+} from "next";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CveLink } from "../components/CveLink";
 import { PageHead } from "../components/PageHead";
+import { prisma } from "../server/db";
 import styles from "../styles/index.module.css";
-import { api } from "../utils/api";
+import { Published } from "../types/v5-cve";
+import { toCve } from "../utils/getCve";
+import { clamp } from "../utils/utils";
 import { isPublished } from "../utils/validator";
 
-interface HomeProps {
-  count: number;
-}
+type Props = {
+  recents: Published[];
+};
 
-const Home: NextPage<HomeProps> = ({ count }) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const query = context.query;
+  const count = clamp(parseInt(query.count as string) || 10, 1, 200);
+
+  const recentResults = await prisma.cVE.findMany({
+    orderBy: {
+      cveMetadata_datePublished: "desc",
+    },
+    where: {
+      cveMetadata_datePublished: {
+        not: null,
+      },
+      cveMetadata_state: {
+        equals: "PUBLISHED",
+      },
+    },
+    take: count,
+  });
+
+  const recents = recentResults
+    .map((r) => toCve(r.json).cve)
+    .filter(isPublished);
+
+  return {
+    props: {
+      recents: recents,
+    },
+  };
+};
+
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ recents }) => {
   const [value, setValue] = useState("");
   const router = useRouter();
-
-  const recents = api.api.getRecentCVE.useQuery({ count });
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const v = formatValue(e.target.value);
@@ -47,31 +85,16 @@ const Home: NextPage<HomeProps> = ({ count }) => {
             />
           </form>
           <h3>Recent</h3>
-          {recents.data?.map(
-            (recent) =>
-              isPublished(recent.cve) && (
-                <CveLink key={recent.cve.cveMetadata.cveId} cve={recent.cve} />
+          {recents?.map(
+            (cve) =>
+              isPublished(cve) && (
+                <CveLink key={cve.cveMetadata.cveId} cve={cve} />
               )
           )}
         </div>
       </main>
     </>
   );
-};
-
-Home.getInitialProps = async ({ query }) => {
-  const { count } = query;
-  const fallback = { count: 10 };
-
-  if (typeof count === "string" && parseInt(count)) {
-    const input = parseInt(count);
-    if (input > 200) return fallback;
-    if (input < 1) return fallback;
-    return {
-      count: parseInt(count),
-    };
-  }
-  return fallback;
 };
 
 function formatValue(value: string) {
