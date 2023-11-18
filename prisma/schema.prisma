@@ -52,5 +52,7 @@ model CVE {
   containers_cna_replacedBy                   String[]  @default([])
   containers_adp                              Json[]    @default([])
 
+  cwe_ids String[] @default([])
+
   @@index([cveMetadata_datePublished(sort: Desc)])
 }
