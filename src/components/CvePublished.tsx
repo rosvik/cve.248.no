@@ -11,13 +11,16 @@ import { Chip } from "./Chip";
 import { References } from "./References";
 import { HNSearchHit } from "../types/HNSearch";
 import { HackerNewsItem } from "./HackerNewsItem";
+import { CveLink } from "./CveLink";
 
 export function CveV5Pubished({
   cve,
   hackerNewsHits,
+  withSameCwe,
 }: {
   cve: Published;
   hackerNewsHits?: HNSearchHit[];
+  withSameCwe?: Published[];
 }) {
   const cna = cve.containers.cna;
   const affectedSystemTypes = getAffectedSystemTypes(cna.affected);
@@ -78,6 +81,13 @@ export function CveV5Pubished({
       {hackerNewsHits?.map((hit) => (
         <HackerNewsItem item={hit} key={hit.objectID} />
       ))}
+
+      <h3>CVEs with the same CWEs</h3>
+      <div>
+        {withSameCwe?.map((cve) => (
+          <CveLink key={cve.cveMetadata.cveId} cve={cve} />
+        ))}
+      </div>
 
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>

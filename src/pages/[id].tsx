@@ -13,9 +13,12 @@ import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { isPublished } from "../utils/validator";
+import { Published } from "../types/v5-cve";
+import { CveLink } from "../components/CveLink";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
+  withSameCwe?: Published[];
 };
 const err = (m: string) => ({ props: { errorMessage: m } });
 
@@ -46,6 +49,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     })
   );
 
+  // Fetch other CVEs with the same CWE
+  const withSameCwe = await prisma.cVE.findMany({
+    where: {
+      cwe_ids: {
+        has: "CWE-20",
+      },
+    },
+    take: 5,
+  });
+
   // Fetch Hacker News results
   const hackerNewsHits = (await searchHackerNews(id))?.hits;
 
@@ -53,6 +66,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     props: {
       cve,
       hackerNewsHits,
+      withSameCwe: withSameCwe.map((r) => r.json) as unknown as Published[],
     },
   };
 };
@@ -62,6 +76,7 @@ function Page({
   errorMessage,
   errorObject,
   hackerNewsHits,
+  withSameCwe,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     query: { id },
@@ -96,7 +111,11 @@ function Page({
             </button>
           </div>
           {isPublished(cve) && (
-            <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
+            <CveV5Pubished
+              cve={cve}
+              hackerNewsHits={hackerNewsHits}
+              withSameCwe={withSameCwe}
+            />
           )}
         </div>
       </main>
