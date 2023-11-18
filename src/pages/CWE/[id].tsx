@@ -28,6 +28,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         has: id,
       },
     },
+    orderBy: {
+      cveMetadata_datePublished: "desc",
+    },
     take: 20,
   });
 
