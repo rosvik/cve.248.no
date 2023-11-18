@@ -1,0 +1,43 @@
+
+.main {
+	max-width: 500px;
+	margin: auto;
+}
+.panel {
+	background-color: rgb(24,24,26);
+	display: flex;
+	flex-direction: column;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 1rem;
+	overflow: hidden;
+	font-size: 1rem;
+}
+
+.panel > :nth-child(even) {
+	/* background-color: rgb(24,24,50); */
+}
+
+.panel > div, .panel > a {
+	padding: 1rem;
+	margin: 0;
+	overflow: hidden;
+	border-bottom: 1px solid rgb(35, 35, 39);
+	display: flex;
+	flex-direction: column;
+	row-gap: .5rem;
+	text-decoration: none;
+}
+
+.panel p, .panel h5 {
+	margin: 0;
+	padding: 0;
+}
+
+.panel__header {
+	background-color: rgb(35, 35, 39);
+}
+
+.subheading {
+	/* font-size: .8rem;
+	text-transform: uppercase; */
+}
