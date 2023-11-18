@@ -11,4 +11,15 @@ export const prismaRouter = createTRPCRouter({
         },
       })
     ),
+  getMany: publicProcedure
+    .input(z.object({ ids: z.array(z.string()) }))
+    .query(({ input, ctx }) =>
+      ctx.prisma.cVE.findMany({
+        where: {
+          id: {
+            in: input.ids,
+          },
+        },
+      })
+    ),
 });

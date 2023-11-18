@@ -4,24 +4,29 @@ import { CveLink } from "../components/CveLink";
 import { PageHead } from "../components/PageHead";
 import styles from "../styles/index.module.css";
 import { api } from "../utils/api";
+import { Published } from "../types/v5-cve";
 
 interface ManyProps {
   ids: string[];
 }
 
 const Many: NextPage<ManyProps> = ({ ids }) => {
-  const recents = api.api.getManyCVEs.useQuery({ ids });
+  const cves = api.prismaRouter.getMany.useQuery({ ids });
 
-  return recents.isLoading ? (
+  console.log(cves.data);
+
+  return cves.isLoading ? (
     <div>Loading...</div>
   ) : (
     <>
       <PageHead />
       <main className={styles.main}>
         <div className={styles.container}>
-          {recents.data?.map(
-            (recent) =>
-              recent && <CveLink key={recent.cveMetadata.cveId} cve={recent} />
+          {cves.data?.map(
+            (cve) =>
+              cve && (
+                <CveLink key={cve.id} cve={cve.json as unknown as Published} />
+              )
           )}
         </div>
       </main>
