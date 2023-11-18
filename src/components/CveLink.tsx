@@ -10,12 +10,14 @@ export function CveLink({ cve }: { cve: Published }) {
     : "unknown";
 
   const problems = getProblemTypes(cve.containers.cna.problemTypes);
+  const title = cve.containers.cna.title;
 
   return (
     <div style={{ marginBottom: "1rem" }}>
       <Link className={styles.link} href={`/${cve.cveMetadata.cveId}`}>
         {cve.cveMetadata.cveId}
       </Link>
+      {title && <p className={styles.linkTitle}>{title}</p>}
       <p className={styles.label}>
         Published {published} by {cve.cveMetadata.assignerShortName}
         {problems
