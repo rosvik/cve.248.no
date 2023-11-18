@@ -30,16 +30,4 @@ export const apiRouter = createTRPCRouter({
         })
       )
     ),
-  getManyCVEs: publicProcedure
-    .input(z.object({ ids: z.array(z.string()) }))
-    .query(({ input }) =>
-      fetch(`${API_BASE_URL}cves?ids=` + input.ids.join(",")).then((res) =>
-        res.json().then((data) => {
-          if (!Array.isArray(data)) return undefined;
-          return data
-            .map((item) => toCve(item).cve)
-            .filter((cve): cve is Published => !!cve);
-        })
-      )
-    ),
 });
