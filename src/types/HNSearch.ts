@@ -10,6 +10,7 @@ const HNSearchHit = z.object({
   points: z.union([z.number(), z.null()]).optional(),
   story_id: z.number(),
   story_text: z.string().optional(),
+  story_title: z.string().optional(),
   title: z.string().optional(),
   updated_at: z.string().optional(),
   url: z.string().optional(),

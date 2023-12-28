@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HNSearchHit } from "../types/HNSearch";
 import styles from "./HackerNewsItem.module.css";
+import { trimString } from "../utils/utils";
 
 export function HackerNewsItem({ item }: { item: HNSearchHit }) {
   if (item._tags.includes("story"))
@@ -28,9 +29,11 @@ export function HackerNewsItem({ item }: { item: HNSearchHit }) {
     return (
       <div className={styles.comment}>
         <div className={styles.metadata}>
-          <a
-            href={`https://news.ycombinator.com/item?id=${item.objectID}`}
-          >{`${item.author} | ${item.created_at}`}</a>
+          <a href={`https://news.ycombinator.com/item?id=${item.objectID}`}>{`${
+            item.author
+          } | ${item.created_at} | on: ${
+            item.story_title ? trimString(item.story_title, 40) : "unknown"
+          }`}</a>
         </div>
         {item.comment_text && (
           <div
