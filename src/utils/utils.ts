@@ -40,3 +40,16 @@ export function getCweIds(cve: Published): string[] {
   const uniqueIds = Array.from(new Set(allIds));
   return uniqueIds;
 }
+
+/**
+ * Trim the input string to the specified length, and add an ellipsis if the
+ * string was trimmed.
+ *
+ * @param str The string to trim
+ * @param maxLength The maximum length of the string
+ * @returns The trimmed string
+ */
+export function trimString(str: string, maxLength: number): string {
+  if (str.length <= maxLength) return str;
+  return str.slice(0, maxLength) + "…";
+}
