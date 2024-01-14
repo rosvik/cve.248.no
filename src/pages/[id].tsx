@@ -12,7 +12,7 @@ import { fetchOpenGraphForReferences } from "../utils/fetch-opengraph-data";
 import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { validateCveId } from "../utils/utils";
+import { getCweIds, validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
 
 type Props = CveResponse & {
@@ -46,8 +46,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const cweRequest = prisma.cVE.findMany({
     where: {
       cwe_ids: {
-        // FIXME: This shouldn't be hardcoded
-        has: "CWE-20",
+        hasSome: getCweIds(cve),
       },
     },
     take: 5,
