@@ -12,6 +12,7 @@ import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
 import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
+import { validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
 import { Published } from "../types/v5-cve";
 import { CveLink } from "../components/CveLink";
@@ -28,6 +29,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const query = context.query;
   if (!(typeof query.id === "string")) return err("Error parsing ID");
   const id = query.id.toUpperCase();
+
+  if (!validateCveId(id)) return err("Invalid CVE ID");
 
   // Fetch CVE from DB
   const response = await prisma.cVE.findUnique({ where: { id } });

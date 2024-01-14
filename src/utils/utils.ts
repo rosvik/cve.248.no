@@ -53,3 +53,14 @@ export function trimString(str: string, maxLength: number): string {
   if (str.length <= maxLength) return str;
   return str.slice(0, maxLength) + "…";
 }
+
+/**
+ * Validate a CVE ID to ensure it is in the correct format, using regex.
+ *
+ * @param cveId The CVE ID to validate
+ * @returns Whether the CVE ID is valid
+ */
+export function validateCveId(cveId: string): boolean {
+  const regex = /^CVE-\d{4}-\d{4,}$/;
+  return regex.test(cveId);
+}
