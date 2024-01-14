@@ -1,21 +1,19 @@
-import Link from "next/link";
-import styles from "../styles/cve.module.css";
-
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
 import { prisma } from "../server/db";
+import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
-import { fetchOpenGraphData } from "../utils/fetch-opengraph-data";
+import { Published } from "../types/v5-cve";
+import { fetchOpenGraphForReferences } from "../utils/fetch-opengraph-data";
 import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
-import { Published } from "../types/v5-cve";
-import { CveLink } from "../components/CveLink";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
@@ -41,21 +39,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (!cve) return err("Error parsing CVE");
   if (!isPublished(cve)) return err("CVE is not published");
 
-  // Fetch OpenGraph data for each reference
-  await Promise.all(
-    cve.containers.cna.references.map(async (d) => {
-      const ogd = await fetchOpenGraphData(d.url);
-      if (ogd) {
-        d.openGraphData = ogd;
-      }
-      return ogd;
-    })
-  );
+  // Populate references with OpenGraph data
+  const odgRequest = fetchOpenGraphForReferences(cve.containers.cna.references);
 
   // Fetch other CVEs with the same CWE
-  const withSameCwe = await prisma.cVE.findMany({
+  const cweRequest = prisma.cVE.findMany({
     where: {
       cwe_ids: {
+        // FIXME: This shouldn't be hardcoded
         has: "CWE-20",
       },
     },
@@ -63,12 +54,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   });
 
   // Fetch Hacker News results
-  const hackerNewsHits = (await searchHackerNews(id))?.hits;
+  const hnRequest = searchHackerNews(id);
+
+  let [_odg, hnSearch, withSameCwe] = await Promise.all([
+    odgRequest,
+    hnRequest,
+    cweRequest,
+  ]);
 
   return {
     props: {
       cve,
-      hackerNewsHits,
+      hackerNewsHits: hnSearch?.hits,
       withSameCwe: withSameCwe.map((r) => r.json) as unknown as Published[],
     },
   };
