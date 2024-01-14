@@ -1,4 +1,5 @@
 import { load } from "cheerio";
+import { Reference } from "../types/v5-cve";
 
 export type OpenGraphData = {
   title: string | null;
@@ -45,4 +46,14 @@ export async function fetchOpenGraphData(
   } catch (error) {
     console.error(`Error fetching Open Graph data from ${url}\n`, error);
   }
+}
+
+export async function fetchOpenGraphForReferences(
+  references: Reference[]
+): Promise<void> {
+  references.map(async (reference) => {
+    const ogd = await fetchOpenGraphData(reference.url);
+    if (ogd) reference.openGraphData = ogd;
+    return ogd;
+  });
 }
