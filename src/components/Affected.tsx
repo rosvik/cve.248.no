@@ -7,7 +7,7 @@ export function Affected({ affected }: { affected: Affected }) {
     <div className={styles.affected}>
       {groups.map(({ vendor, products }) => (
         <div key={vendor}>
-          <h4>{vendor ?? "Unknown vendor"}</h4>
+          {vendor && vendor !== "n/a" && <h4>{vendor}</h4>}
           <div className={styles.products}>
             {products.map((product, i) => (
               <div className={styles.product} key={i}>
