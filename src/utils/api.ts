@@ -67,3 +67,19 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  **/
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+/**
+ * Fetch a URL with a timeout
+ */
+export function fetchWithTimeout(
+  url: string,
+  limit: number,
+  options?: RequestInit
+) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), limit);
+  return fetch(url, {
+    ...options,
+    signal: controller.signal,
+  }).finally(() => clearTimeout(timeout));
+}

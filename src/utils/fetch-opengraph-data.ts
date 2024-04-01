@@ -1,5 +1,6 @@
 import { load } from "cheerio";
 import { Reference } from "../types/v5-cve";
+import { fetchWithTimeout } from "./api";
 
 export type OpenGraphData = {
   title: string | null;
@@ -12,9 +13,9 @@ export async function fetchOpenGraphData(
 ): Promise<OpenGraphData | undefined> {
   try {
     const srcUrl = new URL(url);
-    const res = await fetch(srcUrl.href);
-    if (res.ok) {
-      const $ = load(await res.text());
+    const result = await fetchWithTimeout(srcUrl.href, 500);
+    if (result.ok) {
+      const $ = load(await result.text());
       const title =
         $('meta[property="og:title"]').attr("content")?.trim() || null;
       const description =
