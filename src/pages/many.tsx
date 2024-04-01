@@ -13,8 +13,6 @@ interface ManyProps {
 const Many: NextPage<ManyProps> = ({ ids }) => {
   const cves = api.prismaRouter.getMany.useQuery({ ids });
 
-  console.log(cves.data);
-
   return cves.isLoading ? (
     <div>Loading...</div>
   ) : (
