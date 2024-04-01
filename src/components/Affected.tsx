@@ -11,7 +11,9 @@ export function Affected({ affected }: { affected: Affected }) {
           <div className={styles.products}>
             {products.map((product, i) => (
               <div className={styles.product} key={i}>
-                <h4>{product.product}</h4>
+                {product.product && product.product !== "n/a" && (
+                  <h4>{product.product}</h4>
+                )}
                 {product.versions?.map((version, i) => (
                   <Version key={i} version={version} />
                 ))}
