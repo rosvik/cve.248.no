@@ -59,6 +59,11 @@ h3, label {
   font-weight: bold;
 }
 
+h4 {
+  padding: 0;
+  margin: 0;
+}
+
 form {
   width: 100%;
 }

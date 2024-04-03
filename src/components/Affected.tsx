@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Affected, Product, Version } from "../types/v5-cve";
 import styles from "./affected.module.css";
 
@@ -6,7 +7,7 @@ export function Affected({ affected }: { affected: Affected }) {
   return (
     <div className={styles.affected}>
       {groups.map(({ vendor, products }) => (
-        <div key={vendor}>
+        <Fragment key={vendor}>
           {vendor && vendor !== "n/a" && <h4>{vendor}</h4>}
           <div className={styles.products}>
             {products.map((product, i) => (
@@ -20,7 +21,7 @@ export function Affected({ affected }: { affected: Affected }) {
               </div>
             ))}
           </div>
-        </div>
+        </Fragment>
       ))}
     </div>
   );

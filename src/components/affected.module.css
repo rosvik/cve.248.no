@@ -1,5 +1,6 @@
-.affected h4 {
-	margin-top: 0;
+.affected {
+	display: grid;
+	row-gap: var(--spacings-small);
 }
 
 .products {
@@ -10,6 +11,8 @@
 }
 
 .product {
+	display: grid;
+  gap: var(--spacings-small);
 	background-color: var(--color-blue);
 	border-radius: var(--spacings-xSmall);
 	padding: var(--spacings-small);
