@@ -11,17 +11,23 @@ export function Affected({ affected }: { affected: Affected }) {
           {vendor && vendor !== "n/a" && <h4>{vendor}</h4>}
           <div className={styles.products}>
             {products.map((product, i) => (
-              <div className={styles.product} key={i}>
-                {product.product && product.product !== "n/a" && (
-                  <h4>{product.product}</h4>
-                )}
-                {product.versions?.map((version, i) => (
-                  <Version key={i} version={version} />
-                ))}
-              </div>
+              <Product key={i} product={product} />
             ))}
           </div>
         </Fragment>
+      ))}
+    </div>
+  );
+}
+
+function Product({ product }: { product: Product }) {
+  return (
+    <div className={styles.product}>
+      {product.product && product.product !== "n/a" && (
+        <h4>{product.product}</h4>
+      )}
+      {product.versions?.map((version, i) => (
+        <Version key={i} version={version} />
       ))}
     </div>
   );
