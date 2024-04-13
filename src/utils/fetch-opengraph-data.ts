@@ -1,6 +1,4 @@
-import { load } from "cheerio";
 import { Reference } from "../types/v5-cve";
-import { fetchWithTimeout } from "./api";
 
 export type OpenGraphData = {
   title: string | null;
@@ -8,53 +6,31 @@ export type OpenGraphData = {
   image: string | null;
 };
 
-export async function fetchOpenGraphData(
-  url: string
-): Promise<OpenGraphData | undefined> {
-  try {
-    const srcUrl = new URL(url);
-    const result = await fetchWithTimeout(srcUrl.href, 500);
-    if (result.ok) {
-      const $ = load(await result.text());
-      const title =
-        $('meta[property="og:title"]').attr("content")?.trim() || null;
-      const description =
-        $('meta[property="og:description"]').attr("content")?.trim() || null;
-      let image =
-        $('meta[property="og:image"]').attr("content")?.trim() || null;
+type OpenGraphDataResponse = Array<{
+  property: string;
+  content: string;
+}>;
 
-      if (!title && !description && !image) return;
-
-      if (image && !image.startsWith("http")) {
-        try {
-          const imageUrl = new URL(`${srcUrl.origin}${image}`);
-          image = imageUrl.href;
-        } catch (error) {
-          console.error(
-            `Error parsing opengraph image URL ${image} for ${url}:`,
-            error
-          );
-          image = null;
-        }
-      }
-
-      return {
-        title,
-        description,
-        image,
-      };
-    }
-  } catch (error) {
-    console.error(`Error fetching Open Graph data from ${url}\n`, error);
-  }
-}
-
-export async function fetchOpenGraphForReferences(
+export async function injectOpengraphData(
   references: Reference[]
 ): Promise<void> {
-  references.map(async (reference) => {
-    const ogd = await fetchOpenGraphData(reference.url);
-    if (ogd) reference.openGraphData = ogd;
-    return ogd;
+  references.forEach(async (reference) => {
+    if (!reference.url) return;
+    const result = await fetch(`https://og.248.no/?url=${reference.url}`);
+    const data = (await result.json()) as OpenGraphDataResponse;
+
+    const title = data.find((d) => d.property === "og:title")?.content;
+    const description = data.find(
+      (d) => d.property === "og:description"
+    )?.content;
+    const image = data.find((d) => d.property === "og:image")?.content;
+
+    if (!title && !description && !image) return;
+
+    reference.openGraphData = {
+      title: title || null,
+      description: description || null,
+      image: image || null,
+    };
   });
 }

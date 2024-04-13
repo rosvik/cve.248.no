@@ -8,7 +8,7 @@ import { prisma } from "../server/db";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
-import { fetchOpenGraphForReferences } from "../utils/fetch-opengraph-data";
+import { injectOpengraphData } from "../utils/fetch-opengraph-data";
 import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (!isPublished(cve)) return err("CVE is not published");
 
   // Populate references with OpenGraph data
-  const odgRequest = fetchOpenGraphForReferences(cve.containers.cna.references);
+  const odgRequest = injectOpengraphData(cve.containers.cna.references);
 
   // Fetch other CVEs with the same CWE
   const cweRequest = prisma.cVE.findMany({
