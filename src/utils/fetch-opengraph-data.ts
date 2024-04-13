@@ -16,7 +16,7 @@ export async function injectOpengraphData(
 ): Promise<void> {
   references.forEach(async (reference) => {
     if (!reference.url) return;
-    const result = await fetch(`https://og.248.no/?url=${reference.url}`);
+    const result = await fetch(`https://og.248.no/api?url=${reference.url}`);
     const data = (await result.json()) as OpenGraphDataResponse;
 
     const title = data.find((d) => d.property === "og:title")?.content;
