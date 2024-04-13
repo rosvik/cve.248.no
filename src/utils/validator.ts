@@ -102,3 +102,7 @@ export function isPublished(
 ): input is Published {
   return !!input && input.cveMetadata.state === "PUBLISHED";
 }
+
+export function unsafeIsPublished(input: any): input is Published {
+  return !!input && input?.cveMetadata?.state === "PUBLISHED";
+}

@@ -42,5 +42,5 @@ export const useFavoriteStorage = (key: string) => {
     }
   };
 
-  return { favorites: value, addId, removeId, toggleId };
+  return { favoriteIds: value, addId, removeId, toggleId };
 };

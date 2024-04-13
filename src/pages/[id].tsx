@@ -81,7 +81,7 @@ function Page({
     query: { id },
   } = useRouter();
 
-  const { favorites, toggleId } = useFavoriteStorage("favorites");
+  const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
@@ -106,7 +106,7 @@ function Page({
           <div className={styles.navContainer}>
             <Link href="/">← Back</Link>
             <button className={styles.saveButton} onClick={handleAddClick}>
-              {favorites?.includes(id) ? "★" : "☆"}
+              {favoriteIds?.includes(id) ? "★" : "☆"}
             </button>
           </div>
           {isPublished(cve) && (
