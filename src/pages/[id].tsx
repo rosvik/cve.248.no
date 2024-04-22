@@ -7,17 +7,15 @@ import { PageHead } from "../components/PageHead";
 import { prisma } from "../server/db";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
-import { Published } from "../types/v5-cve";
 import { injectOpengraphData } from "../utils/fetch-opengraph-data";
 import { CveResponse, toCve } from "../utils/getCve";
 import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { getCweIds, validateCveId } from "../utils/utils";
+import { validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
-  withSameCwe?: Published[];
 };
 const err = (m: string) => ({ props: { errorMessage: m } });
 
@@ -42,30 +40,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   // Populate references with OpenGraph data
   const odgRequest = injectOpengraphData(cve.containers.cna.references);
 
-  // Fetch other CVEs with the same CWE
-  const cweRequest = prisma.cVE.findMany({
-    where: {
-      cwe_ids: {
-        hasSome: getCweIds(cve),
-      },
-    },
-    take: 5,
-  });
-
   // Fetch Hacker News results
   const hnRequest = searchHackerNews(id);
 
-  let [_odg, hnSearch, withSameCwe] = await Promise.all([
-    odgRequest,
-    hnRequest,
-    cweRequest,
-  ]);
+  let [_odg, hnSearch] = await Promise.all([odgRequest, hnRequest]);
 
   return {
     props: {
       cve,
       hackerNewsHits: hnSearch?.hits,
-      withSameCwe: withSameCwe.map((r) => r.json) as unknown as Published[],
     },
   };
 };
@@ -75,7 +58,6 @@ function Page({
   errorMessage,
   errorObject,
   hackerNewsHits,
-  withSameCwe,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     query: { id },
@@ -110,11 +92,7 @@ function Page({
             </button>
           </div>
           {isPublished(cve) && (
-            <CveV5Pubished
-              cve={cve}
-              hackerNewsHits={hackerNewsHits}
-              withSameCwe={withSameCwe}
-            />
+            <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
           )}
         </div>
       </main>
