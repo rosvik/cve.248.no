@@ -6,29 +6,35 @@ import Image from "next/image";
 export function References({ references }: { references: References }) {
   return (
     <div className={styles.referencesList}>
-      {references.map((o, i) => (
-        <a key={i} href={o.url} className={styles.open_graph_data}>
-          {o.openGraphData?.image && (
-            <Image
-              src={o.openGraphData.image}
-              width={300}
-              height={200}
-              alt=""
-            />
-          )}
-          <div className={styles.ogd_content}>
-            <h4>{getTitle(o)}</h4>
-            {o.openGraphData?.description && (
-              <p>{o.openGraphData.description}</p>
-            )}
-            <p className={styles.url}>{o.url}</p>
-            {o.tags?.map((tag) => (
-              <Chip key={tag}>{`#${tag}`}</Chip>
-            ))}
-          </div>
-        </a>
+      {references.map((reference, i) => (
+        <ReferenceItem reference={reference} key={i} />
       ))}
     </div>
+  );
+}
+
+function ReferenceItem({ reference }: { reference: Reference }) {
+  return (
+    <a href={reference.url} className={styles.open_graph_data}>
+      {reference.openGraphData?.image && (
+        <Image
+          src={reference.openGraphData.image}
+          width={300}
+          height={200}
+          alt=""
+        />
+      )}
+      <div className={styles.ogd_content}>
+        <h4>{getTitle(reference)}</h4>
+        {reference.openGraphData?.description && (
+          <p>{reference.openGraphData.description}</p>
+        )}
+        <p className={styles.url}>{reference.url}</p>
+        {reference.tags?.map((tag) => (
+          <Chip key={tag}>{`#${tag}`}</Chip>
+        ))}
+      </div>
+    </a>
   );
 }
 
