@@ -2,12 +2,12 @@ import DOMPurify from "isomorphic-dompurify";
 import { env } from "../env.mjs";
 import { HNSearchResult } from "../types/HNSearch";
 
-const HN_API_BASE_URL = env.HN_API_BASE_URL;
+const HN_SEARCH_API_BASE_URL = env.HN_SEARCH_API_BASE_URL;
 
 export async function searchHackerNews(
   query: string
 ): Promise<HNSearchResult | undefined> {
-  const res = await fetch(`${HN_API_BASE_URL}search?query="${query}"`);
+  const res = await fetch(`${HN_SEARCH_API_BASE_URL}search?query="${query}"`);
   if (!res.ok) return;
   const data = await res.json();
   const hnSearchResult = HNSearchResult.parse(data);
