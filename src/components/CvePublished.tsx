@@ -81,6 +81,9 @@ export function CveV5Pubished({
 
       <h3>JSON</h3>
       <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
+      <a
+        href={`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}
+      >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</a>
     </>
   );
 }
