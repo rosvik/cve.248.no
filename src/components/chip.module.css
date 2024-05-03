@@ -1,5 +1,4 @@
 .chip {
-	background-color: var(--color-blue);
 	padding: var(--spacings-xSmall);
 	margin: 0 calc(var(--spacings-xSmall) / 2);
 	border-radius: var(--spacings-xSmall);
@@ -7,4 +6,10 @@
 	width: fit-content;
 	font-weight: 500;
 	text-transform: uppercase;
+}
+.blue {
+	background-color: var(--color-blue);
+}
+.red {
+	background-color: var(--color-red);
 }

@@ -36,6 +36,11 @@ export function CveV5Pubished({
           .map((p, i) => (
             <Chip key={i}>{`${p.cweId}`}</Chip>
           ))}
+        {cna.tags?.map((tag, i) => (
+          <Chip key={i} color="red">
+            {tag}
+          </Chip>
+        ))}
       </div>
       {cna.title ? <h2 className={styles.title}>{cna.title}</h2> : null}
       <p className={styles.assigner}>{cve.cveMetadata.assignerShortName}</p>
