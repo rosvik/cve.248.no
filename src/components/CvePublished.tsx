@@ -84,8 +84,13 @@ export function CveV5Pubished({
         <HackerNewsItem item={hit} key={hit.objectID} />
       ))}
 
-      <h3>JSON</h3>
-      <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
+      <h3>JSON source</h3>
+      <details>
+        <summary>Click to expand</summary>
+        <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
+      </details>
+
+      <h3>Mitre source</h3>
       <a
         href={`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}
       >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</a>

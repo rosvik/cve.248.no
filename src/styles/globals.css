@@ -110,6 +110,13 @@ aside {
   max-width: 40%;
 }
 
+summary {
+  padding: 1rem;
+  background-color: var(--color-blue);
+  border-radius: var(--spacings-xSmall);
+  margin: 0 -1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html, body {
     background-color: #1F2430;
