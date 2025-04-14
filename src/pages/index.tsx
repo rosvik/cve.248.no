@@ -4,11 +4,10 @@ import {
   type NextPage,
 } from "next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CveLink } from "../components/CveLink";
 import { PageHead } from "../components/PageHead";
-import { prisma } from "../server/db";
 import styles from "../styles/index.module.css";
 import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
@@ -19,45 +18,23 @@ import { isPublished, unsafeIsPublished } from "../utils/validator";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 
-type Props = {
-  recents: Published[];
-};
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const query = context.query;
-  const count = clamp(parseInt(query.count as string) || 10, 1, 200);
-
-  const recentResults = await prisma.cVE.findMany({
-    orderBy: {
-      cveMetadata_datePublished: "desc",
-    },
-    where: {
-      cveMetadata_datePublished: {
-        not: null,
-      },
-      cveMetadata_state: {
-        equals: "PUBLISHED",
-      },
-    },
-    take: count,
-  });
-
-  const recents = recentResults
-    .map((r) => toCve(r.json).cve)
-    .filter(isPublished);
-
+type Props = {};
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   return {
-    props: {
-      recents: recents,
-    },
+    props: {},
   };
 };
 
 const Home: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ recents }) => {
+> = () => {
+  const {
+    query: { count },
+  } = useRouter();
+
+  const c = clamp(parseInt(count as string) || 10, 1, 200);
+  const { data: recents } = api.getRecentCVE.useQuery({ count: c });
+
   const [value, setValue] = useState("");
   const router = useRouter();
   const { favoriteIds } = useFavoriteStorage("favorites");
@@ -74,12 +51,12 @@ const Home: NextPage<
     }
   };
 
-  const favorites = api.prismaRouter.getMany.useQuery({
-    ids:
-      favoriteIds
-        ?.sort((a, b) => b.localeCompare(a))
-        ?.slice(0, MAX_NUMBER_OF_FAVORITES + 2) ?? [],
-  });
+  // const favorites = api.prismaRouter.getMany.useQuery({
+  //   ids:
+  //     favoriteIds
+  //       ?.sort((a, b) => b.localeCompare(a))
+  //       ?.slice(0, MAX_NUMBER_OF_FAVORITES + 2) ?? [],
+  // });
 
   return (
     <>
@@ -97,7 +74,7 @@ const Home: NextPage<
               type="text"
             />
           </form>
-          {!!favorites.data?.length && <h3>Favorites</h3>}
+          {/* {!!favorites.data?.length && <h3>Favorites</h3>}
           {favorites.data
             ?.reverse()
             .slice(0, MAX_NUMBER_OF_FAVORITES)
@@ -110,7 +87,7 @@ const Home: NextPage<
           {!!favorites.data?.length &&
             favorites.data?.length > MAX_NUMBER_OF_FAVORITES && (
               <Link href="/favorites">All favorites →</Link>
-            )}
+            )} */}
           <h3>Recent</h3>
           {recents?.map(
             (cve) =>

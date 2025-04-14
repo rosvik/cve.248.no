@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
-import { prisma } from "../server/db";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
 import { injectOpengraphData } from "../utils/fetch-opengraph-data";
@@ -13,6 +12,7 @@ import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
+import { api } from "../utils/api";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
@@ -29,32 +29,30 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (!validateCveId(id)) return err("Invalid CVE ID");
 
   // Fetch CVE from DB
-  const response = await prisma.cVE.findUnique({ where: { id } });
+  // const { data } = await api.api.getCVE.useQuery({ id });
 
   // Parse and validate CVE
-  if (!response) return err("Error fetching CVE");
-  const cve = toCve(response.json).cve;
-  if (!cve) return err("Error parsing CVE");
-  if (!isPublished(cve)) return err("CVE is not published");
+  // const cve = toCve(data).cve;
+  // if (!cve) return err("Error parsing CVE");
+  // if (!isPublished(cve)) return err("CVE is not published");
 
   // Populate references with OpenGraph data
-  const odgRequest = injectOpengraphData(cve.containers.cna.references);
+  // const odgRequest = injectOpengraphData(cve.containers.cna.references);
 
   // Fetch Hacker News results
   const hnRequest = searchHackerNews(id);
 
-  let [_odg, hnSearch] = await Promise.all([odgRequest, hnRequest]);
+  let [hnSearch] = await Promise.all([hnRequest]);
 
   return {
     props: {
-      cve,
+      // cve,
       hackerNewsHits: hnSearch?.hits,
     },
   };
 };
 
 function Page({
-  cve,
   errorMessage,
   errorObject,
   hackerNewsHits,
@@ -62,6 +60,10 @@ function Page({
   const {
     query: { id },
   } = useRouter();
+
+  const { data: cve } = api.getCVE.useQuery({ id: id as string });
+
+  console.log(cve);
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
 
