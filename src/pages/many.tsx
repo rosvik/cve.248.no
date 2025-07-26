@@ -11,7 +11,7 @@ interface ManyProps {
 }
 
 const Many: NextPage<ManyProps> = ({ ids }) => {
-  const cves = api.prismaRouter.getMany.useQuery({ ids });
+  const cves = api.getCVEs.useQuery({ ids });
 
   return cves.isLoading ? (
     <div>Loading...</div>
@@ -23,7 +23,7 @@ const Many: NextPage<ManyProps> = ({ ids }) => {
           {cves.data?.map(
             (cve) =>
               cve && (
-                <CveLink key={cve.id} cve={cve.json as unknown as Published} />
+                <CveLink key={cve.cveMetadata.cveId} cve={cve as Published} />
               )
           )}
         </div>

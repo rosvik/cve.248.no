@@ -3,12 +3,12 @@ import { PageHead } from "../components/PageHead";
 import styles from "../styles/favorites.module.css";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { api } from "../utils/api";
-import { unsafeIsPublished } from "../utils/validator";
 import { CveLink } from "../components/CveLink";
+import { Published } from "../types/v5-cve";
 
 function Page({}) {
   const { favoriteIds } = useFavoriteStorage("favorites");
-  const cves = api.prismaRouter.getMany.useQuery({ ids: favoriteIds ?? [] });
+  const cves = api.getCVEs.useQuery({ ids: favoriteIds ?? [] });
 
   return (
     <>
@@ -24,8 +24,8 @@ function Page({}) {
             ?.reverse()
             .map(
               (cve) =>
-                unsafeIsPublished(cve.json) && (
-                  <CveLink key={cve.id} cve={cve.json} />
+                cve.cveMetadata.state === "PUBLISHED" && (
+                  <CveLink key={cve.cveMetadata.cveId} cve={cve as Published} />
                 )
             )}
         </div>
