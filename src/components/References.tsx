@@ -1,5 +1,5 @@
 import styles from "./references.module.css";
-import { Reference, References } from "../types/v5-cve";
+import type { Reference, References } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import Image from "next/image";
 

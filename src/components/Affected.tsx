@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Affected, Product, Version } from "../types/v5-cve";
+import type { Affected, Product, Version } from "../types/v5-cve";
 import styles from "./affected.module.css";
 
 export function Affected({ affected }: { affected: Affected }) {
