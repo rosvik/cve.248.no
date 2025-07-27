@@ -24,5 +24,6 @@ const config = {
     loader: "custom",
     loaderFile: "./src/utils/image-loader.js",
   },
+  output: "standalone",
 };
 export default config;
