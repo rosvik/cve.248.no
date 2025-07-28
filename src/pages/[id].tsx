@@ -63,8 +63,6 @@ function Page({
 
   const { data: cve } = api.getCVE.useQuery({ id: id as string });
 
-  console.log(cve);
-
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
 
   const handleAddClick = () => {

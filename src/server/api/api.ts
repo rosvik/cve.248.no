@@ -17,7 +17,6 @@ export const appRouter = createTRPCRouter({
     .query<Published | Rejected>(({ input }) =>
       fetch(`${API_BASE_URL}cve/v1/cve?id=` + input.id).then((res) => {
         return res.json().then((data) => {
-          console.log(data);
           return data;
         });
       })
@@ -28,7 +27,6 @@ export const appRouter = createTRPCRouter({
       fetch(`${API_BASE_URL}cve/v1/cves?id=` + input.ids.join(",")).then(
         (res) =>
           res.json().then((data) => {
-            console.log(data);
             return data;
           })
       )
@@ -38,7 +36,6 @@ export const appRouter = createTRPCRouter({
     .query<(Published | Rejected)[]>(({ input }) =>
       fetch(`${API_BASE_URL}cve/v1/recent?count=` + input.count).then((res) =>
         res.json().then((data) => {
-          console.log(data);
           return data.map((items) => items);
         })
       )
