@@ -45,8 +45,10 @@ const Home: NextPage<
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (/^CVE-[0-9]{4}-[0-9]+$/.test(value)) {
+    if (isCVEid(value)) {
       router.push(`/${value}`);
+    } else {
+      router.push(`/search?query=${value}`);
     }
   };
 
@@ -103,7 +105,7 @@ function formatValue(value: string) {
     if (parseInt(v) < 2050 && parseInt(v) > 1980) {
       return `CVE-${v}`;
     }
-  } else if (/^CVE-[0-9]{4}-[0-9]+$/.test(v)) {
+  } else if (isCVEid(v)) {
     // Complete id
     return `${v}`;
   } else if (/^CVE-[0-9]{5,}$/.test(v)) {
@@ -112,5 +114,6 @@ function formatValue(value: string) {
   }
   return value;
 }
+const isCVEid = (value: string) => /^CVE-[0-9]{4}-[0-9]+$/.test(value);
 
 export default Home;
