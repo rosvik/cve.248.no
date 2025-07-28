@@ -16,6 +16,9 @@ export const appRouter = createTRPCRouter({
   getRecentCVE: publicProcedure
     .input(z.object({ count: z.number() }))
     .query<(Published | Rejected)[]>(({ input }) => getRecentCVE(input.count)),
+  search: publicProcedure
+    .input(z.object({ query: z.string() }))
+    .query<Published[]>(({ input }) => search(input.query)),
 });
 
 export async function getCVE(id: string) {
@@ -31,6 +34,11 @@ export async function getCVEs(ids: string[]) {
 
 export async function getRecentCVE(count: number) {
   const result = await fetch(`${API_BASE_URL}cve/v1/recent?count=` + count);
+  return result.json();
+}
+
+export async function search(query: string) {
+  const result = await fetch(`${API_BASE_URL}cve/v1/search?query=` + query);
   return result.json();
 }
 
