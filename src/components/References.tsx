@@ -1,9 +1,9 @@
 import styles from "./references.module.css";
-import type { Reference, References } from "../types/v5-cve";
+import type { Reference } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import Image from "next/image";
 
-export function References({ references }: { references: References }) {
+export function References({ references }: { references: Reference[] }) {
   return (
     <div className={styles.referencesList}>
       {references.map((reference, i) => (

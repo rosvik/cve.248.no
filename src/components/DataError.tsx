@@ -6,11 +6,9 @@ import styles from "../styles/cve.module.css";
 type Props = {
   id?: string;
   errorMessage?: string;
-  errorObject?: object;
 };
 
-function DataError({ id, errorMessage, errorObject }: Props) {
-  const j = errorObject ? JSON.stringify(errorObject, null, 2) : undefined;
+function DataError({ id, errorMessage }: Props) {
   const url = id
     ? new URL(`https://cveawg.mitre.org/api/cve/${id}`)
     : undefined;
@@ -29,11 +27,6 @@ function DataError({ id, errorMessage, errorObject }: Props) {
             </div>
             <h1>Something went wrong!</h1>
             <p>{errorMessage}</p>
-            {j && (
-              <p>
-                <pre>{j}</pre>
-              </p>
-            )}
             {url && (
               <p>
                 You can try to look for the JSON record at{" "}

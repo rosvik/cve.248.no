@@ -3,6 +3,7 @@ import styles from "../styles/index.module.css";
 import { Published } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import { getProblemTypes } from "./CvePublished";
+import { isDefined } from "../utils/utils";
 
 export function CveLink({ cve }: { cve: Published }) {
   const published = cve.cveMetadata.datePublished
@@ -21,7 +22,8 @@ export function CveLink({ cve }: { cve: Published }) {
       <p className={styles.label}>
         Published {published} by {cve.cveMetadata.assignerShortName}
         {problems
-          ?.filter((p) => p.cweId)
+          ?.filter(isDefined)
+          .filter((p) => p.cweId)
           .map((p, i) => (
             <Chip key={i}>{`${p.cweId}`}</Chip>
           ))}

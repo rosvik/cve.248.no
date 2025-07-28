@@ -11,6 +11,7 @@ import { Chip } from "./Chip";
 import { References } from "./References";
 import { HNSearchHit } from "../types/HNSearch";
 import { HackerNewsItem } from "./HackerNewsItem";
+import { isDefined } from "../utils/utils";
 
 export function CveV5Pubished({
   cve,
@@ -32,7 +33,8 @@ export function CveV5Pubished({
         <Chip>{cve.cveMetadata.state}</Chip>
         <Chip>{cve.dataVersion}</Chip>
         {problemTypes
-          ?.filter((p) => p.cweId)
+          ?.filter(isDefined)
+          .filter((p) => p.cweId)
           .map((p, i) => (
             <Chip key={i}>{`${p.cweId}`}</Chip>
           ))}
@@ -51,7 +53,7 @@ export function CveV5Pubished({
         <>
           <h3>Problem type</h3>
           <ul>
-            {problemTypes.map((problem, i) => (
+            {problemTypes.filter(isDefined).map((problem, i) => (
               <li key={i}>
                 {problem.cweId ? (
                   <Link
@@ -102,18 +104,19 @@ const getDescription = (descriptions: Descriptions) => {
   const description = descriptions.find((s) =>
     ["en", "eng", "en-US"].includes(s.lang)
   )?.value;
-  return description || descriptions[0].value;
+  return description || descriptions?.[0]?.value;
 };
 
 export const getProblemTypes = (problems: ProblemTypes | undefined) => {
   return problems
-    ?.map(
+    ?.filter(isDefined)
+    .map(
       (problem) =>
         problem.descriptions.find((d) =>
           ["en", "eng", "en-US"].includes(d.lang)
         ) || problem.descriptions[0]
     )
-    .filter((problems) => problems.description !== "n/a");
+    .filter((problems) => problems?.description !== "n/a");
 };
 
 /**

@@ -1,10 +1,12 @@
+import { z } from "zod";
 import { Reference } from "../types/v5-cve";
 
-export type OpenGraphData = {
-  title: string | null;
-  description: string | null;
-  image: string | null;
-};
+export const OpenGraphData = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  image: z.string().optional(),
+});
+export type OpenGraphData = z.infer<typeof OpenGraphData>;
 
 type OpenGraphDataResponse = Array<{
   property: string;
@@ -28,9 +30,9 @@ export async function injectOpengraphData(
     if (!title && !description && !image) return;
 
     reference.openGraphData = {
-      title: title || null,
-      description: description || null,
-      image: image || null,
+      title,
+      description,
+      image,
     };
   });
 }

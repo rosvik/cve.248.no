@@ -6,16 +6,16 @@ import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
-import { injectOpengraphData } from "../utils/fetch-opengraph-data";
-import { CveResponse, toCve } from "../utils/getCve";
-import { searchHackerNews } from "../utils/searchHackerNews";
+import { injectOpengraphData } from "../utils/opengraph";
+import { searchHackerNews } from "../utils/hacker-news";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { validateCveId } from "../utils/utils";
-import { isPublished } from "../utils/validator";
-import { References } from "../types/v5-cve";
+import { validateCveId, isPublished } from "../utils/utils";
+import { Published, References, Rejected } from "../types/v5-cve";
 import { getCVE } from "../server/api/api";
 
-type Props = CveResponse & {
+type Props = {
+  cve?: Published | Rejected;
+  errorMessage?: string;
   hackerNewsHits?: HNSearchHit[];
 };
 const err = (m: string) => ({ props: { errorMessage: m } });
@@ -51,7 +51,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
 function Page({
   errorMessage,
-  errorObject,
   cve,
   hackerNewsHits,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -67,12 +66,11 @@ function Page({
   };
 
   const validId = typeof id === "string";
-  if (errorObject || errorObject || !cve || !validId)
+  if (!cve || !validId)
     return (
       <DataError
         id={typeof id === "string" ? id : undefined}
         errorMessage={errorMessage}
-        errorObject={errorObject}
       />
     );
 

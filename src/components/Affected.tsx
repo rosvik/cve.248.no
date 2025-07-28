@@ -1,8 +1,12 @@
 import { Fragment } from "react";
-import type { Affected, Product, Version } from "../types/v5-cve";
+import type {
+  Affected as TAffected,
+  Product as TProduct,
+  Version as TVersion,
+} from "../types/v5-cve";
 import styles from "./affected.module.css";
 
-export function Affected({ affected }: { affected: Affected }) {
+export function Affected({ affected }: { affected: TAffected }) {
   const groups = getAffectedGroups(affected);
   return (
     <div className={styles.affected}>
@@ -20,7 +24,7 @@ export function Affected({ affected }: { affected: Affected }) {
   );
 }
 
-function Product({ product }: { product: Product }) {
+function Product({ product }: { product: TProduct }) {
   return (
     <div className={styles.product}>
       {product.product && product.product !== "n/a" && (
@@ -33,7 +37,7 @@ function Product({ product }: { product: Product }) {
   );
 }
 
-function Version({ version }: { version: Version }) {
+function Version({ version }: { version: TVersion }) {
   let versionDesc = version.version;
   if (version.lessThan) {
     versionDesc = "< " + version.lessThan;
@@ -49,9 +53,9 @@ function Version({ version }: { version: Version }) {
 
 type ProductGroup = {
   vendor: string | undefined;
-  products: Product[];
+  products: TProduct[];
 };
-function getAffectedGroups(affected: Affected): ProductGroup[] {
+function getAffectedGroups(affected: TAffected): ProductGroup[] {
   // Create a list of all vendors in the affected list
   const vendors = affected.map((o) => o.vendor);
   // Remove duplicates

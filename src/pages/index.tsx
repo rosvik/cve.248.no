@@ -12,8 +12,7 @@ import styles from "../styles/index.module.css";
 import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { clamp } from "../utils/utils";
-import { isPublished } from "../utils/validator";
+import { clamp, isPublished } from "../utils/utils";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 

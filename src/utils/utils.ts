@@ -1,4 +1,4 @@
-import { ProblemTypes, Published } from "../types/v5-cve";
+import { ProblemTypes, Published, Rejected } from "../types/v5-cve";
 
 export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -63,4 +63,14 @@ export function trimString(str: string, maxLength: number): string {
 export function validateCveId(cveId: string): boolean {
   const regex = /^CVE-\d{4}-\d{4,}$/;
   return regex.test(cveId);
+}
+
+export function isPublished(
+  input: Published | Rejected | undefined
+): input is Published {
+  return !!input && input.cveMetadata.state === "PUBLISHED";
+}
+
+export function isDefined<T>(value: T): value is NonNullable<T> {
+  return value !== undefined && value !== null;
 }
