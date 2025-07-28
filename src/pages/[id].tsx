@@ -33,6 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   // Fetch CVE
   const cve = await getCVE(id);
+  if (!cve) return err("Error fetching CVE");
 
   // Populate references with OpenGraph data
   const odgRequest = injectOpengraphData(cve?.containers.cna.references ?? []);
