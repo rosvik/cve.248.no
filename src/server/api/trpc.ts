@@ -50,10 +50,8 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
  * transformer.
  */
 import { initTRPC } from "@trpc/server";
-import superjson from "superjson";
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
+const trpcContext = initTRPC.context<typeof createTRPCContext>().create({
   errorFormatter({ shape }) {
     return shape;
   },
@@ -71,7 +69,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  *
  * @see https://trpc.io/docs/router
  */
-export const createTRPCRouter = t.router;
+export const createTRPCRouter = trpcContext.router;
 
 /**
  * Public (unauthenticated) procedure
@@ -80,4 +78,4 @@ export const createTRPCRouter = t.router;
  * tRPC API. It does not guarantee that a user querying is authorized, but you
  * can still access user session data if they are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = trpcContext.procedure;
