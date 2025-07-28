@@ -1,0 +1,17 @@
+name: Push Container
+on:
+  push:
+    branches:
+      - main
+      - rosvik/deploy
+jobs:
+  push-container:
+    name: Push Container
+    uses: rosvik/workflows/.github/workflows/push-container.yml@main
+    with:
+      image: rosvik/cve.248.no
+      registry_url: ghcr.io
+      registry_username: rosvik
+      tag: prerelease
+    secrets:
+      registry_password: ${{ secrets.GHCR_TOKEN }}
