@@ -99,9 +99,10 @@ const Home: NextPage<
 
 function formatValue(value: string) {
   const v = value.toUpperCase();
-  if (/^[0-9]+$/.test(v)) {
-    // Only numbers
-    return `CVE-${v}`;
+  if (/^[0-9]{4}$/.test(v)) {
+    if (parseInt(v) < 2050 && parseInt(v) > 1980) {
+      return `CVE-${v}`;
+    }
   } else if (/^CVE-[0-9]{4}-[0-9]+$/.test(v)) {
     // Complete id
     return `${v}`;
@@ -109,7 +110,7 @@ function formatValue(value: string) {
     // More than 4 numbers
     return `${v.substring(0, 8)}-${v.substring(8)}`;
   }
-  return v;
+  return value;
 }
 
 export default Home;
