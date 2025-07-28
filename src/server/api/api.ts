@@ -6,11 +6,6 @@ import { env } from "../../env.mjs";
 
 const API_BASE_URL = env.API_BASE_URL;
 
-/**
- * This is the primary router for your server.
- *
- * All routers added in /api/routers should be manually added here
- */
 export const appRouter = createTRPCRouter({
   getCVE: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -37,5 +32,4 @@ export const appRouter = createTRPCRouter({
     ),
 });
 
-// export type definition of API
 export type AppRouter = typeof appRouter;
