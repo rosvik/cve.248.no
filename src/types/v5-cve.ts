@@ -10,7 +10,7 @@ export type DataType = z.infer<typeof DataType>;
 /**
  * The version of the schema being used. Used to support multiple versions of this format.
  */
-export const DataVersion = z.literal("5.0");
+export const DataVersion = z.string();
 export type DataVersion = z.infer<typeof DataVersion>;
 
 /**
