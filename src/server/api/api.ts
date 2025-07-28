@@ -21,11 +21,13 @@ export const appRouter = createTRPCRouter({
     ),
   getCVEs: publicProcedure
     .input(z.object({ ids: z.array(z.string()) }))
-    .query<(Published | Rejected)[]>(({ input }) =>
-      fetch(`${API_BASE_URL}cve/v1/cves?ids=` + input.ids.join(",")).then(
-        (res) => res.json()
-      )
-    ),
+    .query<(Published | Rejected)[]>(async ({ input }) => {
+      if (input.ids.length === 0) return [];
+      let result = await fetch(
+        `${API_BASE_URL}cve/v1/cves?ids=` + input.ids.join(",")
+      );
+      return result.json();
+    }),
   getRecentCVE: publicProcedure
     .input(z.object({ count: z.number() }))
     .query<(Published | Rejected)[]>(({ input }) =>
