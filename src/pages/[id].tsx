@@ -12,7 +12,8 @@ import { searchHackerNews } from "../utils/searchHackerNews";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
 import { isPublished } from "../utils/validator";
-import { api } from "../utils/api";
+import { References } from "../types/v5-cve";
+import { getCVE } from "../server/api/api";
 
 type Props = CveResponse & {
   hackerNewsHits?: HNSearchHit[];
@@ -25,28 +26,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const query = context.query;
   if (!(typeof query.id === "string")) return err("Error parsing ID");
   const id = query.id.toUpperCase();
-
   if (!validateCveId(id)) return err("Invalid CVE ID");
 
-  // Fetch CVE from DB
-  // const { data } = await api.api.getCVE.useQuery({ id });
-
-  // Parse and validate CVE
-  // const cve = toCve(data).cve;
-  // if (!cve) return err("Error parsing CVE");
-  // if (!isPublished(cve)) return err("CVE is not published");
-
-  // Populate references with OpenGraph data
-  // const odgRequest = injectOpengraphData(cve.containers.cna.references);
-
-  // Fetch Hacker News results
+  // Initiate Hacker News search
   const hnRequest = searchHackerNews(id);
 
-  let [hnSearch] = await Promise.all([hnRequest]);
+  // Fetch CVE
+  const cve = await getCVE(id);
 
+  // Populate references with OpenGraph data
+  const odgRequest = injectOpengraphData(
+    cve?.containers.cna.references as References
+  );
+
+  // Await pending requests
+  let [hnSearch] = await Promise.all([hnRequest, odgRequest]);
   return {
     props: {
-      // cve,
+      cve,
       hackerNewsHits: hnSearch?.hits,
     },
   };
@@ -55,13 +52,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 function Page({
   errorMessage,
   errorObject,
+  cve,
   hackerNewsHits,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     query: { id },
   } = useRouter();
-
-  const { data: cve } = api.getCVE.useQuery({ id: id as string });
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
 
