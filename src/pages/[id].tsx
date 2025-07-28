@@ -35,9 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const cve = await getCVE(id);
 
   // Populate references with OpenGraph data
-  const odgRequest = injectOpengraphData(
-    cve?.containers.cna.references as References
-  );
+  const odgRequest = injectOpengraphData(cve?.containers.cna.references ?? []);
 
   // Await pending requests
   let [hnSearch] = await Promise.all([hnRequest, odgRequest]);
