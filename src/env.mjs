@@ -5,9 +5,9 @@ import { z } from "zod";
  * This way you can ensure the app isn't built with invalid env vars.
  */
 const server = z.object({
-  API_BASE_URL: z.string().url().optional(),
-  HN_API_BASE_URL: z.string().url().optional(),
-  HN_SEARCH_API_BASE_URL: z.string().url().optional(),
+  API_BASE_URL: z.string().url(),
+  HN_API_BASE_URL: z.string().url(),
+  HN_SEARCH_API_BASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
