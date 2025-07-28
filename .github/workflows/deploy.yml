@@ -12,6 +12,5 @@ jobs:
       image: rosvik/cve.248.no
       registry_url: ghcr.io
       registry_username: rosvik
-      tag: prerelease
     secrets:
       registry_password: ${{ secrets.GHCR_TOKEN }}
