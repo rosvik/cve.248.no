@@ -22,7 +22,7 @@ export const appRouter = createTRPCRouter({
   getCVEs: publicProcedure
     .input(z.object({ ids: z.array(z.string()) }))
     .query<(Published | Rejected)[]>(({ input }) =>
-      fetch(`${API_BASE_URL}cve/v1/cves?id=` + input.ids.join(",")).then(
+      fetch(`${API_BASE_URL}cve/v1/cves?ids=` + input.ids.join(",")).then(
         (res) => res.json()
       )
     ),
