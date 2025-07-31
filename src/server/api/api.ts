@@ -2,6 +2,7 @@ import { createTRPCRouter, publicProcedure } from "./trpc";
 import { z } from "zod";
 import { Published } from "../../types/v5-cve";
 import { env } from "../../env.mjs";
+import { isDefined } from "../../utils/utils";
 
 const API_BASE_URL = env.API_BASE_URL;
 
@@ -32,20 +33,30 @@ export async function getCVE(id: string) {
 export async function getCVEs(ids: string[]) {
   if (ids.length === 0) return [];
   let result = await fetch(`${API_BASE_URL}cve/v1/cves?ids=` + ids.join(","));
-  const re = z.array(Published).safeParse(await result.json());
-  if (re.error) {
-    console.error(re.error);
-  }
-  return re.data;
+  let data = await result.json();
+  if (!Array.isArray(data)) return [];
+  let cves = data
+    .map((item) => {
+      const re = Published.safeParse(item);
+      if (re.error) console.error(re.error);
+      return re.data;
+    })
+    .filter(isDefined);
+  return cves;
 }
 
-export async function getRecentCVEs(count: number) {
+export async function getRecentCVEs(count: number): Promise<Published[]> {
   const result = await fetch(`${API_BASE_URL}cve/v1/recent?count=` + count);
-  const re = z.array(Published).safeParse(await result.json());
-  if (re.error) {
-    console.error(re.error);
-  }
-  return re.data;
+  let data = await result.json();
+  if (!Array.isArray(data)) return [];
+  let cves = data
+    .map((item) => {
+      const re = Published.safeParse(item);
+      if (re.error) console.error(re.error);
+      return re.data;
+    })
+    .filter(isDefined);
+  return cves;
 }
 
 export async function search(query: string) {

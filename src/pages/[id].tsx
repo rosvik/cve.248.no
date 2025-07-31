@@ -14,7 +14,7 @@ import { Published, References, Rejected } from "../types/v5-cve";
 import { getCVE } from "../server/api/api";
 
 type Props = {
-  cve?: Published | Rejected;
+  cve?: Published;
   errorMessage?: string;
   hackerNewsHits?: HNSearchHit[];
 };
@@ -84,9 +84,7 @@ function Page({
               {favoriteIds?.includes(id) ? "★" : "☆"}
             </button>
           </div>
-          {isPublished(cve) && (
-            <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
-          )}
+          <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
         </div>
       </main>
     </>

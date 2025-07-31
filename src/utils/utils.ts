@@ -74,3 +74,9 @@ export function isPublished(
 export function isDefined<T>(value: T): value is NonNullable<T> {
   return value !== undefined && value !== null;
 }
+
+export function removeUndefined(obj: any) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => v !== undefined)
+  );
+}

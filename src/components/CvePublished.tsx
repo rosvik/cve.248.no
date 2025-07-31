@@ -21,7 +21,7 @@ export function CveV5Pubished({
   hackerNewsHits?: HNSearchHit[];
 }) {
   const cna = cve.containers.cna;
-  const affectedSystemTypes = getAffectedSystemTypes(cna.affected);
+  const affectedSystemTypes = getAffectedSystemTypes(cna.affected ?? []);
   const problemTypes = getProblemTypes(cna.problemTypes);
   return (
     <>
@@ -49,9 +49,9 @@ export function CveV5Pubished({
           </Chip>
         ))}
       </div>
-      {cna.title ? <h2 className={styles.title}>{cna.title}</h2> : null}
+      {cna.title && <h2 className={styles.title}>{cna.title}</h2>}
 
-      <p>{getDescription(cna.descriptions)}</p>
+      {cna.descriptions && <p>{getDescription(cna.descriptions)}</p>}
 
       {problemTypes?.length ? (
         <>
@@ -79,11 +79,15 @@ export function CveV5Pubished({
         </>
       ) : null}
 
-      <h3>Affected products</h3>
-      <Affected affected={cna.affected} />
+      {cna.affected && (
+        <>
+          <h3>Affected products</h3>
+          <Affected affected={cna.affected} />
+        </>
+      )}
 
       <h3>References</h3>
-      <References references={cna.references} />
+      {cna.references && <References references={cna.references} />}
 
       {hackerNewsHits && hackerNewsHits.length > 0 && <h3>From Hacker News</h3>}
       {hackerNewsHits?.map((hit) => (

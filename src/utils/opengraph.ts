@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Reference } from "../types/v5-cve";
+import { removeUndefined } from "./utils";
 
 export const OpenGraphData = z.object({
   title: z.string().optional(),
@@ -29,10 +30,10 @@ export async function injectOpengraphData(
 
     if (!title && !description && !image) return;
 
-    reference.openGraphData = {
+    reference.openGraphData = removeUndefined({
       title,
       description,
       image,
-    };
+    });
   });
 }
