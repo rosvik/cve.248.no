@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
+import { getCVE } from "../server/api/api";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
-import { injectOpengraphData } from "../utils/opengraph";
+import { Published } from "../types/v5-cve";
+import { api } from "../utils/api";
 import { searchHackerNews } from "../utils/hacker-news";
+import { addOpenGraphData } from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { validateCveId, isPublished } from "../utils/utils";
-import { Published, References, Rejected } from "../types/v5-cve";
-import { getCVE } from "../server/api/api";
+import { validateCveId } from "../utils/utils";
 
 type Props = {
   cve?: Published;
@@ -32,14 +33,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const hnRequest = searchHackerNews(id);
 
   // Fetch CVE
-  const cve = await getCVE(id);
-  if (!cve) return err("Error fetching CVE");
-
-  // Populate references with OpenGraph data
-  const odgRequest = injectOpengraphData(cve?.containers.cna.references ?? []);
+  const cveRequest = getCVE(id);
 
   // Await pending requests
-  let [hnSearch] = await Promise.all([hnRequest, odgRequest]);
+  let [hnSearch, cve] = await Promise.all([hnRequest, cveRequest]);
+  if (!cve) return err("Error fetching CVE");
   return {
     props: {
       cve,
@@ -58,6 +56,10 @@ function Page({
   } = useRouter();
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
+  const { data: openGraphData } = api.getOpenGraphData.useQuery({
+    urls: cve?.containers.cna.references?.map((r) => r.url) ?? [],
+  });
+  const cveWithOpenGraphData = cve ? addOpenGraphData(cve, openGraphData) : cve;
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
@@ -65,7 +67,7 @@ function Page({
   };
 
   const validId = typeof id === "string";
-  if (!cve || !validId)
+  if (!cveWithOpenGraphData || !validId)
     return (
       <DataError
         id={typeof id === "string" ? id : undefined}
@@ -75,7 +77,7 @@ function Page({
 
   return (
     <>
-      <PageHead title={cve.cveMetadata.cveId} />
+      <PageHead title={cveWithOpenGraphData.cveMetadata.cveId} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>
@@ -84,7 +86,10 @@ function Page({
               {favoriteIds?.includes(id) ? "★" : "☆"}
             </button>
           </div>
-          <CveV5Pubished cve={cve} hackerNewsHits={hackerNewsHits} />
+          <CveV5Pubished
+            cve={cveWithOpenGraphData}
+            hackerNewsHits={hackerNewsHits}
+          />
         </div>
       </main>
     </>

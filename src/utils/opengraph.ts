@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Reference } from "../types/v5-cve";
+import { Published } from "../types/v5-cve";
 import { removeUndefined } from "./utils";
 
 export const OpenGraphData = z.object({
@@ -9,31 +9,48 @@ export const OpenGraphData = z.object({
 });
 export type OpenGraphData = z.infer<typeof OpenGraphData>;
 
-type OpenGraphDataResponse = Array<{
-  property: string;
-  content: string;
-}>;
+export const OpenGraphDataResponse = z.array(
+  z.object({
+    property: z.string(),
+    content: z.string(),
+  })
+);
+export type OpenGraphDataResponse = z.infer<typeof OpenGraphDataResponse>;
 
-export async function injectOpengraphData(
-  references: Reference[]
-): Promise<void> {
-  references.forEach(async (reference) => {
-    if (!reference.url) return;
-    const result = await fetch(`https://og.248.no/api?url=${reference.url}`);
-    const data = (await result.json()) as OpenGraphDataResponse;
+export function formatOpenGraphDataResponse(
+  response: OpenGraphDataResponse
+): OpenGraphData {
+  return {
+    title: response.find((d) => d.property === "og:title")?.content,
+    description: response.find((d) => d.property === "og:description")?.content,
+    image: response.find((d) => d.property === "og:image")?.content,
+  };
+}
 
-    const title = data.find((d) => d.property === "og:title")?.content;
-    const description = data.find(
-      (d) => d.property === "og:description"
-    )?.content;
-    const image = data.find((d) => d.property === "og:image")?.content;
-
-    if (!title && !description && !image) return;
-
-    reference.openGraphData = removeUndefined({
-      title,
-      description,
-      image,
-    });
-  });
+export function addOpenGraphData(
+  cve: Published,
+  openGraphData: Array<OpenGraphData & { url: string }> | undefined
+): Published {
+  if (!openGraphData) return cve;
+  return {
+    ...cve,
+    containers: {
+      ...cve.containers,
+      cna: {
+        ...cve.containers.cna,
+        references: cve.containers.cna.references?.map((reference) => {
+          const data = openGraphData.find((d) => d.url === reference.url);
+          if (!data) return reference;
+          return {
+            ...reference,
+            openGraphData: removeUndefined({
+              title: data.title,
+              description: data.description,
+              image: data.image,
+            }),
+          };
+        }),
+      },
+    },
+  };
 }

@@ -3,6 +3,11 @@ import { z } from "zod";
 import { Published } from "../../types/v5-cve";
 import { env } from "../../env.mjs";
 import { isDefined } from "../../utils/utils";
+import {
+  formatOpenGraphDataResponse,
+  OpenGraphData,
+  OpenGraphDataResponse,
+} from "../../utils/opengraph";
 
 const API_BASE_URL = env.API_BASE_URL;
 
@@ -19,6 +24,11 @@ export const appRouter = createTRPCRouter({
   search: publicProcedure
     .input(z.object({ query: z.string() }))
     .query<Published[] | undefined>(({ input }) => search(input.query)),
+  getOpenGraphData: publicProcedure
+    .input(z.object({ urls: z.array(z.string()) }))
+    .query<Array<OpenGraphData & { url: string }> | undefined>(({ input }) =>
+      getOpenGraphData(input.urls)
+    ),
 });
 
 export async function getCVE(id: string) {
@@ -68,4 +78,22 @@ export async function search(query: string) {
   return re.data;
 }
 
+export async function getOpenGraphData(
+  urls: string[]
+): Promise<Array<OpenGraphData & { url: string }>> {
+  if (urls.length === 0) return [];
+  const result = await Promise.all(
+    urls.map(async (url) => {
+      const response = await fetch(`https://og.248.no/api?url=${url}`);
+      const ogdResponse = OpenGraphDataResponse.safeParse(
+        await response.json()
+      );
+      if (ogdResponse.error) console.error(ogdResponse.error);
+      return ogdResponse.data
+        ? { ...formatOpenGraphDataResponse(ogdResponse.data), url }
+        : undefined;
+    })
+  );
+  return result.filter(isDefined);
+}
 export type AppRouter = typeof appRouter;
