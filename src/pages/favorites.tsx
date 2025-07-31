@@ -21,7 +21,7 @@ function Page({}) {
           <h1>Favorite CVEs</h1>
           {cves.isLoading && <p>Loading...</p>}
           {cves.data
-            ?.reverse()
+            ?.toReversed()
             .map(
               (cve) =>
                 cve.cveMetadata.state === "PUBLISHED" && (
