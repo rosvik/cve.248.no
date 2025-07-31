@@ -22,23 +22,39 @@ export const appRouter = createTRPCRouter({
 
 export async function getCVE(id: string) {
   const result = await fetch(`${API_BASE_URL}cve/v1/cve?id=` + id);
-  return Published.safeParse(await result.json()).data;
+  const re = Published.safeParse(await result.json());
+  if (re.error) {
+    console.error(re.error);
+  }
+  return re.data;
 }
 
 export async function getCVEs(ids: string[]) {
   if (ids.length === 0) return [];
   let result = await fetch(`${API_BASE_URL}cve/v1/cves?ids=` + ids.join(","));
-  return z.array(Published).safeParse(await result.json()).data;
+  const re = z.array(Published).safeParse(await result.json());
+  if (re.error) {
+    console.error(re.error);
+  }
+  return re.data;
 }
 
 export async function getRecentCVEs(count: number) {
   const result = await fetch(`${API_BASE_URL}cve/v1/recent?count=` + count);
-  return z.array(Published).safeParse(await result.json()).data;
+  const re = z.array(Published).safeParse(await result.json());
+  if (re.error) {
+    console.error(re.error);
+  }
+  return re.data;
 }
 
 export async function search(query: string) {
   const result = await fetch(`${API_BASE_URL}cve/v1/search?query=` + query);
-  return z.array(Published).safeParse(await result.json()).data;
+  const re = z.array(Published).safeParse(await result.json());
+  if (re.error) {
+    console.error(re.error);
+  }
+  return re.data;
 }
 
 export type AppRouter = typeof appRouter;
