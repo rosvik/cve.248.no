@@ -25,13 +25,18 @@ export function CveV5Pubished({
   const problemTypes = getProblemTypes(cna.problemTypes);
   return (
     <>
-      <h1>{cve.cveMetadata.cveId}</h1>
+      <header>
+        <h1>{cve.cveMetadata.cveId}</h1>
+        <span>{cve.cveMetadata.assignerShortName}</span>
+      </header>
       <div className={styles.chipContainer}>
+        <Chip color={cve.cveMetadata.state === "PUBLISHED" ? "green" : "red"}>
+          {cve.cveMetadata.state}
+        </Chip>
+        <Chip color="pink">{cve.dataVersion}</Chip>
         {affectedSystemTypes.length > 0 && (
-          <Chip>{affectedSystemTypes.join(" / ")}</Chip>
+          <Chip color="yellow">{affectedSystemTypes.join(" / ")}</Chip>
         )}
-        <Chip>{cve.cveMetadata.state}</Chip>
-        <Chip>{cve.dataVersion}</Chip>
         {problemTypes
           ?.filter(isDefined)
           .filter((p) => p.cweId)
@@ -39,15 +44,14 @@ export function CveV5Pubished({
             <Chip key={i}>{`${p.cweId}`}</Chip>
           ))}
         {cna.tags?.map((tag, i) => (
-          <Chip key={i} color="red">
+          <Chip key={i} color="purple">
             {tag}
           </Chip>
         ))}
       </div>
       {cna.title ? <h2 className={styles.title}>{cna.title}</h2> : null}
-      <p className={styles.assigner}>{cve.cveMetadata.assignerShortName}</p>
 
-      <p className={styles.description}>{getDescription(cna.descriptions)}</p>
+      <p>{getDescription(cna.descriptions)}</p>
 
       {problemTypes?.length ? (
         <>

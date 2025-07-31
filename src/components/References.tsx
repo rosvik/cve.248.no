@@ -25,14 +25,16 @@ function ReferenceItem({ reference }: { reference: Reference }) {
         />
       )}
       <div className={styles.ogd_content}>
-        <h4>{getTitle(reference)}</h4>
+        <b>{getTitle(reference)}</b>
         {reference.openGraphData?.description && (
-          <p>{reference.openGraphData.description}</p>
+          <p className="pre">{reference.openGraphData.description}</p>
         )}
         <p className={styles.url}>{reference.url}</p>
-        {reference.tags?.map((tag) => (
-          <Chip key={tag}>{`#${tag}`}</Chip>
-        ))}
+        <div className={styles.tags}>
+          {reference.tags?.map((tag) => (
+            <Chip key={tag}>{`#${tag}`}</Chip>
+          ))}
+        </div>
       </div>
     </a>
   );

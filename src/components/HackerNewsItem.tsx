@@ -7,11 +7,11 @@ export function HackerNewsItem({ item }: { item: HNSearchHit }) {
   if (item._tags.includes("story"))
     return (
       <div className={styles.container}>
-        <h4 className={styles.header}>
+        <b className={styles.header}>
           <Link href={`https://news.ycombinator.com/item?id=${item.objectID}`}>
             {item.title}
           </Link>
-        </h4>
+        </b>
         {item.url && (
           <Link className={styles.url} href={item.url}>
             {item.url}

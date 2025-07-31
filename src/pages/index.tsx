@@ -13,6 +13,7 @@ import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { clamp, isPublished } from "../utils/utils";
+import { Chip } from "../components/Chip";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 
@@ -63,15 +64,20 @@ const Home: NextPage<
       <PageHead />
       <main className={styles.main}>
         <div className={styles.container}>
-          <h1>cve.248.no</h1>
+          <header>
+            <h1>cve.248.no</h1>
+          </header>
           <form onSubmit={onSubmit} action="/form">
-            <label htmlFor="cveId">Lookup</label>
+            <label htmlFor="cveId">
+              <h2>Search</h2>
+            </label>
             <input
               name="cveId"
               placeholder="CVE-0000-00000"
               value={value}
               onChange={onType}
               type="text"
+              autoFocus={true}
             />
           </form>
           {!!favorites.data?.length && <h3>Favorites</h3>}

@@ -20,21 +20,12 @@
   overflow: scroll;
 }
 
-.description {
-  margin-top: var(--spacings-xLarge);
-  font-size: var(--font-size-medium);
-}
-
 .chipContainer {
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
-}
-
-.assigner {
-  text-align: center;
-  text-transform: uppercase;
-  opacity: .5;
+  gap: var(--spacings-xSmall);
+  flex-wrap: wrap;
 }
 
 .title {
@@ -55,17 +46,13 @@
 }
 
 .saveButton {
-  padding: var(--spacings-xSmall);
   height: 3rem;
   aspect-ratio: 1;
 	background-color: var(--color-blue);
-	border-radius: var(--spacings-xSmall);
-  font-size: var(--font-size-large);
 	font-weight: 500;
 	text-transform: uppercase;
   color: white;
   border: none;
-  border-radius: 50%;
 }
 .saveButton:hover {
   background-color: rgba(93, 117, 205, 0.4);

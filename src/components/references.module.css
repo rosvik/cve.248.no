@@ -6,14 +6,18 @@
 	margin: 0 calc(var(--spacings-small) * -1);
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacings-xSmall);
+}
+
 .open_graph_data {
   opacity: 1;
 	display: block;
 	min-width: 200px;
-	background-color: var(--color-blue);
-	border-radius: var(--spacings-xSmall);
+	background-color: var(--color-dark-gray);
 	overflow: hidden;
-	font-size: var(--font-size-small);
 }
 
 .open_graph_data .ogd_content {
@@ -37,9 +41,6 @@
   aspect-ratio: 2/1;
   object-fit: cover;
   object-position: center;
-}
-.open_graph_data h4 {
-	font-size: var(--font-size-regular);
 }
 
 .open_graph_data .url {

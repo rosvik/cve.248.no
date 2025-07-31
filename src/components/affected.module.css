@@ -13,8 +13,7 @@
 .product {
 	display: grid;
   gap: var(--spacings-small);
-	background-color: var(--color-blue);
-	border-radius: var(--spacings-xSmall);
+	background-color: var(--color-dark-gray);
 	padding: var(--spacings-small);
 }
 

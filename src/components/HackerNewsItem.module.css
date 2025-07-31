@@ -18,18 +18,13 @@
 
 .comment {
   display: flex;
-  background-color: var(--color-blue);
+  background-color: var(--color-dark-gray);
   flex-direction: column;
   margin-bottom: var(--spacings-small);
   padding: var(--spacings-small);
-  border-radius: var(--spacings-small);
   opacity: 1;
 }
 .comment:hover {
   text-decoration: none;
   cursor: pointer;
-}
-.comment_text {
-  font-size: var(--font-size-small);
-  margin-top: var(--spacings-small);
 }
