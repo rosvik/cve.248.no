@@ -82,7 +82,7 @@ const Home: NextPage<
           </form>
           {!!favorites.data?.length && <h3>Favorites</h3>}
           {favorites.data
-            ?.reverse()
+            ?.toReversed()
             .slice(0, MAX_NUMBER_OF_FAVORITES)
             .map((cve) => (
               <CveLink key={cve.cveMetadata.cveId} cve={cve as Published} />
