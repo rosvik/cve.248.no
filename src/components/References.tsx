@@ -29,10 +29,12 @@ function ReferenceItem({ reference }: { reference: Reference }) {
         {reference.openGraphData?.description && (
           <p className="pre">{reference.openGraphData.description}</p>
         )}
-        <p className={styles.url}>{reference.url}</p>
+        <p className={styles.url} title={reference.url}>
+          {reference.url}
+        </p>
         <div className={styles.tags}>
           {reference.tags?.map((tag) => (
-            <Chip key={tag}>{`#${tag}`}</Chip>
+            <Chip key={tag}>{tag}</Chip>
           ))}
         </div>
       </div>
