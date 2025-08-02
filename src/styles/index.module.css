@@ -35,6 +35,9 @@
   display: flex;
   gap: var(--spacings-xSmall);
 }
+.header *:first-child {
+  flex-grow: 1;
+}
 
 .linkTitle {
   opacity: .8;

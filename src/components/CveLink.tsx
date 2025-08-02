@@ -3,11 +3,11 @@ import styles from "../styles/index.module.css";
 import { Published } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import { getProblemTypes } from "./CvePublished";
-import { isDefined } from "../utils/utils";
+import { formatDate, isDefined } from "../utils/utils";
 
 export function CveLink({ cve }: { cve: Published }) {
   const published = cve.cveMetadata.datePublished
-    ? new Date(cve.cveMetadata.datePublished).toDateString()
+    ? formatDate(cve.cveMetadata.datePublished)
     : "unknown";
 
   const problems = getProblemTypes(cve.containers.cna.problemTypes);
