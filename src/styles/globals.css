@@ -87,7 +87,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-yellow);
   font-weight: bold;
   margin: 0;
+}
+h1, h2 {
   margin-top: var(--spacings-medium);
+}
+h3, h4 {
+  margin-top: var(--spacings-xSmall);
 }
 h1::before { content: "# " }
 h2::before { content: "## " }

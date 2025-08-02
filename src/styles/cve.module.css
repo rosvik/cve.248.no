@@ -28,17 +28,6 @@
   flex-wrap: wrap;
 }
 
-.title {
-  margin-bottom: 0rem;
-}
-
-.id {
-  opacity: .5;
-  font-weight: 200;
-  margin-bottom: .5rem;
-}
-
-
 .navContainer {
   display: flex;
   align-items: center;

@@ -52,8 +52,7 @@ export function CveV5Pubished({
           </Chip>
         ))}
       </div>
-      {cna.title && <h2 className={styles.title}>{cna.title}</h2>}
-
+      {cna.title && <h1>{cna.title}</h1>}
       {cna.descriptions && (
         <article>
           {getDescription(cna.descriptions)
@@ -66,7 +65,7 @@ export function CveV5Pubished({
 
       {problemTypes?.length ? (
         <>
-          <h3>Problem type</h3>
+          <h2>Problem type</h2>
           <ul>
             {problemTypes.filter(isDefined).map((problem, i) => (
               <li key={i}>
@@ -92,26 +91,26 @@ export function CveV5Pubished({
 
       {cna.affected && (
         <>
-          <h3>Affected products</h3>
+          <h2>Affected products</h2>
           <Affected affected={cna.affected} />
         </>
       )}
 
-      <h3>References</h3>
+      <h2>References</h2>
       {cna.references && <References references={cna.references} />}
 
-      {hackerNewsHits && hackerNewsHits.length > 0 && <h3>From Hacker News</h3>}
+      {hackerNewsHits && hackerNewsHits.length > 0 && <h2>From Hacker News</h2>}
       {hackerNewsHits?.map((hit) => (
         <HackerNewsItem item={hit} key={hit.objectID} />
       ))}
 
-      <h3>JSON source</h3>
+      <h2>JSON source</h2>
       <details>
         <summary>Click to expand</summary>
         <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
       </details>
 
-      <h3>Mitre source</h3>
+      <h2>Mitre source</h2>
       <a
         href={`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}
       >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</a>

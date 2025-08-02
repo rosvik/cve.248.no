@@ -68,7 +68,7 @@ const Home: NextPage<
           </header>
           <form onSubmit={onSubmit} action="/form">
             <label htmlFor="cveId">
-              <h1>Search</h1>
+              <h2>Search</h2>
             </label>
             <input
               name="cveId"
@@ -79,7 +79,7 @@ const Home: NextPage<
               autoFocus={true}
             />
           </form>
-          {!!favorites.data?.length && <h1>Favorites</h1>}
+          {!!favorites.data?.length && <h2>Favorites</h2>}
           {favorites.data
             ?.toReversed()
             .slice(0, MAX_NUMBER_OF_FAVORITES)
@@ -90,7 +90,7 @@ const Home: NextPage<
             favorites.data?.length > MAX_NUMBER_OF_FAVORITES && (
               <Link href="/favorites">All favorites →</Link>
             )}
-          <h1>Recent</h1>
+          <h2>Recent</h2>
           {recents?.map(
             (cve) =>
               isPublished(cve) && (

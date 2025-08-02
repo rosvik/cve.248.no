@@ -12,7 +12,7 @@ export function Affected({ affected }: { affected: TAffected }) {
     <div className={styles.affected}>
       {groups.map(({ vendor, products }) => (
         <Fragment key={vendor}>
-          {vendor && vendor !== "n/a" && <h4>{vendor}</h4>}
+          {vendor && vendor !== "n/a" && <h3>{vendor}</h3>}
           <div className={styles.products}>
             {products.map((product, i) => (
               <Product key={i} product={product} />
@@ -27,9 +27,7 @@ export function Affected({ affected }: { affected: TAffected }) {
 function Product({ product }: { product: TProduct }) {
   return (
     <div className={styles.product}>
-      {product.product && product.product !== "n/a" && (
-        <h4>{product.product}</h4>
-      )}
+      {product.product && product.product !== "n/a" && <b>{product.product}</b>}
       {product.versions?.map((version, i) => (
         <Version key={i} version={version} />
       ))}
