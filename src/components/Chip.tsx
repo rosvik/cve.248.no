@@ -2,7 +2,7 @@ import styles from "./chip.module.css";
 
 export function Chip({
   children,
-  color = "blue",
+  color = "text-dark",
 }: {
   children: JSX.Element | string;
   color?: ChipColor;
@@ -51,7 +51,5 @@ function getColorStyle(color: ChipColor) {
       return styles.green;
     case "dark-green":
       return styles.darkGreen;
-    default:
-      return styles.blue;
   }
 }

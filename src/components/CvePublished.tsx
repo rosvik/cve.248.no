@@ -36,7 +36,7 @@ export function CveV5Pubished({
         <Chip color={cve.cveMetadata.state === "PUBLISHED" ? "green" : "red"}>
           {cve.cveMetadata.state}
         </Chip>
-        <Chip color="pink">{cve.dataVersion}</Chip>
+        <Chip color="dark-gray">{cve.dataVersion}</Chip>
         {affectedSystemTypes.length > 0 && (
           <Chip color="yellow">{affectedSystemTypes.join(" / ")}</Chip>
         )}
@@ -44,7 +44,7 @@ export function CveV5Pubished({
           ?.filter(isDefined)
           .filter((p) => p.cweId)
           .map((p, i) => (
-            <Chip key={i}>{`${p.cweId}`}</Chip>
+            <Chip key={i} color="purple">{`${p.cweId}`}</Chip>
           ))}
         {cna.tags?.map((tag, i) => (
           <Chip key={i} color="purple">
