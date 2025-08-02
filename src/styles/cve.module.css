@@ -13,6 +13,13 @@
   justify-content: center;
   padding: 4rem 1rem;
   max-width: 1000px;
+  gap: var(--spacings-medium);
+}
+
+.container article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
 }
 
 .code {
@@ -23,7 +30,6 @@
 .chipContainer {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
   gap: var(--spacings-xSmall);
   flex-wrap: wrap;
 }
