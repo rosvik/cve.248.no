@@ -51,7 +51,15 @@ export function CveV5Pubished({
       </div>
       {cna.title && <h2 className={styles.title}>{cna.title}</h2>}
 
-      {cna.descriptions && <p>{getDescription(cna.descriptions)}</p>}
+      {cna.descriptions && (
+        <article>
+          {getDescription(cna.descriptions)
+            ?.split("\n")
+            .map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+        </article>
+      )}
 
       {problemTypes?.length ? (
         <>
