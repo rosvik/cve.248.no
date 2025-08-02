@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-xSmall);
+  background-color: var(--color-dark-gray);
+  margin: 0 calc(var(--spacings-small) * -1);
+  padding: var(--spacings-small);
+  border-radius: var(--border-radius);
+}
+.header {
+  display: flex;
+  gap: var(--spacings-xSmall);
+}
+.header *:first-child {
+  flex-grow: 1;
+}
+
+.title {
+  line-height: 1rem;
+  font-weight: bold;
+}
+
+.label {
+  opacity: .8;
+  line-height: 1;
+}

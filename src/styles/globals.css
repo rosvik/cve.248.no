@@ -29,19 +29,22 @@ body {
   color: var(--color-text);
 }
 
+p {
+  margin: 0;
+}
+
 a {
   text-decoration: none;
-  opacity: .7;
   color: var(--color-blue);
 }
 a > * {
   color: var(--color-text);
-
 }
-
+a b {
+  color: var(--color-blue);
+}
 a:hover {
-  opacity: 1;
-  /* text-decoration: underline; */
+  opacity: .8;
 }
 
 code {
@@ -80,31 +83,18 @@ header *:only-child, footer *:only-child {
     flex-direction: column;
   }
 }
-h1 {
-  background-color: var(--color-dark-gray);
-  text-align: center;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-yellow);
+  font-weight: bold;
   margin: 0;
+  margin-top: var(--spacings-medium);
 }
 h1::before { content: "# " }
-
-h2 {
-  color: var(--color-yellow);
-  font-weight: bold;
-}
 h2::before { content: "## " }
-
-h3 {
-  color: var(--color-yellow);
-  font-weight: bold;
-}
 h3::before { content: "### " }
-
-h4 {
-  color: var(--color-yellow);
-  padding: 0;
-  margin: 0;
-}
 h4::before { content: "#### " }
+h5::before { content: "##### " }
+h6::before { content: "###### " }
 
 bold, b {
   color: var(--color-green);
@@ -142,20 +132,7 @@ input[type='text']:focus {
 }
 
 label {
-  min-width: 15rem;
   display: block;
-  padding: 1rem 0 1rem 0;
-}
-label:focus {
-  color: red;
-}
-
-aside {
-  margin-left: 1rem;
-  margin-bottom: 1rem;
-  display: block;
-  float: right;
-  max-width: 40%;
 }
 
 summary {

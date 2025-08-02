@@ -48,13 +48,13 @@
 .saveButton {
   height: 3rem;
   aspect-ratio: 1;
-	background-color: var(--color-blue);
+	background-color: var(--color-dark-green);
 	font-weight: 500;
 	text-transform: uppercase;
   color: white;
   border: none;
 }
 .saveButton:hover {
-  background-color: rgba(93, 117, 205, 0.4);
+  opacity: .8;
   cursor: pointer;
 }

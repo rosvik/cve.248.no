@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../styles/index.module.css";
+import styles from "./CveLink.module.css";
 import { Published } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import { getProblemTypes } from "./CvePublished";
@@ -14,11 +14,9 @@ export function CveLink({ cve }: { cve: Published }) {
   const title = cve.containers.cna.title;
 
   return (
-    <div style={{ marginBottom: "1rem" }}>
+    <Link className={styles.container} href={`/${cve.cveMetadata.cveId}`}>
       <div className={styles.header}>
-        <Link className={styles.link} href={`/${cve.cveMetadata.cveId}`}>
-          {cve.cveMetadata.cveId}
-        </Link>
+        <b>{cve.cveMetadata.cveId}</b>
         {problems
           ?.filter(isDefined)
           .filter((p) => p.cweId)
@@ -26,10 +24,10 @@ export function CveLink({ cve }: { cve: Published }) {
             <Chip key={i} color="light-gray">{`${p.cweId}`}</Chip>
           ))}
       </div>
-      {title && <p className={styles.linkTitle}>{title}</p>}
+      {title && <p className={styles.title}>{title}</p>}
       <p className={styles.label}>
         Published {published} by {cve.cveMetadata.assignerShortName}
       </p>
-    </div>
+    </Link>
   );
 }

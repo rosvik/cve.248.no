@@ -13,7 +13,6 @@ import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { clamp, isPublished } from "../utils/utils";
-import { Chip } from "../components/Chip";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 
@@ -69,7 +68,7 @@ const Home: NextPage<
           </header>
           <form onSubmit={onSubmit} action="/form">
             <label htmlFor="cveId">
-              <h2>Search</h2>
+              <h1>Search</h1>
             </label>
             <input
               name="cveId"
@@ -80,7 +79,7 @@ const Home: NextPage<
               autoFocus={true}
             />
           </form>
-          {!!favorites.data?.length && <h3>Favorites</h3>}
+          {!!favorites.data?.length && <h1>Favorites</h1>}
           {favorites.data
             ?.toReversed()
             .slice(0, MAX_NUMBER_OF_FAVORITES)
@@ -91,7 +90,7 @@ const Home: NextPage<
             favorites.data?.length > MAX_NUMBER_OF_FAVORITES && (
               <Link href="/favorites">All favorites →</Link>
             )}
-          <h3>Recent</h3>
+          <h1>Recent</h1>
           {recents?.map(
             (cve) =>
               isPublished(cve) && (
