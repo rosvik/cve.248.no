@@ -65,7 +65,7 @@ const Home: NextPage<
       <main className={styles.main}>
         <div className={styles.container}>
           <header>
-            <h1>cve.248.no</h1>
+            <span>cve.248.no</span>
           </header>
           <form onSubmit={onSubmit} action="/form">
             <label htmlFor="cveId">

@@ -11,7 +11,7 @@ import { Chip } from "./Chip";
 import { References } from "./References";
 import { HNSearchHit } from "../types/HNSearch";
 import { HackerNewsItem } from "./HackerNewsItem";
-import { isDefined } from "../utils/utils";
+import { formatTimestamp, isDefined } from "../utils/utils";
 
 export function CveV5Pubished({
   cve,
@@ -26,7 +26,10 @@ export function CveV5Pubished({
   return (
     <>
       <header>
-        <h1>{cve.cveMetadata.cveId}</h1>
+        {cve.cveMetadata.datePublished ? (
+          <span>{formatTimestamp(cve.cveMetadata.datePublished)}</span>
+        ) : undefined}
+        <span>{cve.cveMetadata.cveId}</span>
         <span>{cve.cveMetadata.assignerShortName}</span>
       </header>
       <div className={styles.chipContainer}>

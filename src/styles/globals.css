@@ -63,7 +63,23 @@ header, footer {
   margin: 2rem 0;
   font-weight: bold;
 }
-
+header > *, footer > * {
+  flex: 1;
+}
+header *:last-child, footer *:last-child {
+  text-align: right;
+}
+header *:first-child, footer *:first-child {
+  text-align: left;
+}
+header *:only-child, footer *:only-child {
+  text-align: center;
+}
+@media (max-width: 60ch) {
+  header, footer {
+    flex-direction: column;
+  }
+}
 h1 {
   background-color: var(--color-dark-gray);
   text-align: center;

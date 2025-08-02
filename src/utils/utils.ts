@@ -23,6 +23,14 @@ export function parseDateAsUTC(date: string | undefined): Date | null {
   return new Date(date + "Z");
 }
 
+export function formatTimestamp(timestamp: string) {
+  const date = parseDateAsUTC(timestamp);
+  if (!date) return null;
+  let month = (date.getMonth() + 1).toString().padStart(2, "0");
+  let day = date.getDate().toString().padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day} ${date.getHours()}:${date.getMinutes()}`;
+}
+
 type ProblemType = ProblemTypes extends (infer U)[] ? U : never;
 /**
  * Get all CWE IDs for a CVE based on its problem types
