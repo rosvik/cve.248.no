@@ -14,3 +14,11 @@ jobs:
       registry_username: rosvik
     secrets:
       registry_password: ${{ secrets.GHCR_TOKEN }}
+  cubbyman-reload:
+    name: Cubbyman Reload
+    needs: push-container
+    uses: rosvik/workflows/.github/workflows/cubbyman-reload.yml@main
+    with:
+      base_url: https://cubby.no
+    secrets:
+      credentials: ${{ secrets.CUBBYMAN_CREDENTIALS }}
