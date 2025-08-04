@@ -12,13 +12,13 @@ function Page({}) {
 
   return (
     <>
-      <PageHead title="cve.248.no - Favorite CVEs" />
+      <PageHead title="cve.248.no - Favorites" />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>
             <Link href="/">← Back</Link>
           </div>
-          <h1>Favorite CVEs</h1>
+          <h1>Favorites</h1>
           {cves.isLoading && <p>Loading...</p>}
           {cves.data
             ?.toReversed()

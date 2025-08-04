@@ -2,17 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   min-height: 100vh;
 }
 
 .container {
-  width: 90%;
+  max-width: 30rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 4rem 1rem;
-  max-width: 1000px;
+  padding: 4rem 2rem;
+  gap: var(--spacings-medium);
 }
 
 .link {
