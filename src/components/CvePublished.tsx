@@ -30,7 +30,9 @@ export function CveV5Pubished({
           <span>{formatTimestamp(cve.cveMetadata.datePublished)}</span>
         ) : undefined}
         <span>{cve.cveMetadata.cveId}</span>
-        <span>{cve.cveMetadata.assignerShortName}</span>
+        <span className={styles.assigner}>
+          {cve.cveMetadata.assignerShortName}
+        </span>
       </header>
       <div className={styles.chipContainer}>
         <Chip color={cve.cveMetadata.state === "PUBLISHED" ? "green" : "red"}>
