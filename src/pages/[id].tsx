@@ -10,9 +10,10 @@ import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { searchHackerNews } from "../utils/hacker-news";
-import { addOpenGraphData } from "../utils/opengraph";
+import { addOpenGraphData, OpenGraphData } from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
+import { useEffect, useState } from "react";
 
 type Props = {
   cve?: Published;
@@ -54,11 +55,21 @@ function Page({
   const {
     query: { id },
   } = useRouter();
+  const [openGraphData, setOpenGraphData] = useState<
+    Array<OpenGraphData & { url: string }>
+  >([]);
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
-  const { data: openGraphData } = api.getOpenGraphData.useQuery({
+  const { data: openGraphDataMessage } = api.getOpenGraphData.useSubscription({
     urls: cve?.containers.cna.references?.map((r) => r.url) ?? [],
   });
+
+  useEffect(() => {
+    if (openGraphDataMessage) {
+      setOpenGraphData((prev) => [...prev, openGraphDataMessage]);
+    }
+  }, [openGraphDataMessage]);
+
   const cveWithOpenGraphData = cve ? addOpenGraphData(cve, openGraphData) : cve;
 
   const handleAddClick = () => {
