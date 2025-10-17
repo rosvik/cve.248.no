@@ -69,7 +69,7 @@ function Page({
       console.info(
         `Received ${openGraphDataMessage.length} opengraph data items`
       );
-      setOpenGraphData(openGraphDataMessage);
+      setOpenGraphData((prev) => [...prev, ...openGraphDataMessage]);
     }
   }, [openGraphDataMessage]);
 

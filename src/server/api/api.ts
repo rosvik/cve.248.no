@@ -33,7 +33,7 @@ export const appRouter = createTRPCRouter({
 
       const promises = opts.input.urls.map(getOpenGraphData);
       let results: Array<OpenGraphData & { url: string }> = [];
-      let lastYieldTime = Date.now();
+      let lastYieldTime = Date.now() + 100; // Delay first yield by 100ms
       const DEBOUNCE_DELAY = 100;
 
       // Process promises as they complete
@@ -46,26 +46,29 @@ export const appRouter = createTRPCRouter({
           const now = Date.now();
           const shouldYield = now - lastYieldTime >= DEBOUNCE_DELAY;
           if (shouldYield) {
-            console.log(`Yielding ${results.length} opengraph data items`);
-            yield results;
+            console.info(
+              `getOpenGraphData: Yielding ${results.length} opengraph data items`
+            );
+            const toYield = results;
+            results = [];
             lastYieldTime = now;
+            yield toYield;
           }
         }
       }
 
       // Yield any trailing results
       if (results.length > 0) {
+        // Wait 100ms to give the last yield a chance to complete
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
         console.info(
-          `getOpenGraphData: Yielding ${results.length} opengraph data items`
+          `getOpenGraphData: Yielding ${results.length} trailing opengraph data items`
         );
         yield results;
       } else {
         console.info("getOpenGraphData: No trailing results to yield");
       }
-      console.info(
-        `getOpenGraphData: Fetched ${results.length} opengraph data items`
-      );
-
       // Wait 1 second before closing the connection to let any yields complete
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }),
