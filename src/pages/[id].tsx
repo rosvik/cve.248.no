@@ -66,7 +66,10 @@ function Page({
 
   useEffect(() => {
     if (openGraphDataMessage) {
-      setOpenGraphData((prev) => [...prev, openGraphDataMessage]);
+      console.info(
+        `Received ${openGraphDataMessage.length} opengraph data items`
+      );
+      setOpenGraphData(openGraphDataMessage);
     }
   }, [openGraphDataMessage]);
 

@@ -27,10 +27,47 @@ export const appRouter = createTRPCRouter({
   getOpenGraphData: publicProcedure
     .input(z.object({ urls: z.array(z.string()) }))
     .subscription(async function* (opts) {
-      for await (const url of opts.input.urls) {
-        const openGraphData = await getOpenGraphData(url);
-        if (openGraphData) yield openGraphData;
+      console.info(
+        `getOpenGraphData: Starting fetch for ${opts.input.urls.length} URLs`
+      );
+
+      const promises = opts.input.urls.map(getOpenGraphData);
+      let results: Array<OpenGraphData & { url: string }> = [];
+      let lastYieldTime = Date.now();
+      const DEBOUNCE_DELAY = 100;
+
+      // Process promises as they complete
+      for (const promise of promises) {
+        const result = await promise;
+        if (result) {
+          results.push(result);
+
+          // Debounce yields
+          const now = Date.now();
+          const shouldYield = now - lastYieldTime >= DEBOUNCE_DELAY;
+          if (shouldYield) {
+            console.log(`Yielding ${results.length} opengraph data items`);
+            yield results;
+            lastYieldTime = now;
+          }
+        }
       }
+
+      // Yield any trailing results
+      if (results.length > 0) {
+        console.info(
+          `getOpenGraphData: Yielding ${results.length} opengraph data items`
+        );
+        yield results;
+      } else {
+        console.info("getOpenGraphData: No trailing results to yield");
+      }
+      console.info(
+        `getOpenGraphData: Fetched ${results.length} opengraph data items`
+      );
+
+      // Wait 1 second before closing the connection to let any yields complete
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }),
 });
 
