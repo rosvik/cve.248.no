@@ -12,7 +12,7 @@ import { api } from "../utils/api";
 import { searchHackerNews } from "../utils/hacker-news";
 import { addOpenGraphData, OpenGraphData } from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { validateCveId } from "../utils/utils";
+import { isDefined, validateCveId } from "../utils/utils";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -69,7 +69,10 @@ function Page({
       console.info(
         `Received ${openGraphDataMessage.length} opengraph data items`
       );
-      setOpenGraphData((prev) => [...prev, ...openGraphDataMessage]);
+      setOpenGraphData((prev) => [
+        ...prev,
+        ...openGraphDataMessage.filter(isDefined),
+      ]);
     }
   }, [openGraphDataMessage]);
 
