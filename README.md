@@ -6,6 +6,6 @@ This is the project files for [cve.248.no](https://cve.248.no), a website for br
 
 Clone the repo, then copy `.env.example` to `.env` and populate it with your database credentials. Instructions and code to set up a database is in progress... <!-- :fidget_spinner: -->
 
-Then run `yarn` to install dependencies, and `yarn dev` to start a development server.
+Then run `pnpm install` to install dependencies, and `pnpm run dev` to start a development server. (If you don't have pnpm installed, run `corepack enable` to install it.)
 
 <div align="right"><img src="public/favicon.svg" width="32" alt="248"></div>

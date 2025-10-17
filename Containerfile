@@ -3,8 +3,9 @@ FROM node:22-alpine AS base
 
 FROM base AS deps
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable
+RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
@@ -13,7 +14,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV SKIP_ENV_VALIDATION=1
 
-RUN yarn run build
+RUN pnpm run build
 
 FROM base AS runner
 WORKDIR /app
