@@ -4,7 +4,7 @@ export function Chip({
   children,
   color = "text-dark",
 }: {
-  children: JSX.Element | string;
+  children: React.ReactNode | string;
   color?: ChipColor;
 }) {
   return (
