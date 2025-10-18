@@ -12,6 +12,7 @@ import { debouncedYield } from "./utils";
 import { GithubAdvisory } from "../../types/GithubAdvisory";
 
 const API_BASE_URL = env.API_BASE_URL;
+const GITHUB_TOKEN = env.GITHUB_TOKEN;
 const GITHUB_API_BASE_URL = "https://api.github.com/";
 
 export const appRouter = createTRPCRouter({
@@ -102,8 +103,16 @@ export async function getGithubAdvisories(
   cveId: string
 ): Promise<GithubAdvisory[]> {
   const result = await fetch(
-    `${GITHUB_API_BASE_URL}advisories?cve_id=${cveId}`
+    `${GITHUB_API_BASE_URL}advisories?cve_id=${cveId}`,
+    {
+      headers: {
+        Authorization: GITHUB_TOKEN ? `Bearer ${GITHUB_TOKEN}` : "",
+      },
+    }
   );
+  if (!result.ok) {
+    console.error("getGithubAdvisories error", result.status);
+  }
   const data = await result.json();
   return data;
 }

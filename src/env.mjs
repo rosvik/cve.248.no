@@ -8,6 +8,7 @@ const server = z.object({
   API_BASE_URL: z.string().url(),
   HN_API_BASE_URL: z.string().url(),
   HN_SEARCH_API_BASE_URL: z.string().url(),
+  GITHUB_TOKEN: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
@@ -29,6 +30,7 @@ const processEnv = {
   API_BASE_URL: process.env.API_BASE_URL,
   HN_API_BASE_URL: process.env.HN_API_BASE_URL,
   HN_SEARCH_API_BASE_URL: process.env.HN_SEARCH_API_BASE_URL,
+  GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   NODE_ENV: process.env.NODE_ENV,
 };
 
