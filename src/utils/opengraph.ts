@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { Published } from "../types/v5-cve";
-import { removeUndefined } from "./utils";
+import { isDefined, removeUndefined } from "./utils";
+import { GithubAdvisory } from "../types/GithubAdvisory";
 
 export const OpenGraphData = z.object({
   title: z.string().optional(),
@@ -27,7 +28,7 @@ export function formatOpenGraphDataResponse(
   };
 }
 
-export function addOpenGraphData(
+export function addCveOpenGraphData(
   cve: Published,
   openGraphData: Array<OpenGraphData & { url: string }> | undefined
 ): Published {
@@ -52,5 +53,24 @@ export function addOpenGraphData(
         }),
       },
     },
+  };
+}
+
+export function addGithubAdvisoryOpenGraphData(
+  advisory: GithubAdvisory,
+  openGraphData: Array<OpenGraphData & { url: string }> | undefined
+): GithubAdvisory {
+  const openGraphDataItems = advisory.references
+    ?.map((advisoryReference: string) => {
+      const ogdItem = openGraphData?.find((d) => d.url === advisoryReference);
+      return {
+        url: advisoryReference,
+        openGraphData: ogdItem,
+      };
+    })
+    .filter(isDefined);
+  return {
+    ...advisory,
+    openGraphData: openGraphDataItems,
   };
 }

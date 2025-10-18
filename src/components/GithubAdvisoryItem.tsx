@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GithubAdvisory } from "../types/GithubAdvisory";
 import styles from "./GithubAdvisoryItem.module.css";
-import { sanitizeMarkdown } from "../utils/sanitize-markdown";
+import { References } from "./References";
 
 type Props = {
   advisory: GithubAdvisory;
@@ -13,11 +13,7 @@ export function GithubAdvisoryItem({ advisory, cveId }: Props) {
       (i) => i.type === "CVE" && i.value.toLowerCase() !== cveId.toLowerCase()
     )
     .map((i) => i.value);
-  console.log(advisory.description);
 
-  const sanitizedDescription = advisory.description
-    ? sanitizeMarkdown(advisory.description)
-    : null;
   return (
     <div>
       <h3>{advisory.ghsa_id}</h3>
@@ -35,6 +31,9 @@ export function GithubAdvisoryItem({ advisory, cveId }: Props) {
           // NOTE: This is sanitized server side
           dangerouslySetInnerHTML={{ __html: advisory.description }}
         />
+      )}
+      {advisory.openGraphData && (
+        <References references={advisory.openGraphData} />
       )}
     </div>
   );

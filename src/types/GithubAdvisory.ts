@@ -1,3 +1,5 @@
+import { OpenGraphData } from "../utils/opengraph";
+
 export type GithubAdvisory = {
   /**
    * The GitHub Security Advisory ID.
@@ -191,6 +193,10 @@ export type GithubAdvisory = {
           | "other";
       }[]
     | null;
+  /**
+   * Custom: Optional extension with [Open Graph metadata](https://ogp.me/) for the references.
+   */
+  openGraphData?: Array<OpenGraphData & { url: string }>;
 };
 
 /**

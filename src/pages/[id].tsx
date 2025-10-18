@@ -10,7 +10,11 @@ import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { searchHackerNews } from "../utils/hacker-news";
-import { addOpenGraphData, OpenGraphData } from "../utils/opengraph";
+import {
+  addCveOpenGraphData,
+  addGithubAdvisoryOpenGraphData,
+  OpenGraphData,
+} from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { isDefined, validateCveId } from "../utils/utils";
 import { useEffect, useState } from "react";
@@ -76,7 +80,7 @@ function Page({
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
   const { data: openGraphDataMessage } = api.getOpenGraphData.useSubscription({
-    urls: cve?.containers.cna.references?.map((r) => r.url) ?? [],
+    id: cve?.cveMetadata.cveId ?? "",
   });
 
   useEffect(() => {
@@ -91,7 +95,12 @@ function Page({
     }
   }, [openGraphDataMessage]);
 
-  const cveWithOpenGraphData = cve ? addOpenGraphData(cve, openGraphData) : cve;
+  const cveWithOpenGraphData = cve
+    ? addCveOpenGraphData(cve, openGraphData)
+    : cve;
+  const githubAdvisoriesWithOpenGraphData = githubAdvisories?.map((a) =>
+    addGithubAdvisoryOpenGraphData(a, openGraphData)
+  );
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
@@ -121,7 +130,7 @@ function Page({
           <CveV5Pubished
             cve={cveWithOpenGraphData}
             hackerNewsHits={hackerNewsHits}
-            githubAdvisories={githubAdvisories ?? []}
+            githubAdvisories={githubAdvisoriesWithOpenGraphData ?? []}
           />
         </div>
       </main>

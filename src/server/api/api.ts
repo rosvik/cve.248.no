@@ -29,9 +29,24 @@ export const appRouter = createTRPCRouter({
     .input(z.object({ query: z.string() }))
     .query<Published[] | undefined>(({ input }) => search(input.query)),
   getOpenGraphData: publicProcedure
-    .input(z.object({ urls: z.array(z.string()) }))
+    .input(z.object({ id: z.string() }))
     .subscription(async function* (opts) {
-      const promises = opts.input.urls.map(getOpenGraphData);
+      const cve = await getCVE(opts.input.id);
+      const githubAdvisories = await getGithubAdvisories(opts.input.id);
+
+      const githubAdvisoryUrls =
+        githubAdvisories
+          .map((a) => a.references)
+          .flat()
+          .filter(isDefined) ?? [];
+      const cveUrls =
+        cve?.containers.cna.references?.map((r) => r.url).filter(isDefined) ??
+        [];
+
+      const promises = [...cveUrls, ...githubAdvisoryUrls].map((url) =>
+        getOpenGraphData(url)
+      );
+
       yield* debouncedYield(promises, 100);
     }),
   getGithubAdvisories: publicProcedure
