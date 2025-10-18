@@ -23,6 +23,12 @@
   margin-bottom: var(--spacings-small);
   padding: var(--spacings-small);
   opacity: 1;
+  gap: var(--spacings-xSmall);
+}
+.comment div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-xSmall);
 }
 .comment:hover {
   text-decoration: none;
