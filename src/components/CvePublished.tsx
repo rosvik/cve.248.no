@@ -12,13 +12,17 @@ import { References } from "./References";
 import { HNSearchHit } from "../types/HNSearch";
 import { HackerNewsItem } from "./HackerNewsItem";
 import { formatTimestamp, isDefined } from "../utils/utils";
+import { GithubAdvisory } from "../types/GithubAdvisory";
+import { GithubAdvisoryItem } from "./GithubAdvisoryItem";
 
 export function CveV5Pubished({
   cve,
   hackerNewsHits,
+  githubAdvisories,
 }: {
   cve: Published;
   hackerNewsHits?: HNSearchHit[];
+  githubAdvisories?: GithubAdvisory[];
 }) {
   const cna = cve.containers.cna;
   const affectedSystemTypes = getAffectedSystemTypes(cna.affected ?? []);
@@ -100,6 +104,17 @@ export function CveV5Pubished({
 
       <h2>References</h2>
       {cna.references && <References references={cna.references} />}
+
+      {githubAdvisories && githubAdvisories.length > 0 && (
+        <h2>GitHub Security Advisories</h2>
+      )}
+      {githubAdvisories?.map((advisory) => (
+        <GithubAdvisoryItem
+          advisory={advisory}
+          key={advisory.ghsa_id}
+          cveId={cve.cveMetadata.cveId}
+        />
+      ))}
 
       {hackerNewsHits && hackerNewsHits.length > 0 && <h2>From Hacker News</h2>}
       {hackerNewsHits?.map((hit) => (

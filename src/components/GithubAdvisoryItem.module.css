@@ -1,0 +1,9 @@
+.description {
+  margin: var(--spacings-small) 0;
+  background-color: var(--color-dark-gray);
+  padding: var(--spacings-small);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-xSmall);
+}

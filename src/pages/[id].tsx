@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
-import { getCVE } from "../server/api/api";
+import { getCVE, getGithubAdvisories } from "../server/api/api";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
@@ -14,11 +14,14 @@ import { addOpenGraphData, OpenGraphData } from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { isDefined, validateCveId } from "../utils/utils";
 import { useEffect, useState } from "react";
+import { GithubAdvisory } from "../types/GithubAdvisory";
+import { sanitizeGithubAdvisories } from "../utils/github-advisories";
 
 type Props = {
   cve?: Published;
   errorMessage?: string;
   hackerNewsHits?: HNSearchHit[];
+  githubAdvisories?: GithubAdvisory[];
 };
 const err = (m: string) => ({ props: { errorMessage: m } });
 
@@ -36,13 +39,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   // Fetch CVE
   const cveRequest = getCVE(id);
 
+  // Fetch GitHub Security Advisories
+  const githubAdvisoriesRequest = getGithubAdvisories(id);
+
   // Await pending requests
-  let [hnSearch, cve] = await Promise.all([hnRequest, cveRequest]);
+  let [hnSearch, cve, githubAdvisories] = await Promise.all([
+    hnRequest,
+    cveRequest,
+    githubAdvisoriesRequest,
+  ]);
+  const sanitizedGithubAdvisories = await sanitizeGithubAdvisories(
+    githubAdvisories
+  );
   if (!cve) return err("Error fetching CVE");
   return {
     props: {
       cve,
       hackerNewsHits: hnSearch?.hits,
+      githubAdvisories: sanitizedGithubAdvisories,
     },
   };
 };
@@ -51,6 +65,7 @@ function Page({
   errorMessage,
   cve,
   hackerNewsHits,
+  githubAdvisories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     query: { id },
@@ -106,6 +121,7 @@ function Page({
           <CveV5Pubished
             cve={cveWithOpenGraphData}
             hackerNewsHits={hackerNewsHits}
+            githubAdvisories={githubAdvisories ?? []}
           />
         </div>
       </main>

@@ -1,6 +1,6 @@
-import DOMPurify from "isomorphic-dompurify";
 import { env } from "../env.mjs";
 import { HNSearchResult } from "../types/HNSearch";
+import { sanitizeHtml } from "./sanitize-html";
 
 const HN_SEARCH_API_BASE_URL = env.HN_SEARCH_API_BASE_URL;
 
@@ -16,7 +16,7 @@ export async function searchHackerNews(
     hit.comment_text
       ? {
           ...hit,
-          comment_text: sanitize_html(hit.comment_text),
+          comment_text: sanitizeHtml(hit.comment_text),
         }
       : hit
   );
@@ -26,25 +26,3 @@ export async function searchHackerNews(
     hits: sanitizedHits,
   };
 }
-
-const sanitize_html = (comment_text: string) => {
-  return DOMPurify.sanitize(comment_text, {
-    ALLOWED_TAGS: [
-      "a",
-      "b",
-      "i",
-      "em",
-      "strong",
-      "p",
-      "br",
-      "pre",
-      "code",
-      "blockquote",
-      "ul",
-      "ol",
-      "li",
-    ],
-    ALLOWED_ATTR: ["href"],
-    KEEP_CONTENT: true,
-  }).trimEnd();
-};

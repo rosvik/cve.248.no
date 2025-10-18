@@ -9,8 +9,10 @@ import {
   OpenGraphDataResponse,
 } from "../../utils/opengraph";
 import { debouncedYield } from "./utils";
+import { GithubAdvisory } from "../../types/GithubAdvisory";
 
 const API_BASE_URL = env.API_BASE_URL;
+const GITHUB_API_BASE_URL = "https://api.github.com/";
 
 export const appRouter = createTRPCRouter({
   getCVE: publicProcedure
@@ -31,6 +33,11 @@ export const appRouter = createTRPCRouter({
       const promises = opts.input.urls.map(getOpenGraphData);
       yield* debouncedYield(promises, 100);
     }),
+  getGithubAdvisories: publicProcedure
+    .input(z.object({ cveId: z.string() }))
+    .query<GithubAdvisory[] | undefined>(({ input }) =>
+      getGithubAdvisories(input.cveId)
+    ),
 });
 
 export async function getCVE(id: string) {
@@ -89,6 +96,16 @@ export async function getOpenGraphData(
   return ogdResponse.data
     ? { ...formatOpenGraphDataResponse(ogdResponse.data), url }
     : undefined;
+}
+
+export async function getGithubAdvisories(
+  cveId: string
+): Promise<GithubAdvisory[]> {
+  const result = await fetch(
+    `${GITHUB_API_BASE_URL}advisories?cve_id=${cveId}`
+  );
+  const data = await result.json();
+  return data;
 }
 
 export type AppRouter = typeof appRouter;
