@@ -2,4 +2,4 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
 # https://pnpm.io/supply-chain-security
-minimumReleaseAgeExclude: 1440 # 24 hours
+minimumReleaseAge: 1440 # 24 hours
