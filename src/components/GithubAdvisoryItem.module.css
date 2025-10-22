@@ -1,5 +1,5 @@
 .description {
-  margin: var(--spacings-small) 0;
+  margin: var(--spacings-small) calc(var(--spacings-small) * -1);
   background-color: var(--color-dark-gray);
   padding: var(--spacings-small);
   border-radius: var(--border-radius);
