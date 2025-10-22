@@ -28,7 +28,7 @@ export const appRouter = createTRPCRouter({
   search: publicProcedure
     .input(z.object({ query: z.string() }))
     .query<Published[] | undefined>(({ input }) => search(input.query)),
-  getOpenGraphData: publicProcedure
+  openGraphDataSubscription: publicProcedure
     .input(z.object({ id: z.string() }))
     .subscription(async function* (opts) {
       const cve = await getCVE(opts.input.id);
@@ -105,12 +105,12 @@ export async function search(query: string) {
 
 export async function getOpenGraphData(
   url: string
-): Promise<(OpenGraphData & { url: string }) | undefined> {
+): Promise<OpenGraphData | undefined> {
   const response = await fetch(`https://og.248.no/api?url=${url}`);
   const ogdResponse = OpenGraphDataResponse.safeParse(await response.json());
   if (ogdResponse.error) console.error(ogdResponse.error);
   return ogdResponse.data
-    ? { ...formatOpenGraphDataResponse(ogdResponse.data), url }
+    ? formatOpenGraphDataResponse(ogdResponse.data, url)
     : undefined;
 }
 

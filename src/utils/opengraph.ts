@@ -4,6 +4,7 @@ import { isDefined, removeUndefined } from "./utils";
 import { GithubAdvisory } from "../types/GithubAdvisory";
 
 export const OpenGraphData = z.object({
+  url: z.string(),
   title: z.string().optional(),
   description: z.string().optional(),
   image: z.string().optional(),
@@ -19,9 +20,11 @@ export const OpenGraphDataResponse = z.array(
 export type OpenGraphDataResponse = z.infer<typeof OpenGraphDataResponse>;
 
 export function formatOpenGraphDataResponse(
-  response: OpenGraphDataResponse
+  response: OpenGraphDataResponse,
+  url: string
 ): OpenGraphData {
   return {
+    url,
     title: response.find((d) => d.property === "og:title")?.content,
     description: response.find((d) => d.property === "og:description")?.content,
     image: response.find((d) => d.property === "og:image")?.content,
@@ -30,7 +33,7 @@ export function formatOpenGraphDataResponse(
 
 export function addCveOpenGraphData(
   cve: Published,
-  openGraphData: Array<OpenGraphData & { url: string }> | undefined
+  openGraphData: Array<OpenGraphData> | undefined
 ): Published {
   if (!openGraphData) return cve;
   return {
@@ -45,10 +48,11 @@ export function addCveOpenGraphData(
           return {
             ...reference,
             openGraphData: removeUndefined({
+              url: data.url,
               title: data.title,
               description: data.description,
               image: data.image,
-            }),
+            }) as OpenGraphData,
           };
         }),
       },

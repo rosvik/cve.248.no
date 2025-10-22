@@ -74,14 +74,13 @@ function Page({
   const {
     query: { id },
   } = useRouter();
-  const [openGraphData, setOpenGraphData] = useState<
-    Array<OpenGraphData & { url: string }>
-  >([]);
+  const [openGraphData, setOpenGraphData] = useState<Array<OpenGraphData>>([]);
 
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
-  const { data: openGraphDataMessage } = api.getOpenGraphData.useSubscription({
-    id: cve?.cveMetadata.cveId ?? "",
-  });
+  const { data: openGraphDataMessage } =
+    api.openGraphDataSubscription.useSubscription({
+      id: cve?.cveMetadata.cveId ?? "",
+    });
 
   useEffect(() => {
     if (openGraphDataMessage) {

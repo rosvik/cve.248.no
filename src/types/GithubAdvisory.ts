@@ -196,7 +196,7 @@ export type GithubAdvisory = {
   /**
    * Custom: Optional extension with [Open Graph metadata](https://ogp.me/) for the references.
    */
-  openGraphData?: Array<OpenGraphData & { url: string }>;
+  openGraphData?: Array<OpenGraphData>;
 };
 
 /**
