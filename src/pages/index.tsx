@@ -13,26 +13,34 @@ import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { clamp, isPublished } from "../utils/utils";
+import { getRecentCVEs } from "../server/api/api";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 
-type Props = {};
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+type Props = {
+  recents: Published[];
+};
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const count = clamp(
+    parseInt((context.query.count as string) ?? "10"),
+    1,
+    200
+  );
+  const recents = await getRecentCVEs(count);
+  console.log(
+    "Recent CVEs:",
+    recents.map((cve) => cve.cveMetadata.cveId)
+  );
   return {
-    props: {},
+    props: { recents },
   };
 };
 
 const Home: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = () => {
-  const {
-    query: { count },
-  } = useRouter();
-
-  const c = clamp(parseInt(count as string) || 10, 1, 200);
-  const { data: recents } = api.getRecentCVE.useQuery({ count: c });
-
+> = ({ recents }) => {
   const [value, setValue] = useState("");
   const router = useRouter();
   const { favoriteIds } = useFavoriteStorage("favorites");
