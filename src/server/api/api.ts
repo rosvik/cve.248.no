@@ -8,7 +8,6 @@ import {
   OpenGraphData,
   OpenGraphDataResponse,
 } from "../../utils/opengraph";
-import { debouncedYield } from "./utils";
 import { GithubAdvisory } from "../../types/GithubAdvisory";
 
 const API_BASE_URL = env.API_BASE_URL;
@@ -28,27 +27,11 @@ export const appRouter = createTRPCRouter({
   search: publicProcedure
     .input(z.object({ query: z.string() }))
     .query<Published[] | undefined>(({ input }) => search(input.query)),
-  openGraphDataSubscription: publicProcedure
-    .input(z.object({ id: z.string() }))
-    .subscription(async function* (opts) {
-      const cve = await getCVE(opts.input.id);
-      const githubAdvisories = await getGithubAdvisories(opts.input.id);
-
-      const githubAdvisoryUrls =
-        githubAdvisories
-          .map((a) => a.references)
-          .flat()
-          .filter(isDefined) ?? [];
-      const cveUrls =
-        cve?.containers.cna.references?.map((r) => r.url).filter(isDefined) ??
-        [];
-
-      const promises = [...cveUrls, ...githubAdvisoryUrls].map((url) =>
-        getOpenGraphData(url)
-      );
-
-      yield* debouncedYield(promises, 100);
-    }),
+  getOpenGraphData: publicProcedure
+    .input(z.object({ url: z.string() }))
+    .query<OpenGraphData | undefined>(({ input }) =>
+      getOpenGraphData(input.url)
+    ),
   getGithubAdvisories: publicProcedure
     .input(z.object({ cveId: z.string() }))
     .query<GithubAdvisory[] | undefined>(({ input }) =>

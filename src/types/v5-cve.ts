@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { OpenGraphData } from "../utils/opengraph";
 
 /**
  * Indicates the type of information represented in the JSON instance.
@@ -331,11 +330,6 @@ export const Reference = z.object({
   tags: z
     .array(z.union([TagExtension, HttpsCveMitreOrgCveV5_00TagsReference]))
     .optional(),
-
-  /**
-   * Custom: Optional extension with [Open Graph metadata](https://ogp.me/) for the reference.
-   */
-  openGraphData: OpenGraphData.optional(),
 });
 export type Reference = z.infer<typeof Reference>;
 

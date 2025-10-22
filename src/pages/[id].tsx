@@ -8,16 +8,9 @@ import { getCVE, getGithubAdvisories } from "../server/api/api";
 import styles from "../styles/cve.module.css";
 import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
-import { api } from "../utils/api";
 import { searchHackerNews } from "../utils/hacker-news";
-import {
-  addCveOpenGraphData,
-  addGithubAdvisoryOpenGraphData,
-  OpenGraphData,
-} from "../utils/opengraph";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { isDefined, validateCveId } from "../utils/utils";
-import { useEffect, useState } from "react";
+import { validateCveId } from "../utils/utils";
 import { GithubAdvisory } from "../types/GithubAdvisory";
 import { sanitizeGithubAdvisories } from "../utils/github-advisories";
 
@@ -74,32 +67,7 @@ function Page({
   const {
     query: { id },
   } = useRouter();
-  const [openGraphData, setOpenGraphData] = useState<Array<OpenGraphData>>([]);
-
   const { favoriteIds, toggleId } = useFavoriteStorage("favorites");
-  const { data: openGraphDataMessage } =
-    api.openGraphDataSubscription.useSubscription({
-      id: cve?.cveMetadata.cveId ?? "",
-    });
-
-  useEffect(() => {
-    if (openGraphDataMessage) {
-      console.info(
-        `Received ${openGraphDataMessage.length} opengraph data items`
-      );
-      setOpenGraphData((prev) => [
-        ...prev,
-        ...openGraphDataMessage.filter(isDefined),
-      ]);
-    }
-  }, [openGraphDataMessage]);
-
-  const cveWithOpenGraphData = cve
-    ? addCveOpenGraphData(cve, openGraphData)
-    : cve;
-  const githubAdvisoriesWithOpenGraphData = githubAdvisories?.map((a) =>
-    addGithubAdvisoryOpenGraphData(a, openGraphData)
-  );
 
   const handleAddClick = () => {
     if (typeof id !== "string") return;
@@ -107,7 +75,7 @@ function Page({
   };
 
   const validId = typeof id === "string";
-  if (!cveWithOpenGraphData || !validId)
+  if (!cve || !validId)
     return (
       <DataError
         id={typeof id === "string" ? id : undefined}
@@ -117,7 +85,7 @@ function Page({
 
   return (
     <>
-      <PageHead title={cveWithOpenGraphData.cveMetadata.cveId} />
+      <PageHead title={cve.cveMetadata.cveId} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>
@@ -127,9 +95,9 @@ function Page({
             </button>
           </div>
           <CveV5Pubished
-            cve={cveWithOpenGraphData}
+            cve={cve}
             hackerNewsHits={hackerNewsHits}
-            githubAdvisories={githubAdvisoriesWithOpenGraphData ?? []}
+            githubAdvisories={githubAdvisories}
           />
         </div>
       </main>

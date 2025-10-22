@@ -2,6 +2,8 @@ import styles from "./references.module.css";
 import type { Reference } from "../types/v5-cve";
 import { Chip } from "./Chip";
 import Image from "next/image";
+import { api } from "../utils/api";
+import { OpenGraphData } from "../utils/opengraph";
 
 export function References({ references }: { references: Reference[] }) {
   return (
@@ -14,20 +16,19 @@ export function References({ references }: { references: Reference[] }) {
 }
 
 function ReferenceItem({ reference }: { reference: Reference }) {
+  const { data: openGraphData } = api.getOpenGraphData.useQuery({
+    url: reference.url,
+  });
+
   return (
     <a href={reference.url} className={styles.open_graph_data}>
-      {reference.openGraphData?.image && (
-        <Image
-          src={reference.openGraphData.image}
-          width={300}
-          height={200}
-          alt=""
-        />
+      {openGraphData?.image && (
+        <Image src={openGraphData.image} width={300} height={200} alt="" />
       )}
       <div className={styles.ogd_content}>
-        <b>{getTitle(reference)}</b>
-        {reference.openGraphData?.description && (
-          <p className="pre">{reference.openGraphData.description}</p>
+        <b>{getTitle(reference, openGraphData)}</b>
+        {openGraphData?.description && (
+          <p className="pre">{openGraphData.description}</p>
         )}
         <p className={styles.url} title={reference.url}>
           {reference.url}
@@ -42,9 +43,12 @@ function ReferenceItem({ reference }: { reference: Reference }) {
   );
 }
 
-function getTitle(reference: Reference) {
-  if (reference.openGraphData?.title) {
-    return reference.openGraphData.title;
+function getTitle(
+  reference: Reference,
+  openGraphData: OpenGraphData | undefined
+) {
+  if (openGraphData?.title) {
+    return openGraphData.title;
   } else if (reference.name) {
     return reference.name;
   } else {

@@ -32,8 +32,8 @@ export function GithubAdvisoryItem({ advisory, cveId }: Props) {
           dangerouslySetInnerHTML={{ __html: advisory.description }}
         />
       )}
-      {advisory.openGraphData && (
-        <References references={advisory.openGraphData} />
+      {advisory.references && (
+        <References references={advisory.references.map((r) => ({ url: r }))} />
       )}
     </div>
   );
