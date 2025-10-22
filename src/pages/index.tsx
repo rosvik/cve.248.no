@@ -23,11 +23,9 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const count = clamp(
-    parseInt((context.query.count as string) ?? "10"),
-    1,
-    200
-  );
+  let queryCount = parseInt(context.query.count as string);
+  if (!queryCount || isNaN(queryCount)) queryCount = 10;
+  const count = clamp(queryCount, 1, 200);
   const recents = await getRecentCVEs(count);
   console.log(
     "Recent CVEs:",
