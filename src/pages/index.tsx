@@ -105,6 +105,12 @@ const Home: NextPage<
                 <CveLink key={cve.cveMetadata.cveId} cve={cve} />
               )
           )}
+          <Link
+            id="load-more"
+            href={`/?count=${recents.length + 10}#load-more`}
+          >
+            Load more ↓
+          </Link>
         </div>
       </main>
     </>
