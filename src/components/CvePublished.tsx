@@ -1,19 +1,19 @@
 import Link from "next/link";
 import styles from "../styles/cve.module.css";
+import { GithubAdvisory } from "../types/GithubAdvisory";
+import { HNSearchHit } from "../types/HNSearch";
 import {
   Affected as AffectedType,
   Descriptions,
   ProblemTypes,
   Published,
 } from "../types/v5-cve";
+import { formatTimestamp, isDefined } from "../utils/utils";
 import { Affected } from "./Affected";
 import { Chip } from "./Chip";
-import { References } from "./References";
-import { HNSearchHit } from "../types/HNSearch";
-import { HackerNewsItem } from "./HackerNewsItem";
-import { formatTimestamp, isDefined } from "../utils/utils";
-import { GithubAdvisory } from "../types/GithubAdvisory";
 import { GithubAdvisoryItem } from "./GithubAdvisoryItem";
+import { HackerNewsItem } from "./HackerNewsItem";
+import { References } from "./References";
 
 export function CveV5Pubished({
   cve,

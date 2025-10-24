@@ -5,15 +5,15 @@ import { CveV5Pubished } from "../components/CvePublished";
 import DataError from "../components/DataError";
 import { PageHead } from "../components/PageHead";
 import { getCVE, getGithubAdvisories } from "../server/api/api";
+import { cached, githubAdvisoriesKey } from "../server/redis";
 import styles from "../styles/cve.module.css";
+import { GithubAdvisory } from "../types/GithubAdvisory";
 import { HNSearchHit } from "../types/HNSearch";
 import { Published } from "../types/v5-cve";
+import { sanitizeGithubAdvisories } from "../utils/github-advisories";
 import { searchHackerNews } from "../utils/hacker-news";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
-import { GithubAdvisory } from "../types/GithubAdvisory";
-import { sanitizeGithubAdvisories } from "../utils/github-advisories";
-import { githubAdvisoriesKey, cached } from "../server/redis";
 
 type Props = {
   cve?: Published;

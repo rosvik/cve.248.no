@@ -1,9 +1,9 @@
 import Link from "next/link";
-import styles from "./CveLink.module.css";
 import { Published } from "../types/v5-cve";
-import { Chip } from "./Chip";
-import { getProblemTypes } from "./CvePublished";
 import { formatDate, isDefined } from "../utils/utils";
+import { Chip } from "./Chip";
+import styles from "./CveLink.module.css";
+import { getProblemTypes } from "./CvePublished";
 
 export function CveLink({ cve }: { cve: Published }) {
   const published = cve.cveMetadata.datePublished

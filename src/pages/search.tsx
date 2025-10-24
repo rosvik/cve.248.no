@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { PageHead } from "../components/PageHead";
-import styles from "../styles/favorites.module.css";
-import { CveLink } from "../components/CveLink";
-import { Published } from "../types/v5-cve";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Link from "next/link";
+import { CveLink } from "../components/CveLink";
+import { PageHead } from "../components/PageHead";
 import { search } from "../server/api/api";
+import styles from "../styles/favorites.module.css";
+import { Published } from "../types/v5-cve";
 
 type Props = {
   cves: Published[] | undefined;

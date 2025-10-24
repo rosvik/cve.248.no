@@ -1,9 +1,9 @@
-import styles from "./references.module.css";
-import type { Reference } from "../types/v5-cve";
-import { Chip } from "./Chip";
 import Image from "next/image";
+import type { Reference } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { OpenGraphData } from "../utils/opengraph";
+import { Chip } from "./Chip";
+import styles from "./references.module.css";
 
 export function References({ references }: { references: Reference[] }) {
   return (

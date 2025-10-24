@@ -1,8 +1,7 @@
-import Head from "next/head";
-import Link from "next/link";
-import styles from "../styles/cve.module.css";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Link from "next/link";
 import { PageHead } from "../components/PageHead";
+import styles from "../styles/cve.module.css";
 
 type Props = {
   message: string;

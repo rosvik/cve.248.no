@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { CveLink } from "../components/CveLink";
 import { PageHead } from "../components/PageHead";
 import styles from "../styles/favorites.module.css";
-import { useFavoriteStorage } from "../utils/use-favorite-storage";
-import { api } from "../utils/api";
-import { CveLink } from "../components/CveLink";
 import { Published } from "../types/v5-cve";
+import { api } from "../utils/api";
+import { useFavoriteStorage } from "../utils/use-favorite-storage";
 
 function Page({}) {
   const { favoriteIds } = useFavoriteStorage("favorites");

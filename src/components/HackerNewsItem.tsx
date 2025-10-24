@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HNSearchHit } from "../types/HNSearch";
-import styles from "./HackerNewsItem.module.css";
 import { trimString } from "../utils/utils";
+import styles from "./HackerNewsItem.module.css";
 
 export function HackerNewsItem({ item }: { item: HNSearchHit }) {
   if (item._tags.includes("story"))

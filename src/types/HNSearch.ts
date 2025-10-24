@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 const HNSearchHit = z.object({
   author: z.string(),
   children: z.array(z.number()).optional(),

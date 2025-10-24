@@ -1,10 +1,9 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import { CveLink } from "../components/CveLink";
 import { PageHead } from "../components/PageHead";
 import styles from "../styles/index.module.css";
-import { api } from "../utils/api";
 import { Published } from "../types/v5-cve";
+import { api } from "../utils/api";
 
 interface ManyProps {
   ids: string[];
