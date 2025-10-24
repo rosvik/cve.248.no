@@ -10,6 +10,7 @@ const server = z.object({
   HN_SEARCH_API_BASE_URL: z.string().url(),
   GITHUB_TOKEN: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
+  REDIS_URL: z.string().optional(),
 });
 
 /**
@@ -32,6 +33,7 @@ const processEnv = {
   HN_SEARCH_API_BASE_URL: process.env.HN_SEARCH_API_BASE_URL,
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   NODE_ENV: process.env.NODE_ENV,
+  REDIS_URL: process.env.REDIS_URL,
 };
 
 // Don't touch the part below
