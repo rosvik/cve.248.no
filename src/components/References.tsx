@@ -21,11 +21,11 @@ function ReferenceItem({ reference }: { reference: Reference }) {
   });
 
   return (
-    <a href={reference.url} className={styles.open_graph_data}>
+    <a href={reference.url} className={styles.reference_item}>
       {openGraphData?.image && (
         <Image src={openGraphData.image} width={300} height={200} alt="" />
       )}
-      <div className={styles.ogd_content}>
+      <div className={styles.reference_item_content}>
         <b>{getTitle(reference, openGraphData)}</b>
         {openGraphData?.description && (
           <p className="pre">{openGraphData.description}</p>

@@ -12,7 +12,7 @@
   gap: var(--spacings-xSmall);
 }
 
-.open_graph_data {
+.reference_item {
   opacity: 1;
 	display: block;
 	min-width: 200px;
@@ -20,21 +20,21 @@
 	overflow: hidden;
 }
 
-.open_graph_data .ogd_content {
+.reference_item .reference_item_content {
 	padding: var(--spacings-small);
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacings-xSmall);
 }
 
-.open_graph_data .ogd_content > * {
+.reference_item .reference_item_content > * {
 	margin: 0;
 }
 
-.open_graph_data:hover {
+.reference_item:hover {
 	text-decoration: none;
 }
-.open_graph_data img {
+.reference_item img {
   display: block;
 	width: 100%;
   height: auto;
@@ -43,13 +43,13 @@
   object-position: center;
 }
 
-.open_graph_data .url {
+.reference_item .url {
 	opacity: .7;
 
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-.open_graph_data:hover .url {
+.reference_item:hover .url {
   text-decoration: underline;
 }
