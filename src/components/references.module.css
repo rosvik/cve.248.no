@@ -3,7 +3,7 @@
   gap: var(--spacings-small);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-template-rows: masonry;
-	margin: 0 calc(var(--spacings-small) * -1);
+  margin: 0 calc(var(--spacings-small) * -1);
 }
 
 .tags {
@@ -14,41 +14,41 @@
 
 .reference_item {
   opacity: 1;
-	display: block;
-	min-width: 200px;
-	background-color: var(--color-dark-gray);
-	overflow: hidden;
+  display: block;
+  min-width: 200px;
+  background-color: var(--color-dark-gray);
+  overflow: hidden;
 }
 
 .reference_item .reference_item_content {
-	padding: var(--spacings-small);
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacings-xSmall);
+  padding: var(--spacings-small);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-xSmall);
 }
 
 .reference_item .reference_item_content > * {
-	margin: 0;
+  margin: 0;
 }
 
 .reference_item:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 .reference_item img {
   display: block;
-	width: 100%;
+  width: 100%;
   height: auto;
-  aspect-ratio: 2/1;
+  aspect-ratio: 2 / 1;
   object-fit: cover;
   object-position: center;
 }
 
 .reference_item .url {
-	opacity: .7;
+  opacity: 0.7;
 
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .reference_item:hover .url {
   text-decoration: underline;

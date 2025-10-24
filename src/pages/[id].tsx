@@ -49,9 +49,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     cveRequest,
     githubAdvisoriesRequest,
   ]);
-  const sanitizedGithubAdvisories = await sanitizeGithubAdvisories(
-    githubAdvisories
-  );
+  const sanitizedGithubAdvisories =
+    await sanitizeGithubAdvisories(githubAdvisories);
   if (!cve) return err("Error fetching CVE");
   return {
     props: {

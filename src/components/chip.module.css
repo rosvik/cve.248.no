@@ -1,52 +1,52 @@
 .chip {
-	margin: 0;
-	width: fit-content;
-	font-weight: 500;
-	text-transform: uppercase;
+  margin: 0;
+  width: fit-content;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .gray {
-	background-color: var(--color-gray);
+  background-color: var(--color-gray);
 }
 .darkGray {
-	background-color: var(--color-dark-gray);
+  background-color: var(--color-dark-gray);
 }
 .lightGray {
-	background-color: var(--color-light-gray);
+  background-color: var(--color-light-gray);
 }
 .textDark {
-	background-color: var(--color-text-dark);
-	color: var(--color-bg);
+  background-color: var(--color-text-dark);
+  color: var(--color-bg);
 }
 .text {
-	background-color: var(--color-text);
-	color: var(--color-bg);
+  background-color: var(--color-text);
+  color: var(--color-bg);
 }
 .purple {
-	background-color: var(--color-purple);
-	color: var(--color-bg);
+  background-color: var(--color-purple);
+  color: var(--color-bg);
 }
 .blue {
-	background-color: var(--color-blue);
-	color: var(--color-bg);
+  background-color: var(--color-blue);
+  color: var(--color-bg);
 }
 .red {
-	background-color: var(--color-red);
-	color: var(--color-bg);
+  background-color: var(--color-red);
+  color: var(--color-bg);
 }
 .yellow {
-	background-color: var(--color-yellow);
-	color: var(--color-bg);
+  background-color: var(--color-yellow);
+  color: var(--color-bg);
 }
 .pink {
-	background-color: var(--color-pink);
-	color: var(--color-bg);
+  background-color: var(--color-pink);
+  color: var(--color-bg);
 }
 .green {
-	background-color: var(--color-green);
-	color: var(--color-bg);
+  background-color: var(--color-green);
+  color: var(--color-bg);
 }
 .darkGreen {
-	background-color: var(--color-dark-green);
-	color: var(--color-bg);
+  background-color: var(--color-dark-green);
+  color: var(--color-bg);
 }

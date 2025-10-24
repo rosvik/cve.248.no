@@ -1,22 +1,22 @@
 .affected {
-	display: grid;
-	row-gap: var(--spacings-small);
+  display: grid;
+  row-gap: var(--spacings-small);
 }
 
 .products {
-	display: grid;
+  display: grid;
   gap: var(--spacings-small);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	margin: 0 calc(var(--spacings-small) * -1);
+  margin: 0 calc(var(--spacings-small) * -1);
 }
 
 .product {
-	display: grid;
+  display: grid;
   gap: var(--spacings-small);
-	background-color: var(--color-dark-gray);
-	padding: var(--spacings-small);
+  background-color: var(--color-dark-gray);
+  padding: var(--spacings-small);
 }
 
 .product p {
-	margin: 0;
+  margin: 0;
 }

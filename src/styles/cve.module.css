@@ -47,19 +47,19 @@
 .saveButton {
   height: 3rem;
   aspect-ratio: 1;
-	background-color: var(--color-dark-green);
-	font-weight: 500;
-	text-transform: uppercase;
+  background-color: var(--color-dark-green);
+  font-weight: 500;
+  text-transform: uppercase;
   color: white;
   border: none;
 }
 .saveButton:hover {
-  opacity: .8;
+  opacity: 0.8;
   cursor: pointer;
 }
 
 .mitreLink {
   overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
