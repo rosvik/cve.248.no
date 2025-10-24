@@ -128,9 +128,10 @@ export function CveV5Pubished({
       </details>
 
       <h2>Mitre source</h2>
-      <a
+      <Link
+        className={styles.mitreLink}
         href={`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}
-      >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</a>
+      >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</Link>
     </>
   );
 }
