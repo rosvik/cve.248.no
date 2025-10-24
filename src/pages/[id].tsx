@@ -13,6 +13,7 @@ import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { validateCveId } from "../utils/utils";
 import { GithubAdvisory } from "../types/GithubAdvisory";
 import { sanitizeGithubAdvisories } from "../utils/github-advisories";
+import { githubAdvisoriesKey, cached } from "../server/redis";
 
 type Props = {
   cve?: Published;
@@ -37,7 +38,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const cveRequest = getCVE(id);
 
   // Fetch GitHub Security Advisories
-  const githubAdvisoriesRequest = getGithubAdvisories(id);
+  const ghsaKey = githubAdvisoriesKey(id);
+  const githubAdvisoriesRequest = cached(ghsaKey, () =>
+    getGithubAdvisories(id)
+  );
 
   // Await pending requests
   let [hnSearch, cve, githubAdvisories] = await Promise.all([
