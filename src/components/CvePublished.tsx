@@ -122,16 +122,16 @@ export function CveV5Pubished({
       ))}
 
       <h2>JSON source</h2>
-      <details>
-        <summary>Click to expand</summary>
-        <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
-      </details>
 
-      <h2>Mitre source</h2>
       <Link
         className={styles.mitreLink}
         href={`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}
       >{`https://cveawg.mitre.org/api/cve/${cve.cveMetadata.cveId}`}</Link>
+
+      <details>
+        <summary>Click to expand</summary>
+        <pre className={styles.code}>{JSON.stringify(cve, null, 2)}</pre>
+      </details>
     </>
   );
 }
