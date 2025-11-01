@@ -5,6 +5,7 @@ import styles from "../styles/favorites.module.css";
 import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
+import { env } from "../env.mjs";
 
 function Page({}) {
   const { favoriteIds } = useFavoriteStorage("favorites");
@@ -12,7 +13,7 @@ function Page({}) {
 
   return (
     <>
-      <PageHead title="cve.248.no - Favorites" />
+      <PageHead title={`${env.NEXT_PUBLIC_PAGE_TITLE} - Favorites`} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>

@@ -9,7 +9,7 @@ jobs:
     name: Push Container
     uses: rosvik/workflows/.github/workflows/push-container.yml@main
     with:
-      image: rosvik/cve.248.no
+      image: rosvik/cve.li
       registry_url: ghcr.io
       registry_username: rosvik
     secrets:

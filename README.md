@@ -1,6 +1,6 @@
-# cve.248.no
+# cve.li
 
-This is the project files for [cve.248.no](https://cve.248.no), a website for browsing CVE data.
+This is the project files for [cve.li](https://cve.li), a website for browsing CVE data.
 
 ### Installation
 

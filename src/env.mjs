@@ -19,7 +19,7 @@ const server = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_PAGE_TITLE: z.string(),
 });
 
 /**
@@ -34,6 +34,7 @@ const processEnv = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   NODE_ENV: process.env.NODE_ENV,
   REDIS_URL: process.env.REDIS_URL,
+  NEXT_PUBLIC_PAGE_TITLE: process.env.NEXT_PUBLIC_PAGE_TITLE,
 };
 
 // Don't touch the part below

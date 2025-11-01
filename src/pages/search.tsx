@@ -5,6 +5,7 @@ import { PageHead } from "../components/PageHead";
 import { search } from "../server/api/api";
 import styles from "../styles/favorites.module.css";
 import { Published } from "../types/v5-cve";
+import { env } from "../env.mjs";
 
 type Props = {
   cves: Published[] | undefined;
@@ -28,7 +29,7 @@ function Page({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <PageHead title="cve.248.no - Search results" />
+      <PageHead title={`${env.NEXT_PUBLIC_PAGE_TITLE} - Search results`} />
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.navContainer}>

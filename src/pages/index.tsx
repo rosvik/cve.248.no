@@ -14,6 +14,7 @@ import { Published } from "../types/v5-cve";
 import { api } from "../utils/api";
 import { useFavoriteStorage } from "../utils/use-favorite-storage";
 import { clamp, isPublished } from "../utils/utils";
+import { env } from "../env.mjs";
 
 const MAX_NUMBER_OF_FAVORITES = 5;
 
@@ -70,7 +71,7 @@ const Home: NextPage<
       <main className={styles.main}>
         <div className={styles.container}>
           <header>
-            <span>cve.248.no</span>
+            <span>{env.NEXT_PUBLIC_PAGE_TITLE}</span>
           </header>
           <form onSubmit={onSubmit} action="/form">
             <label htmlFor="cveId">
