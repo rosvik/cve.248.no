@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - rosvik/deploy
 jobs:
   push-container:
     name: Push Container
